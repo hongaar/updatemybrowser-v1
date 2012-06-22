@@ -1,0 +1,65 @@
+#ajdeDebugger {
+	position: fixed;
+	bottom: 0px;
+	overflow: hidden;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+#ajdeDebuggerHeader {
+	height: 10px;
+	background-color: #9a0092;
+	cursor: pointer;
+}
+
+#ajdeDebuggerContent {
+	padding: 0 10px 0 10px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 0;
+}
+
+#ajdeDebugger h4 {
+	font-size: 20px;
+	color: #005d9a;
+	margin: 10px 0 10px 0;
+}
+
+#ajdeDebugger dl {
+	margin-bottom: 50px;
+}
+
+#ajdeDebugger dl dt {
+	background: #005d9a;
+	color: #fff;
+	float: left;
+	font-weight: bold;
+	margin-right: 10px;
+	padding: 5px;
+	width: 100px;
+}
+
+#ajdeDebugger dl dd {
+	margin: 2px 0;
+	padding: 5px 0;
+	color: black;
+}
+
+#ajdeDebugger dl dd.details {
+	display: none;
+}
+
+#ajdeDebugger table {
+	border: 1px solid silver;
+}
+
+	#ajdeDebugger table td, #ajdeDebugger table th {
+		padding: 2px;
+		color: black;
+	}
+	
+#ajdeDebuggerDump pre {
+	white-space: pre;
+} 

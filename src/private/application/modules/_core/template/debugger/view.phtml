@@ -1,0 +1,91 @@
+<?php $this->requireJs('component/shortcut'); ?>
+
+<?php $this->requireJsLibrary('jquery', '1'); ?>
+
+<div id="ajdeDebugger">
+	<div id="ajdeDebuggerHeader"></div>
+	<div id="ajdeDebuggerContent">
+		<h4>Ajde Debugger</h4>
+		<dl>
+			<dt>1. Variables</dt>
+			<?php if (isset($this->dump)) { ?>
+				<dd class='summary'><a href='javascript:void(0)' onclick='$("#ajdeDebuggerDump div").slideToggle("fast");'>toggle all</a></dd>
+				<dd id='ajdeDebuggerDump' class='details' style='display: block'>
+					<table border=1>
+						<?php foreach($this->dump as $source => $var) { ?>
+						<tr>
+							<td>
+								<a href='javascript:void(0)' onclick='$("#dump<?php echo md5($source); ?>").slideToggle("fast");'><?php echo $source; ?></a>
+								<div id='dump<?php echo md5($source); ?>' <?php if ($var[1] === false) { ?>style='display: none;'<?php } ?>>
+									<?php var_dump($var[0]); ?>
+								</div>
+							</td>
+						</tr>
+						<?php } ?>
+					</table>			
+				</dd>
+			<?php } else { ?>
+				<dd class='summary'>(none)</dd>
+			<?php } ?>
+			
+			<dt>2. Request</dt>
+			<dd class='summary'><a href='javascript:void(0)' onclick='$("#ajdeDebuggerRequest").slideToggle("fast");'><?php echo $this->request->get('_route'); ?></a></dd>
+			<dd id='ajdeDebuggerRequest' class='details'>
+				<table border=1>
+					<tr>
+						<td><?php var_dump($this->request->_data); ?></td>
+					</tr>
+				</table>			
+			</dd>
+					
+			<dt>3. Stage</dt>
+			<dd class='summary'><?php echo $this->configstage; ?></dd>		
+			
+			<dt>4. Language</dt>
+			<dd class='summary'><?php echo $this->lang; ?></dd>		
+			
+			<dt>5. Timer</dt>
+			<dd class='summary'>
+				<?php
+		        $table = '<table border=1><tr><th>Description</th><th>Time (ms)</th></tr>';  
+		        foreach($this->timers as $entry) {
+		        	if ($entry['level'] >= 0) {
+		        		$table .= '<tr><td>';
+		        		if ($entry['level'] > 0) {
+		        			$table .= str_repeat('&nbsp;&nbsp;&nbsp;', $entry['level']) . '<span style="color: gray;">└</span>&nbsp;';
+						}   
+		            	$table .= $entry['description'] . '</td><td style=\'text-align: right;\'>' . $entry['total'] . '</td></tr>';
+					}  
+		        }          
+		        $table .= '</table>';
+				echo '<a href=\'javascript:void(0)\' onclick=\'$("#ajdeDebuggerTimers").slideToggle("fast");\'>'. $this->timers[0]['total'] . ' ms</a>';
+				?>
+			</dd>
+			<dd id='ajdeDebuggerTimers' class='details'>
+				<?php echo $table; ?>		
+			</dd>
+			
+			<?php if (isset($this->database)) { ?>
+			<dt>6. Database</dt>
+			<dd class='summary'>		
+				<?php
+				$totalTime = 0;
+		        $table = '<table border=1><tr><th>Query</th><!--<th>Cache</th>--><th>Time (ms)</th></tr>';  
+		        foreach($this->database as $entry) {  
+		            $totalTime += $entry['time'];  
+		            $table .= '<tr><td>' . $entry['query'] . '</td>';
+					//$table .= '<td>' . ($entry['cache'] ? 'yes' : 'no') . '</td></tr>';
+		            $table .= '<td style=\'text-align: right;\'>' . $entry['time'] . '</td></tr>';  
+		        }          
+		        $table .= '</table>';
+				echo '<a href=\'javascript:void(0)\' onclick=\'$("#ajdeDebuggerQueries").slideToggle("fast");\'>' . count($this->database) . ' queries (' . $totalTime . ' ms)</a>';
+				?>
+			</dd>
+			<dd id='ajdeDebuggerQueries' class='details'>
+				<?php echo $table; ?>		
+			</dd>
+			<?php } ?>
+			
+		</dl>
+	</div>
+</div>

@@ -1,0 +1,127 @@
+<div id='content'>
+	
+	<style>
+	<?php foreach($this->browsers as $browser): ?>				
+		.right-column div.<?php echo $browser->shortname; ?> h3.warning {
+			background-color: #<?php echo $browser->color; ?>;
+		}
+		.right-column div.<?php echo $browser->shortname; ?> p a, .right-column div.<?php echo $browser->shortname; ?> h3 a {
+			color: #<?php echo $browser->color; ?>;
+		}
+		.right-column div.<?php echo $browser->shortname; ?> h3.warning a {
+			color: white;
+		}		
+		.right-column div.<?php echo $browser->shortname; ?> p a:hover, .right-column div.<?php echo $browser->shortname; ?> h3 a:hover {
+			background-color: #<?php echo $browser->color; ?>;
+			color: white;
+		}			
+		.right-column div.<?php echo $browser->shortname; ?> h3.warning a:hover {
+			background-color: transparent;
+		}
+	<?php endforeach; ?>
+	</style>
+
+	<h1><?php echo __("Browsercheck"); ?></h1>
+	
+	<div class='intro'>
+		Coolest browsers:
+	</div>
+	
+	<div class='left-column'>
+		<div class='options'>
+			<?php foreach($this->browsers as $browser): ?>				
+				<div class='item <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
+					<img class='grayed-out' src='public/images/<?php echo $browser->shortname; ?>48.png' alt='<?php echo $browser->name; ?>' />
+					<div class='box' style='background-color: #<?php echo $browser->color; ?>;'>
+						<?php echo $browser->htmlname; ?>
+						<span><?php echo $browser->getCurrentMajor(); ?><span><?php echo $browser->getCurrentMinor(); ?></span></span>
+					</div>
+					<div class='clearfix'></div>
+				</div>			
+			<?php endforeach; ?>
+		</div>
+		<div class='divider-arrow'>
+			&lt;
+		</div>
+	</div>
+	
+	<div class='right-column'>
+		<div class='status'>
+			<h3 class='warning'>
+				You are currently using <span class='browser'></span> <span class='version'></span>,
+				for which an update is <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">highly recommended</strong>!
+			</h3>
+			<h3 class='update'>
+				You are currently using <span class='browser'></span> <span class='version'></span>,
+				for which an <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">update is available</strong>.
+			</h3>
+			<h3 class='latest'>
+				You are currently using the latest version of <span class='browser'></span>. That is awesome!
+			</h3>
+			
+			<p class='update warning'>
+				Updating your browser just takes a little bit of your time, but will
+				increase your <strong title='Modern browsers make finding your way on the
+				internet *easier** by adding nifty features like *tabbed browsing**,
+				*integrated web-search**, etc.'>internet experience</strong>. After updating,
+				you will browse <strong title="Nowadays, browsers display the websites
+				you visit *up to 10x as fast** as they did some years ago. Why not
+				use this *big enhancements** to surf faster then ever before?">faster</strong>
+				and <strong title="Don't let anywone steal sensitive information from you,
+				and this update helps you with this, by protecting you from various
+				scams and phising sites.">more secure</strong>.
+				Of course, this is <strong title='There was a time that browsing the
+				internet was not for free. Not anymore. *Enjoy it while it lasts**!'>entirely free</strong>.
+			</p>
+			<p class='latest'>
+				Why don't you brag about it on
+				<a target='_blank' href='http://www.facebook.com/sharer.php?u=www.browser-update.org&t=I+am+using+the+latest+of+the+greatest+browser!'>Facebook</a>,
+				<a target='_blank' href='http://twitter.com/share?url=www.browser-update.org&via=browserupdate&text=I+am+using+the+latest+of+the+greatest+browser!'>Twitter</a> or
+				<a target='_blank' href='http://www.linkedin.com/shareArticle?mini=true&url=www.browser-update.org&title=browser-update.org&summary=I+am+using+the+latest+of+the+greatest+browser!'>LinkedIn</a>?
+			</p>
+			
+			<a class='update warning bigbutton fancybox gray gray-shadow'
+				title='Download the update for your browser from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the update.' href=''>Update now</a>
+			
+			<p class='update warning'>
+				Or <a class='fancybox readmore' title='Read more about the features of this browser' href=''>read more about <span class='browser'></span></a> first to rejoice what can be yours soon.
+			</p>				
+		</div>
+		<?php foreach($this->browsers as $browser): ?>			
+			<div class='browser <?php echo $browser->shortname; ?>'>
+				<h3><?php echo $browser->name; ?> <?php echo $browser->current; ?></h3>				
+				<p><?php echo $browser->description; ?></p>				
+				<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='<?php echo $browser->update_url; ?>'>Try out now</a>
+				<?php if ($browser->youtube_id) { ?>
+				<div class='video'>
+					<img src='http://img.youtube.com/vi/<?php echo $browser->youtube_id; ?>/0.jpg' width='380' />
+					<a class='fancybox' href='http://www.youtube.com/embed/<?php echo $browser->youtube_id; ?>?rel=0&amp;hd=1&amp;autoplay=1'></a>
+				</div>		
+				<?php } ?>
+				<p><a class='fancybox' title='Read more about the features of this browser' href='<?php echo $browser->info_url; ?>'>Read more about <?php echo $browser->name; ?></a> before you give it a try.</p>
+			</div>		
+		<?php endforeach; ?>
+		
+	</div>
+	
+	<div class="clearfix"></div>
+
+</div>
+
+<div class='teaserwrapper'>
+	<div class='teaser'>
+		<p>Have visitors of your website to use the latest of the greatest:</p>
+		<div class='bg'>
+			<a class='bigbutton white orange-shadow' href='widget'>Get widget</a>
+		</div>	
+	</div>
+</div>
+
+<script>
+	if (typeof BD ==="undefined") { BD = function() {}; }
+	BD.Browsers = <?php echo $this->browsers->getJSON(); ?>;	
+</script>

@@ -1,0 +1,27 @@
+div.video {
+	position: relative;
+	margin-top: 35px;
+}
+
+div.video a {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-image: url('../../../../public/images/video-overlay.png');
+	width: 380px;
+	height: 285px;
+	display: block;
+	
+	opacity: 0.5;
+	
+  -webkit-transition: all 0.5s ease-out;  /* Saf3.2+, Chrome */
+     -moz-transition: all 0.5s ease-out;  /* FF4+ */
+      -ms-transition: all 0.5s ease-out;  /* IE10? */
+       -o-transition: all 0.5s ease-out;  /* Opera 10.5+ */
+          transition: all 0.5s ease-out;  
+}
+
+div.video a:hover {
+	opacity: 1;
+}

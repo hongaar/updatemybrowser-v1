@@ -1,0 +1,6 @@
+<?php $this->requireJsLibrary('jquery', '1'); ?>
+<form class="ACAjaxForm <?php echo $this->extraClass; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->formAction; ?>" method="post">
+<?php if (!empty($this->innerXml)) { ?>
+	<?php echo $this->innerXml; ?>
+	</form>
+<?php } ?>

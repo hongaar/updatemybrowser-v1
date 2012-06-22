@@ -1,0 +1,43 @@
+dl.crudEdit {
+	margin-bottom:50px;
+}
+
+dl.crudEdit dt {
+	background: #005d9a;
+	color: #fff;
+	float: left;
+	clear: left;
+	font-weight: bold;
+	margin-right: 10px;
+	padding: 5px;
+	width: 200px;
+	height: 25px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+dl.crudEdit dd {
+	margin: 2px 0;
+	padding: 5px 0;
+	color: black;
+	float: left;
+}
+
+dl.crudEdit dd input[type=text] {
+	width: 20em;
+}
+
+dl.crudEdit dd input[type=number] {
+	width: 5em;
+}
+
+dl.crudEdit dd input[readonly] {
+	border: none;
+	background-color: #eee;
+}
+
+dl.crudEdit dd textarea {
+	width: 20em;
+	height: 5em;
+}

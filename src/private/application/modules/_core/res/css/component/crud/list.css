@@ -1,0 +1,36 @@
+table.crudList {
+	width: 90%;
+/*	table-layout: fixed;*/
+    border-collapse: collapse;
+    background-color: white;
+    color: black;	
+}
+
+table.crudList th {
+	padding: 5px 5px;
+}
+
+table.crudList td {
+	border-bottom: 1px solid #888;
+    padding: 2px 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+	table.crudList td.linkedModel {
+		text-decoration: underline;
+	}
+
+table.crudList tr {
+	border-top: 1px solid transparent;
+}
+
+table.crudList tr:nth-child(even) {
+	background-color: #eee;
+}
+
+table.crudList tr:hover {
+	border-top: 1px solid #888;
+	background-color: #bbb;
+}

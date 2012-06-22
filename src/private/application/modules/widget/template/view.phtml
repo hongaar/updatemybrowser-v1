@@ -1,0 +1,187 @@
+<?php
+// SyntaxHighlighter
+$this->requireJsPublic('lib/SyntaxHighlighter/shCore.js');
+$this->requireJsPublic('lib/SyntaxHighlighter/shBrushJScript.js');
+$this->requireCssPublic('lib/SyntaxHighlighter/shCore.css');
+$this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
+?>
+
+<div id='content'>
+	
+	<style>
+	<?php foreach($this->colors as $key => $color): ?>				
+		.right-column div.<?php echo $key; ?> h3.warning {
+			background-color: #<?php echo $color; ?>;
+		}
+		.right-column div.<?php echo $key; ?> p a, .right-column div.<?php echo $key; ?> h3 a {
+			color: #<?php echo $color; ?>;
+		}
+		.right-column div.<?php echo $key; ?> h3.warning a {
+			color: white;
+		}		
+		.right-column div.<?php echo $key; ?> p a:hover, .right-column div.<?php echo $key; ?> h3 a:hover {
+			background-color: #<?php echo $color; ?>;
+			color: white;
+		}			
+		.right-column div.<?php echo $key; ?> h3.warning a:hover {
+			background-color: transparent;
+		}
+	<?php endforeach; ?>
+	</style>
+
+	<h1><?php echo __("Widget"); ?></h1>
+	
+	<div class='intro'>
+		Pick your poison:
+	</div>
+	
+	<div class='left-column'>
+		<div class='options'>				
+			<div class='item html5' data-key='html5'>
+				<img class='grayed-out' src='public/images/html548.png' alt='HTML5' />
+				<div class='box' style='background-color: #<?php echo $this->colors['html5']; ?>;'>
+					HTML
+					<span>5</span>
+				</div>
+				<div class='clearfix'></div>
+			</div>
+			<div class='item wordpress' data-key='wordpress'>
+				<img class='grayed-out' src='public/images/wordpress48.png' alt='WordPress' />
+				<div class='box' style='background-color: #<?php echo $this->colors['wordpress']; ?>;'>
+					WordPress<span></span>
+				</div>
+				<div class='clearfix'></div>
+			</div>
+			<div class='item drupal' data-key='drupal'>
+				<img class='grayed-out' src='public/images/drupal48.png' alt='Drupal' />
+				<div class='box' style='background-color: #<?php echo $this->colors['drupal']; ?>;'>
+					Drupal<span></span>
+				</div>
+				<div class='clearfix'></div>
+			</div>
+			<div class='item typo3' data-key='typo3'>
+				<img class='grayed-out' src='public/images/typo348.png' alt='Typo3' />
+				<div class='box' style='background-color: #<?php echo $this->colors['typo3']; ?>;'>
+					Typo3<span></span>
+				</div>
+				<div class='clearfix'></div>
+			</div>
+		</div>
+		<div class='divider-arrow'>
+			&lt;
+		</div>
+	</div>
+	
+	<div class='right-column'>
+					
+		<div class='html5'>
+			<h3>Embed this on your site, so users will get <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+								
+			<p>Minimum requirements:</p>
+			
+			<div id='requireWrapper'>	
+				
+				<div class='recommended requireColumn'>
+					<input type='checkbox' id='recommended' checked='checked' />
+						<label for='recommended'> <strong title='Some *information** on this option'>Recommended</strong></label>
+					
+					<div class='browserWrapper'>
+						<?php foreach($this->browsers as $browser): ?>				
+							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
+								<img src='public/images/<?php echo $browser->shortname; ?>24.png' alt='<?php echo $browser->name; ?>' />
+								<?php echo $browser->htmlname; ?>
+								<span><?php echo $browser->getCurrentMajor(); ?><span><?php echo $browser->getCurrentMinor(); ?></span></span>
+							</div>			
+						<?php endforeach; ?>
+					</div>
+				</div>
+				
+				<div class='custom requireColumn'>
+					<input type='checkbox' id='custom' />
+						<label for='custom'> <strong title='Some *information** on this option'>Custom</strong></label>
+						
+					<div class='browserWrapper'>
+						<?php foreach($this->browsers as $browser): ?>				
+							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
+								<select name='<?php echo $browser->shortname; ?>'>
+									<option value='9'>9</option>
+									<option value='8'>8</option>
+									<option value='7'>7</option>
+								</select>									
+							</div>			
+						<?php endforeach; ?>
+					</div>
+				</div>
+				
+				<div class='clearfix'></div>
+				
+				<pre class="brush: js">
+				&lt;script type="text/javascript"&gt; 
+				var $buoop = {} 
+				$buoop.ol = window.onload; 
+				window.onload=function(){ 
+					try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
+					var e = document.createElement("script"); 
+					e.setAttribute("type", "text/javascript"); 
+					e.setAttribute("src",
+						"http://browser-update.org/update.js"); 
+					document.body.appendChild(e); 
+				} 
+				&lt;/script&gt;
+				</pre>
+				
+			</div>
+				
+			<!--<p><strong>See the widget in action</strong>:</p>
+			
+			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href=''>Demo</a>-->				
+		</div>	
+		
+		<div class='wordpress'>
+			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
+			<p>Easy to install</p>				
+			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='http://dvnr.de/wordpress/browser-update/'>Install</a>				
+			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
+		</div>
+		
+		<div class='drupal'>
+			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
+			<p>Easy to install</p>				
+			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='http://dvnr.de/wordpress/browser-update/'>Install</a>				
+			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
+		</div>
+		
+		<div class='typo3'>
+			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
+			<p>Easy to install</p>				
+			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='http://dvnr.de/wordpress/browser-update/'>Install</a>				
+			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
+		</div>
+		
+	</div>
+	
+	<div class="clearfix"></div>
+
+</div>
+
+<div class='teaserwrapper'>
+	<div class='teaser'>
+		<p>The notification users with an outdated browser will see:</p>
+		<div class='bg'>
+			<a class='bigbutton white orange-shadow' href='widget'>Demo</a>
+		</div>	
+	</div>
+</div>
+
+<script>
+	if (typeof BD ==="undefined") { BD = function() {}; }
+	BD.Browsers = <?php echo $this->browsers->getJSON(); ?>;	
+</script>

@@ -1,0 +1,6 @@
+Thumbs.db
+desktop.ini
+nbproject/
+src/private/var/cache/*
+src/private/var/log/*
+src/public/images/uploads/*

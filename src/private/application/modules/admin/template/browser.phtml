@@ -1,0 +1,17 @@
+<div id='content'>
+
+	<h1><?php echo __("Administrators"); ?></h1>
+
+		<?php
+		echo $this->crudList('browser', array(
+			'show' => array(
+				'name',
+				'current',
+				'minimum',
+			)
+		));
+		?>
+	
+	<div class="clearfix"></div>
+
+</div>
