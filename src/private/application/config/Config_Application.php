@@ -5,17 +5,17 @@ require_once 'Config_Advanced.php';
 class Config_Application extends Config_Advanced
 {	
 	// Site parameters
-	public $ident				= 'project';
-	public $sitename 			= 'Project name';
-	public $description			= 'Project description';	
-	public $author				= 'Author name';
+	public $ident				= 'browserbar';
+	public $sitename 			= 'Browser Bar';
+	public $description			= 'Browser Bar';	
+	public $author				= 'Nabble';
 	public $version 			= array(
 									'number' => '0.1',
 									'name' => 'alpha'
 									);
 									
 									
-	//public $homepageRoute;
+	public $homepageRoute		= "browser/check.html";
 	//public $defaultRouteParts;
 	//public $aliases;
 	//public $routes;
@@ -25,7 +25,7 @@ class Config_Application extends Config_Advanced
 	//public $langAutodetect;
 	//public $langAdapter;
 	//public $timezone;
-	//public $layout;
+	public $layout				= 'browser';
 	//public $responseCodeRoute;
 	
 	//public $autoEscapeString;
@@ -45,10 +45,14 @@ class Config_Application extends Config_Advanced
 	//public $useCache;
 	//public $documentProcessors;
 	
+	// Database
 	//public $dbAdapter;
-	//public $dbDsn;	
-	//public $dbUser;
-	//public $dbPassword;	
+	public $dbDsn				= array(
+									'host' 		=> 'localhost',
+									'dbname'	=> 'browser'
+									);
+	public $dbUser 				= 'browser';
+	public $dbPassword 			= 'bar';	
 	//public $textEditor;
 	
 	//public $registerNamespaces;

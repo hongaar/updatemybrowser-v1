@@ -1,6 +1,6 @@
 <?php
 
-class BrowserModel extends AjdeX_Model
+class BrowserModel extends Ajde_Model
 {
 	public function getCurrentMajor() {
 		return (int) $this->current;

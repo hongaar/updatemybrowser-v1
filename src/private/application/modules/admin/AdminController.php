@@ -20,7 +20,7 @@ class AdminController extends Ajde_Controller
 	
 	public function browser()
 	{
-		AjdeX_Model::register("browser");
+		Ajde_Model::register("browser");
 		return $this->render();
 	}
 	

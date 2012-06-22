@@ -1,6 +1,6 @@
 <?php
 
-class BrowserCollection extends AjdeX_Collection
+class BrowserCollection extends Ajde_Collection
 {
 	public function getJSON()
 	{

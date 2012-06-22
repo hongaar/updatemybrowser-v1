@@ -20,7 +20,7 @@ class BrowserController extends Ajde_Controller
 	function check()
 	{
 		// Register models
-		AjdeX_Model::register($this);
+		Ajde_Model::register($this);
 		
 		// Ensure right view when coming from other action
 		$this->setView(Ajde_View::fromRoute('browser/check'));

@@ -15,7 +15,7 @@ class WidgetController extends Ajde_Controller
 	function view()
 	{
 		// Register models
-		AjdeX_Model::register('browser');
+		Ajde_Model::register('browser');
 		
 		// Menu colors
 		$colors = array(

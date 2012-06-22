@@ -1,0 +1,131 @@
+<?php
+/* @var $this Ajde_Template_Parser_Phtml_Helper */
+
+// Unify the user agent specific css rules
+$this->requireCssTop('core.reset');
+
+// Include jQuery 1.7
+$this->requireJsLibrary('jquery', '1.7');
+
+// Fancybox
+$this->requireJsPublic('lib/fancybox/jquery.fancybox-1.3.4.pack.js');
+$this->requireCssPublic('lib/fancybox/jquery.fancybox-1.3.4.css');
+
+// qTip
+$this->requireJsPublic('lib/tip/jquery.tipsy.js');
+$this->requireCssPublic('lib/tip/tipsy.css');
+
+// Some JavaScript i18n
+$this->requireJsFirst('i18n.' . Ajde_Lang::getInstance()->getShortLang());
+
+// Alert bar
+$this->requireJsFirst('core.alert'); $this->requireCssFirst('core.alert');
+
+// Example styles
+$this->requireGWebFont('Dosis', array(400, 700));
+$this->requireCss('default.mobile', 'html', null, Ajde_Document_Format_Html::RESOURCE_POSITION_LAST, 'media="only screen and (max-width: 767px)"');
+
+$module = Ajde::app()->getRoute()->getModule();
+?>
+<!-- Inspired by HTML5 Boilerplate -->
+<!doctype html>
+<html
+	lang='<?php echo Ajde_Lang::getInstance()->getShortLang(); ?>'
+	id='<?php echo Config::get('ident'); ?>'
+	data-lifetime='<?php echo min(array(Config::get('cookieLifetime') > 0 ? Config::get('cookieLifetime') : 99999, Config::get('gcLifetime'))); ?>'
+	data-alert='<?php echo _e(Ajde_Session_Flash::get('alert')); ?>'
+>
+	<head>
+		<!-- UTF-8 please (also in the headers, just to be sure) -->
+		<meta charset='utf-8'>
+		
+		<!-- Some content meta tags -->
+		<title><?php echo _e(Ajde::app()->getDocument()->getFullTitle()); ?></title>		
+		<meta name='description' content='<?php echo _e(Ajde::app()->getDocument()->getDescription()); ?>' />
+		<meta name='author' content='<?php echo _e(Config::get('author')); ?>' />
+		<?php echo Ajde::app()->getDocument()->getMeta(); ?>
+		
+		<!-- Mobile presentation meta tags -->
+		<meta name="HandheldFriendly" content="True">
+		<meta name="MobileOptimized" content="320">
+		<meta name="viewport" content="width=device-width">
+		<meta http-equiv="cleartype" content="on">
+		
+		<!-- Define the root of the site -->
+		<base href='http://<?php echo Config::get('lang_root'); ?>' />
+		
+		<!-- require JavaScript and cookies -->		
+		<noscript>
+			<meta http-equiv="refresh" content="0;url=main/nojavascript.html?returnto=<?php echo urlencode((string) Ajde::app()->getRoute()); ?>" />
+		</noscript>				
+		<script defer="defer">
+			if (navigator.cookieEnabled === false) {
+				document.location.href='main/nocookies.html?returnto=<?php echo urlencode((string) Ajde::app()->getRoute()); ?>';
+			}
+		</script>
+		
+		<!-- Favicon and CSS -->
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<?php echo $this->getDocument()->getHead('css'); ?>
+		
+		<!-- Google Analytics -->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-XXXXX-X']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+		<link href='http://fonts.googleapis.com/css?family=Yellowtail|Cabin+Sketch:700|PT+Sans:400,700|PT+Sans+Narrow|Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+	</head>
+	
+	<!-- Target older versions of IE with CSS classes -->
+	<!--[if lt IE 7 ]> <body class='ie6 oldie'> <![endif]-->
+	<!--[if IE 7 ]>    <body class='ie7 oldie'> <![endif]-->
+	<!--[if IE 8 ]>    <body class='ie8 oldie'> <![endif]-->
+	<!--[if IE 9 ]>    <body class='ie9'> <![endif]-->
+	<!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
+		
+		<!-- The content -->		
+		<div id='wrapper'>
+			<div id='headerwrapper'>
+				<div id='header'>
+					<img src="public/images/logo.png" alt="Logo" />
+					<h1>browser-update.org</h1>
+					<h2><?php echo __('always the coolest browser'); ?></h2>
+					<ul>
+						<li><a class='<?php if ($module == 'browser') { echo 'active '; } ?>
+							gray-shadow' href='browser'>
+							<?php echo __('Browsercheck'); ?></a></li>
+						<li><a class='<?php if ($module == 'widget') { echo 'active '; } ?>
+							gray-shadow' href='widget'>
+							<?php echo __('Widget'); ?></a></li>
+						<li><a class='<?php if ($module == 'blog') { echo 'active '; } ?>
+							gray-shadow' href='blog'>
+							<?php echo __('Blog'); ?></a></li>
+						<li><a class='<?php if ($module == 'about') { echo 'active '; } ?>
+							gray-shadow' href='about'>
+							<?php echo __('About'); ?></a></li>
+					</ul>
+				</div>
+			</div>
+			<?php echo Ajde::app()->getDocument()->getBody(); ?>				
+			<div id='footerwrapper'>
+				<div id='footer'>
+					<p>
+						<?php echo __('<strong>browser-update.org</strong> is an initiative to spread modern browsers <strong>like an epidemic</strong>. Websites these days have evolved to <strong>state of the art</strong> applications and todays browsers are built to serve them to you <strong>just right</strong>. Unfortunately, not everybody uses them, yet...'); ?>
+					</p>
+					<h2>http://<u>browser-update</u>.org</h2>
+					<span>&copy; <?php echo date('Y'); ?> <?php echo __('All right reserved'); ?></span>
+				</div>			
+			</div>
+		</div>
+		
+		<!-- The scripts -->
+		<?php echo Ajde::app()->getDocument()->getScripts(); ?>
+		
+	</body>
+</html>
