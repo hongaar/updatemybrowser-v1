@@ -7,6 +7,11 @@ class _coreDebuggerController extends Ajde_Controller
 		// Grab the view to easily assign variables
 		$view = $this->getView();
 		
+		// Get all warnings from Ajde_Dump::warn()
+		if (Ajde_Dump::getWarnings()) {
+			$view->assign('warn', Ajde_Dump::getWarnings());			
+		}
+		
 		// Get all dumps from Ajde_Dump::dump() [Aliased as a global function dump()]
 		if (Ajde_Dump::getAll()) {
 			$view->assign('dump', Ajde_Dump::getAll());			
@@ -19,12 +24,20 @@ class _coreDebuggerController extends Ajde_Controller
 		$view->assign('configstage', Config::$stage);
 		
 		// Get database queries 
-		if (Ajde_Core_Autoloader::exists('AjdeX_Db_PDO')) {
-			$view->assign('database', AjdeX_Db_PDO::getLog());
+		if (Ajde_Core_Autoloader::exists('Ajde_Db_PDO')) {
+			$view->assign('database', Ajde_Db_PDO::getLog());
 		}
 		
 		// Get language 
 		$view->assign('lang', Ajde_Lang::getInstance()->getLang());
+		
+		// Get session
+		$view->assign('session', $_SESSION);
+		
+		// Get ACL
+		if (Ajde_Core_Autoloader::exists('Ajde_Acl')) {
+			$view->assign('acl', Ajde_Acl::getLog());
+		}
 		
 		// Get the application timer
 		Ajde::app()->endTimer(0);

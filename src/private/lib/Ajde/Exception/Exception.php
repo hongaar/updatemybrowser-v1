@@ -14,4 +14,10 @@ class Ajde_Exception extends Exception
 	{
 		return $this->_traceOnOutput;
 	}
+	
+	public function process()
+	{
+		return Ajde_Exception_Handler::handler($this);
+	}
+	
 }

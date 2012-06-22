@@ -7,6 +7,7 @@ abstract class Ajde_Resource_Local_Compressor extends Ajde_Object_Standard
 	const CACHE_STATUS_UPDATE = 2;
 
 	protected $_resources = array();
+	protected $_contents;
 
 	public function  __construct()
 	{
@@ -70,7 +71,7 @@ abstract class Ajde_Resource_Local_Compressor extends Ajde_Object_Standard
 	public function getFilename()
 	{
 		$hash = $this->getHash();
-		return $this->getBase() . '/' . $hash['fileName'] . '.' . $hash['fileTime'] . '.' . $this->getType();
+		return $this->getBase() . $hash['fileName'] . '.' . $hash['fileTime'] . '.' . $this->getType();
 	}
 
 	public function setFilename($filename)
@@ -125,7 +126,6 @@ abstract class Ajde_Resource_Local_Compressor extends Ajde_Object_Standard
 	 */
 	public function process()
 	{
-		$hash = $this->getHash();
 		$cacheStatus = $this->getCacheStatus();
 		switch ($cacheStatus['status'])
 		{
@@ -142,19 +142,40 @@ abstract class Ajde_Resource_Local_Compressor extends Ajde_Object_Standard
 
 	public function saveCache()
 	{
-		$contentsToCompress = '';
+		// Bind document processors to compressor
+		Ajde_Document::registerDocumentProcessor($this->getType(), 'compressor');
+		
+		// Prepare content
+		$this->_contents = '';
 		foreach($this->_resources as $resource)
 		{
 			/* @var $resource Ajde_Resource_Local */
-			$contentsToCompress .= $resource->getContents() . PHP_EOL;
+			$this->_contents .= $resource->getContents() . PHP_EOL;
 		}
 		if (!is_writable($this->getBase()))
 		{
 			throw new Ajde_Exception(sprintf("Directory %s is not writable", $this->getBase()), 90014);
 		}
-		file_put_contents($this->getFilename(), $this->compress($contentsToCompress));
+		
+		// Execute compression
+		Ajde_Event::trigger($this, 'beforeCompress');
+		$this->compress();
+		Ajde_Event::trigger($this, 'afterCompress');
+		
+		// Save file to cache folder
+		file_put_contents($this->getFilename(), $this->_contents);
+	}
+	
+	public function getContents()
+	{
+		return $this->_contents;
+	}
+	
+	public function setContents($contents)
+	{
+		$this->_contents = $contents;
 	}
 
-	abstract public function compress($contents);
+	abstract public function compress();
 
 }

@@ -2,11 +2,14 @@
 
 class Ajde_Resource_Local extends Ajde_Resource
 {
-	public function  __construct($type, $base, $action, $format = 'html')
+	private $_filename;
+	
+	public function  __construct($type, $base, $action, $format = 'html', $arguments = '')
 	{
 		$this->setBase($base);
 		$this->setAction($action);
 		$this->setFormat($format);
+		$this->setArguments($arguments);
 		parent::__construct($type);
 	}
 
@@ -20,9 +23,7 @@ class Ajde_Resource_Local extends Ajde_Resource
 	 */
 	public static function lazyCreate($type, $base, $action, $format = 'html')
 	{
-		$filename = self::getFilenameFromStatic($base, $type, $action);
-		if (self::exist($filename))
-		{
+		if (self::getFilenameFromStatic($base, $type, $action, $format)) {
 			return new self($type, $base, $action, $format);
 		}
 		return false;
@@ -35,8 +36,23 @@ class Ajde_Resource_Local extends Ajde_Resource
 	 */
 	public static function fromHash($hash)
 	{
-		$session = new Ajde_Session('_ajde');
+		// TODO:
+		throw new Ajde_Core_Exception_Deprecated();
+		$session = new Ajde_Session('AC.Resource');
 		return $session->get($hash);
+	}
+	
+	public static function fromFingerprint($type, $fingerprint)
+	{
+		$array = self::decodeFingerprint($fingerprint);
+		extract($array);
+		return new Ajde_Resource_Local($type, $b, $a, $f);
+	}
+	
+	public function getFingerprint()
+	{
+		$array = array('b' => $this->getBase(), 'a' => $this->getAction(), 'f' => $this->getFormat());
+		return $this->encodeFingerprint($array);
 	}
 
 	public function getBase() {
@@ -50,38 +66,61 @@ class Ajde_Resource_Local extends Ajde_Resource
 	public function getFormat() {
 		return $this->get('format');
 	}
-
+	
+	public function getArguments() {
+		return $this->get('arguments');
+	}
+	
 	protected static function exist($filename)
 	{
-		if (file_exists($filename)) {
+		if (is_file($filename)) {
 			return true;
 		}
 		return false;
 
 	}
 
-	protected static function _getFilename($base, $type, $action)
+	protected static function _getFilename($base, $type, $action, $format)
 	{
-		return $base . 'res/' . $type . '/' . $action . '.' . $type;
+		$filename = false;
+		$formatResource = $base . 'res/' . $type . '/' . $action . '.' . $format . '.' . $type;
+		if (self::exist($formatResource)) {
+			$filename = $formatResource;
+		} else {
+			$noFormatResource = $base . 'res/' . $type . '/' . $action . '.' . $type;
+			if (self::exist($noFormatResource)) {
+				$filename = $noFormatResource;
+			}
+		}		
+		return $filename;
 	}
 
 	public function getFilename()
 	{
-		return $this->_getFilename($this->getBase(), $this->getType(), $this->getAction());
+		if (!isset($this->_filename)) {
+			$this->_filename = $this->_getFilename($this->getBase(), $this->getType(), $this->getAction(), $this->getFormat());
+		}
+		if (!$this->_filename) {
+			// TODO:
+			throw new Ajde_Exception(sprintf('Resource %s could not be found',
+					$this->getBase() . 'res/' . $this->getType() . '/' . $this->getAction() . '[.' . $this->getFormat() . '].' . $this->getType()));
+		}
+		return $this->_filename;
 	}
 
-	public static function getFilenameFromStatic($base, $type, $action)
+	public static function getFilenameFromStatic($base, $type, $action, $format)
 	{
-		return self::_getFilename($base, $type, $action);
+		return self::_getFilename($base, $type, $action, $format);
 	}
 
 	protected function getLinkUrl()
 	{
-		$hash = md5(serialize($this));
-		$session = new Ajde_Session('_ajde');
-		$session->set($hash, $this);
+		//$hash = md5(serialize($this));
+		//$session = new Ajde_Session('AC.Resource');
+		//$session->set($hash, $this);
 		
-		$url = '_core/component:resourceLocal/' . $this->getType() . '/' . $hash . '/';
+		//$url = '_core/component:resourceLocal/' . $this->getType() . '/' . $hash . '/';
+		$url = '_core/component:resourceLocal/' . urlencode($this->getFingerprint()) . '.' . $this->getType();
 
 		if (Config::get('debug') === true)
 		{

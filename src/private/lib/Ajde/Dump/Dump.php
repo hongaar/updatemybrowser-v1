@@ -3,6 +3,7 @@
 class Ajde_Dump extends Ajde_Object_Static
 {
 	public static $dump = array();
+	public static $warn = array();
 	
 	public static function dump($var, $collapse = false) {
 		$i = 0;
@@ -14,14 +15,22 @@ class Ajde_Dump extends Ajde_Object_Static
 				!empty($item['type']) ? $item['type'] : '::',
 				!empty($item['function']) ? $item['function'] : '&lt;unknown function&gt;',
 				$line);
-			$line = isset($item['line']) ? $item['line'] : null;	
+			$line = issetor($item['line'], null);	
 			if ($i == 2) { break; }
 			$i++;
 		}
 		self::$dump[$source] = array($var, $collapse);
 	}
 	
+	public static function warn($message) {
+		self::$warn[] = $message;
+	}
+	
 	public static function getAll() {
 		return self::$dump;
+	}
+	
+	public static function getWarnings() {
+		return self::$warn;
 	}
 }

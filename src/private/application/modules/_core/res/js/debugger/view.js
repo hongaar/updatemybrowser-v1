@@ -1,3 +1,4 @@
+;
 $(document).ready(function() {
 	var height = 400;
 	
@@ -6,7 +7,9 @@ $(document).ready(function() {
 	AC.Shortcut.add('Ctrl+3', function() {  });
 	AC.Shortcut.add('Ctrl+4', function() {  });
 	AC.Shortcut.add('Ctrl+5', function() { toggleSection('#ajdeDebuggerTimers'); });
-	AC.Shortcut.add('Ctrl+6', function() { toggleSection('#ajdeDebuggerQueries'); });
+	AC.Shortcut.add('Ctrl+6', function() { toggleSection('#ajdeDebuggerSession'); });
+	AC.Shortcut.add('Ctrl+7', function() { toggleSection('#ajdeDebuggerACL'); });
+	AC.Shortcut.add('Ctrl+8', function() { toggleSection('#ajdeDebuggerQueries'); });
 	AC.Shortcut.add('Esc', toggleDebugger);
 	
 	$('#ajdeDebuggerHeader').click(showDebugger);
@@ -39,4 +42,4 @@ $(document).ready(function() {
 			$('#ajdeDebuggerContent').animate({height: '0'}, 'fast');
 		}
 	};
-})
+});

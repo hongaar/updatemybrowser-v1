@@ -15,11 +15,11 @@ class Ajde_FS_Find extends Ajde_Object_Static
 		return false;
 	}
 	
-	public static function findFiles($dir, $pattern)
+	public static function findFiles($dir, $pattern, $flags = 0)
 	{
 		$search = Config::get("local_root") . '/' . $dir . $pattern;
 		$return = array();
-		foreach (glob($search) as $filename) {
+		foreach (glob($search, $flags) as $filename) {
 			$return[] = $filename;
 		}
 		return $return;

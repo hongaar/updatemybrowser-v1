@@ -3,8 +3,12 @@
 class Ajde_Core_Autoloader
 {
 	protected static $dirPrepend = null;
+	protected static $namespaces = null;
 	public static $dirs = array();
 	public static $files = array();
+	
+	static $missed = 0;
+	static $queries = 0;
 	
 	// These (ZF) classes could pose problems to the Ajde MVC mechanisms (?)
 	public static $incompatibleClasses = array(
@@ -19,6 +23,28 @@ class Ajde_Core_Autoloader
 		// Dir prepend
 		self::$dirPrepend = $dirPrepend;
 		
+		// Zend requires include path to be set to the LIB directory
+		// Include config dir here to speed up requiring the config classes
+		set_include_path(get_include_path() . PATH_SEPARATOR . LIB_DIR);
+		
+		// Get namespaces from Config
+		$defaultNamespaces = array('Ajde', 'AjdeX', 'Zend', 'HTMLPurifier');
+		if (!self::exists('Config')) {			
+			require_once CONFIG_DIR . 'Config.php';
+		}
+		
+		// Try to use the Config object, and if it fails we have to redirect to
+		// an error page to prevent calling the shutdown function with no Config
+		// instance loaded
+		try {
+			$configNamespaces = Config::get('registerNamespaces');		
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+			include 'errordocument.php';
+			die();
+		}
+		self::$namespaces = array_merge($defaultNamespaces, $configNamespaces);
+		
 		// Configure autoloading
 		spl_autoload_register(array("Ajde_Core_Autoloader", "autoload"));
 		
@@ -32,9 +58,14 @@ class Ajde_Core_Autoloader
 		self::$dirs = array_unique(self::$dirs);
 	}
 	
-	public static function addFile($file)
+	public static function addFile($file, $prepend = false)
 	{
-		self::$files[] = $file;
+		if ($prepend) {
+			array_unshift(self::$files, $file);
+		} else {
+			self::$files[] = $file;
+		}
+		
 		self::$files = array_unique(self::$files);
 	}
 	
@@ -47,44 +78,43 @@ class Ajde_Core_Autoloader
 	}
 	
 	public static function initFiles($className)
-	{		
+	{
 		// Namespace/Class.php naming
 		self::addFile(str_ireplace('_', '/', $className) . ".php");
 
-		// Namespace/Class/Class.php naming
+		// Ajde_Foo defaults to the next naming scheme
+		$prepend = false;
+		if (substr($className, 0, 4) == 'Ajde' && substr_count($className, '_') === 1) {
+			$prepend = true;
+		}
+		
+		// Namespace/Class/Class.php naming		
 		$classNameArray = explode("_", $className);
 		$tail = end($classNameArray);
 		$head = implode("/", $classNameArray);
-		self::addFile($head . "/" . $tail . ".php");
+		self::addFile($head . "/" . $tail . ".php", $prepend);
 		
 		// Namespace_Class.php naming
 		self::addFile($className . ".php");		
+		
+		// Class/Class.php naming
+		self::addFile($className . '/' . $className . ".php");
 	}
 
 	public static function autoload($className)
 	{
+		$debug = false; // turn on for performance checking of the autoloader
+		
 		if (in_array($className, self::$incompatibleClasses)) {
 			throw new Ajde_Exception('Could not create instance of incompatible class ' . $className . '.', 90018);
 		}
 		
 		self::$files = array();
-		
-		// Get namespaces from Config
-		$defaultNamespaces = array('Ajde', 'Zend');
-		if (!self::exists('Config')) {
-			require_once(array_shift(glob(CONFIG_DIR . 'Config_Default.php'))); 
-			require_once(array_shift(glob(CONFIG_DIR . 'Config_Application.php')));			
-			foreach (glob(CONFIG_DIR . '*.php') as $filename) {
-				require_once($filename); 
-			}		
-		}
-		$configNamespaces = Config::get('registerNamespaces');
-		$namespaces = array_merge($defaultNamespaces, $configNamespaces);
-		
+				
 		$isNamespace = false;
 		
-		foreach($namespaces as $namespace) {
-			if (substr($className, 0, strlen($namespace)) == $namespace) {
+		foreach(self::$namespaces as $namespace) {
+			if (substr($className, 0, strlen($namespace . '_')) == $namespace . '_') {
 				$isNamespace = true;
 				break;
 			}
@@ -127,16 +157,29 @@ class Ajde_Core_Autoloader
 		require_once(LIB_DIR.'Ajde/Exception/Exception.php');
 		Ajde_Event::trigger('Ajde_Core_Autoloader', 'beforeSearch', array($className));*/
 		
+		if ($debug) {
+			self::$queries++;
+			echo "<span style='color:orange;'>LOOKING FOR</span> $className <br/>";
+		}
 		foreach ($dirs as $dir) {
 			foreach (self::$files as $file) {						
-				$path = self::$dirPrepend.$dir.$file;		
-				if (file_exists($path)) {
+				$path = self::$dirPrepend.$dir.$file;
+				if (is_file($path)) {
 					// TODO: performance gain?
 					// if (class_exists('Ajde_Cache')) {
 					// 	Ajde_Cache::getInstance()->addFile($path);
 					// }
+					if ($debug) {
+						echo "<span style='color:green;'>FOUND</span> $path <br/>";
+						echo "<span style='font-size:smaller;color:gray;'>stats : (missed/lookups) : ".self::$missed."/".self::$queries." : ".(int) (self::$missed / self::$queries * 100)."% missed</span><br/>";
+					}
 					require_once $path;
 					return;
+				} else {
+					if ($debug) {
+						echo "<span style='color:red;'>CONTINUE</span> $path <br/>";
+						self::$missed++;
+					}
 				}
 			}
 		}
@@ -145,9 +188,11 @@ class Ajde_Core_Autoloader
 		 * Throwing exceptions is only possible as of PHP 5.3.0
 		 * See: http://php.net/manual/en/language.oop5.autoload.php
 		 */
-		if (self::exists('Ajde_Core_Autoloader_Exception') && version_compare(PHP_VERSION, '5.3.0') >= 0)
+		if (version_compare(PHP_VERSION, '5.3.0') >= 0 && self::exists('Ajde_Core_Autoloader_Exception'))
 		{
-			throw new Ajde_Core_Autoloader_Exception("Unable to load $className", 90005);
+			// TODO: Custom Exceptions are still causing problems
+			// throw new Ajde_Core_Autoloader_Exception("Unable to load $className", 90005);
+			throw new Exception("Unable to load $className", 90005);
 		}
 	}
 
@@ -160,7 +205,7 @@ class Ajde_Core_Autoloader
 				return false;
 			}
 		}
-		catch (Ajde_Exception $exception)
+		catch (Exception $exception)
 		{
 			// 90005: Unable to load CLASSNAME
 			if ($exception->getCode() === 90005)

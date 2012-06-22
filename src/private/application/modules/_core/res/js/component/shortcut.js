@@ -1,13 +1,13 @@
-/**
- * http://www.openjs.com/scripts/events/keyboard_shortcuts/
- * Version : 2.01.B
- * By Binny V A
- * License : BSD
- */
-
+;
 if (typeof AC ==="undefined") { 		AC = function() {}; }
 
 AC.Shortcut = {
+	/**
+	 * http://www.openjs.com/scripts/events/keyboard_shortcuts/
+	 * Version : 2.01.B
+	 * By Binny V A
+	 * License : BSD
+	 */
 	'all_shortcuts':{},//All the shortcuts are stored in this array
 	'add': function(shortcut_combination,callback,opt) {
 		//Provide a set of default options
@@ -17,8 +17,8 @@ AC.Shortcut = {
 			'disable_in_input':false,
 			'target':document,
 			'keycode':false
-		}
-		if(!opt) opt = default_options;
+		};
+		if (!opt) opt = default_options;
 		else {
 			for(var dfo in default_options) {
 				if(typeof opt[dfo] == 'undefined') opt[dfo] = default_options[dfo];
@@ -76,7 +76,7 @@ AC.Shortcut = {
 				".":">",
 				"/":"?",
 				"\\":"|"
-			}
+			};
 			//Special Keys - and their codes
 			var special_keys = {
 				'esc':27,
@@ -130,7 +130,7 @@ AC.Shortcut = {
 				'f10':121,
 				'f11':122,
 				'f12':123
-			}
+			};
 	
 			var modifiers = { 
 				shift: { wanted:false, pressed:false},
@@ -197,7 +197,7 @@ AC.Shortcut = {
 					return false;
 				}
 			}
-		}
+		};
 		this.all_shortcuts[shortcut_combination] = {
 			'callback':func, 
 			'target':ele, 
@@ -213,7 +213,7 @@ AC.Shortcut = {
 	'remove':function(shortcut_combination) {
 		shortcut_combination = shortcut_combination.toLowerCase();
 		var binding = this.all_shortcuts[shortcut_combination];
-		delete(this.all_shortcuts[shortcut_combination])
+		delete(this.all_shortcuts[shortcut_combination]);
 		if(!binding) return;
 		var type = binding['event'];
 		var ele = binding['target'];
@@ -223,4 +223,4 @@ AC.Shortcut = {
 		else if(ele.removeEventListener) ele.removeEventListener(type, callback, false);
 		else ele['on'+type] = false;
 	}
-}
+};

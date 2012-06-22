@@ -14,7 +14,7 @@ class Ajde_Lang extends Ajde_Object_Singleton
     	return $instance === null ? $instance = new self : $instance;
 	}
 		
-	public function __construct()
+	protected function __construct()
 	{
 		$this->setLang($this->detect());
 	}
@@ -31,6 +31,7 @@ class Ajde_Lang extends Ajde_Object_Singleton
 	
 	public function setLang($lang)
 	{
+		setlocale(LC_ALL, $lang, $lang.'.utf8', $lang.'.UTF8', $lang.'utf-8', $lang.'.UTF-8');
 		$this->_lang = $lang;
 	}
 
@@ -49,7 +50,13 @@ class Ajde_Lang extends Ajde_Object_Singleton
 		}
 		return false;
 	}
-	 
+	
+	public function setGlobalLang($lang)
+	{
+		$this->setLang($lang);
+		Config::getInstance()->lang_root = Config::getInstance()->site_root . $this->getShortLang() . '/';
+	}
+
 	protected function detect()
 	{		
 		if (Config::get("langAutodetect")) {
@@ -66,7 +73,7 @@ class Ajde_Lang extends Ajde_Object_Singleton
 	protected function getLanguagesFromHeader()
 	{
 		// @source http://www.thefutureoftheweb.com/blog/use-accept-language-header 
-		$langs = false;
+		$langs = array();
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			// break up string into pieces (languages and q factors)
 			preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
@@ -110,11 +117,18 @@ class Ajde_Lang extends Ajde_Object_Singleton
 	
 	public static function _($ident, $module = null)
 	{
-		return self::getInstance()->get($ident, $module);
+		return self::getInstance()->translate($ident, $module);
+	}
+	
+	public function translate($ident, $module = null)
+	{
+		return $this->getAdapter()->get($ident, $module);
 	}
 	
 	public function get($ident, $module = null)
 	{
+		// TODO:
+		throw new Ajde_Core_Exception_Deprecated();
 		return $this->getAdapter()->get($ident, $module);
 	}
 }

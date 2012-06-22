@@ -10,7 +10,7 @@ class Ajde_Template extends Ajde_Object_Standard
 		$this->setBase($base);
 		$this->setAction($action);
 		$this->setFormat($format);
-		if (($fileInfo = $this->_getFileInfo()) === false) {
+		if (($fileInfo = $this->getFileInfo()) === false) {
 			$exception = new Ajde_Exception(sprintf("Template file in %s,
 					for action %s with format %s not found",
 					$base, $action, $format), 90010);
@@ -33,11 +33,16 @@ class Ajde_Template extends Ajde_Object_Standard
 		}
     }
 	
-	protected function _getFileInfo()
+	protected function getFileInfo()
+	{
+		return $this->_getFileInfo($this->getBase(), $this->getAction(), $this->getFormat());
+	}
+	
+	private static function _getFileInfo($base, $action, $format = 'html')
 	{
 		// go see what templates are available
 		$fileNamePatterns = array(
-			$this->getAction() . '.' . $this->getFormat(), $this->getAction()
+			$action . '.' . $format, $action
 		);
 		$fileTypes = array(
 			'phtml' => 'Phtml', 'xhtml' => 'Xhtml'
@@ -46,7 +51,7 @@ class Ajde_Template extends Ajde_Object_Standard
 		foreach($fileNamePatterns as $fileNamePattern) {
 			foreach($fileTypes as $fileType => $parserType) {
 				$filePattern = $fileNamePattern . '.' . $fileType;
-				if ($fileMatch = Ajde_FS_Find::findFile($this->getBase().TEMPLATE_DIR, $filePattern)) {
+				if ($fileMatch = Ajde_FS_Find::findFile($base.TEMPLATE_DIR, $filePattern)) {
 					return array('filename' => $fileMatch, 'parser' => $parserType);
 				}				
 			}
@@ -68,11 +73,9 @@ class Ajde_Template extends Ajde_Object_Standard
 		return $this->get('parser');
 	}
 
-	public function exist()
+	public static function exist($base, $action, $format = 'html')
 	{
-		// since files are checked in constructor, this is not needed anymore?
-		throw new Ajde_Core_Exception_Deprecated();
-		return file_exists($this->getFullPath());
+		return self::_getFileInfo($base, $action, $format);
 	}
 	
 	public function setFilename($filename)
@@ -103,6 +106,13 @@ class Ajde_Template extends Ajde_Object_Standard
 	public function assign($key, $value)
 	{
 		$this->_table[$key] = $value;
+	}
+	
+	public function assignArray($array)
+	{
+		foreach($array as $key => $value) {
+			$this->assign($key, $value);
+		}		
 	}
 	
 	public function hasAssigned($key)

@@ -13,24 +13,24 @@ class Ajde_Component_Resource extends Ajde_Component
 		return false;
 	}
 	
-	public function requireResource($type, $action, $format = 'html', $base = null, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT)
+	public function requireResource($type, $action, $format = 'html', $base = null, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT, $arguments = '')
 	{
 		if (!isset($base)) {
 			$base = $this->getParser()->getTemplate()->getBase();			
 		}
-		$resource = new Ajde_Resource_Local($type, $base, $action, $format);
-		Ajde::app()->getDocument()->addResource($resource, $position);
+		$resource = new Ajde_Resource_Local($type, $base, $action, $format, $arguments);
+		$this->getParser()->getDocument()->addResource($resource, $position);
 	}
 	
-	public function requirePublicResource($type, $filename, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT)
+	public function requirePublicResource($type, $filename, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT, $arguments = '')
 	{
-		$resource = new Ajde_Resource_Public($type, $filename);
-		Ajde::app()->getDocument()->addResource($resource, $position);
+		$resource = new Ajde_Resource_Public($type, $filename, $arguments);
+		$this->getParser()->getDocument()->addResource($resource, $position);
 	}
 	
-	public function requireRemoteResource($type, $url, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT)
+	public function requireRemoteResource($type, $url, $position = Ajde_Document_Format_Html::RESOURCE_POSITION_DEFAULT, $arguments = '')
 	{
-		$resource = new Ajde_Resource_Remote($type, $url);
-		Ajde::app()->getDocument()->addResource($resource, $position);
+		$resource = new Ajde_Resource_Remote($type, $url, $arguments);
+		$this->getParser()->getDocument()->addResource($resource, $position);
 	}
 }

@@ -2,14 +2,18 @@
 
 class Ajde_Layout extends Ajde_Template
 {
-	public function __construct($name, $style = 'default', $format = 'html')
+	public function __construct($name, $style = 'default', $format = null)
 	{
 		$this->setName($name);
 		$this->setStyle($style);
 
 		$base = LAYOUT_DIR.$this->getName() . '/';
 		$action = $this->getStyle();
-		$format = $format;
+		if (!$format) {
+			$format = ( (Ajde_Http_Request::isAjax() && $this->exist($base, $action, 'ajax'))
+					|| Ajde::app()->getDocument()->getFormat() === 'ajax' )
+					? 'ajax' : 'html';
+		}
 		parent::__construct($base, $action, $format);
 	}
 
@@ -38,8 +42,23 @@ class Ajde_Layout extends Ajde_Template
 		return $this->get('format');
 	}
 	
+	public function getDocument()
+	{
+		return $this->get('document');
+	}
+	
+	public function setDocument(Ajde_Document $document)
+	{
+		return $this->set('document', $document);
+	}
+	
 	public function getDefaultResourcePosition()
 	{
 		return Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST;
 	}
+	
+	public function requireTimeoutWarning()
+	{
+		$this->requireJs('core.timeout');
+	}	
 }

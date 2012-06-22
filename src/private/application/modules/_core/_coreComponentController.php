@@ -29,11 +29,12 @@ class _coreComponentController extends Ajde_Controller
 	protected function _getResource($className)
 	{
 		// get resource from request
-		$hash = Ajde::app()->getRequest()->getParam('id');
+		$fingerprint = Ajde::app()->getRequest()->getRaw('id');
 		if (!Ajde_Core_Autoloader::exists($className)) {
 			throw new Ajde_Controller_Exception("Resource type could not be loaded");
 		}
-		$resource = call_user_func_array(array($className,"fromHash"), array($hash));
+		//$resource = call_user_func_array(array($className,"fromHash"), array($hash));
+		$resource = call_user_func_array(array($className,"fromFingerprint"), array($this->getFormat(), $fingerprint));
 		return $resource->getContents();
 	}
 	
@@ -41,155 +42,128 @@ class _coreComponentController extends Ajde_Controller
 	 * Ajde_Component_Form
 	 ************************/
 
-	public function formAjaxDefault()
+	public function formDefault()
 	{
-		$this->setAction('form/ajax');
-		$this->getView()->assign('formAction', $this->getFormAction());
+		if ($this->getAction() !== 'form/ajax') {
+			$this->setAction('form/form');
+		}
+		
+		// CSRF
+		Ajde::app()->getDocument()->getLayout()->requireTimeoutWarning();
+		$formToken = Ajde::app()->getRequest()->getFormToken();		
+		$this->getView()->assign('formToken', $formToken);
+		
+		$this->getView()->assign('formAction', $this->getFormAction());		
 		$this->getView()->assign('formId', $this->getFormId());
 		$this->getView()->assign('extraClass', $this->getExtraClass());
 		$this->getView()->assign('innerXml', $this->getInnerXml());
 		return $this->render();
 	}
+	 
+	public function formAjaxDefault()
+	{
+		$this->setAction('form/ajax');
+		$this->getView()->assign('formFormat', $this->getFormFormat());
+		return $this->formDefault();
+	}
+
+	public function formUploadHtml()
+	{
+		$options = $this->getOptions();
+		$optionsId = md5(serialize($options));
+		$session = new Ajde_Session('AC.Form');
+		$session->set($optionsId, $options);
+
+		$this->setAction('form/upload');
+		$this->getView()->assign('name', $this->getName());
+		$this->getView()->assign('optionsId', $optionsId);
+		$this->getView()->assign('optionsMultiple', issetor($options['multiple'], false));
+		$this->getView()->assign('inputId', $this->getInputId());
+		$this->getView()->assign('extraClass', $this->getExtraClass());
+		return $this->render();
+	}
+	
+	public function formUploadJson()
+	{
+		$optionsId = Ajde::app()->getRequest()->getParam('optionsId', array());
+		$session = new Ajde_Session('AC.Form');
+		$options = $session->get($optionsId);
+		
+		// Load UploadHelper.php
+		$helper = new Ajde_Component_Form_UploadHelper();
+		
+		$saveDir = $options['saveDir'];
+		$allowedExtensions = $options['extensions'];
+		
+		// max file size in bytes
+		$max_upload = (int)(ini_get('upload_max_filesize'));
+		$max_post = (int)(ini_get('post_max_size'));
+		$memory_limit = (int)(ini_get('memory_limit'));
+		$upload_mb = min($max_upload, $max_post, $memory_limit);
+		$sizeLimit = $upload_mb * 1024 * 1024;
+		
+		$uploader = new qqFileUploader($allowedExtensions, $sizeLimit);
+		$result = $uploader->handleUpload($saveDir);
+		
+		// Set content type to text/html for qqUploader bug 163
+		// @see https://github.com/valums/file-uploader/issues/163
+		Ajde::app()->getDocument()->setContentType('text/html');
+		
+		// to pass data through iframe you will need to encode all html tags
+		return $result;
+	}
 	
 	/************************
-	 * Ajde_Component_Crud
+	 * Ajde_Component_Image
 	 ************************/
 	
-	public function crudListDefault()
-	{
-		if (Ajde::app()->getRequest()->has('edit')) {
-			return $this->crudEditDefault();			
-		} elseif (Ajde::app()->getRequest()->has('new')) {
-			return $this->crudEditDefault();
-		}
-		$this->setAction('crud/list');
+	public function imageHtml() {
+		/* @var $image Ajde_Resource_Image */
+		$image = $this->getImage();
 		
-		$crud = $this->getCrudInstance();
-		$crudId = spl_object_hash($crud);
-		$options = $this->getCrudOptions();
-		
-		$items = $crud->getItems();
-		$fields = $crud->getFields();
-		$labels = $crud->getFieldLabels();
-		
-		$items->loadParents();
-		
-		$session = new Ajde_Session('AC.Crud');
-		$session->set($crudId, get_class($crud->getModel()));
-		
-		$this->getView()->assign('id', $crudId);
-		$this->getView()->assign('items', $items);
-		$this->getView()->assign('fields', $fields);
-		$this->getView()->assign('labels', $labels);
-		$this->getView()->assign('options', $options);
+		//$session = new Ajde_Session('AC.Image');
+		//$session->set($imageId, $image);
+				
+		$this->setAction('image/show');
+		$this->getView()->assign('href', $image->getLinkUrl());
+		$this->getView()->assign('width', $image->getWidth());
+		$this->getView()->assign('height', $image->getHeight());
+		$this->getView()->assign('extraClass', $this->getExtraClass());
 		return $this->render();
 	}
 	
-	public function crudEditDefault()
-	{
-		$this->setAction('crud/edit');
+	public function imageBase64Html() {		
+		$image = $this->getImage();
 		
-		$crud = $this->getCrudInstance();
-		$crudId = spl_object_hash($crud);
-		$options = $this->getCrudOptions();
+		// TODO: add crop/resize option
+		$image->crop($image->getHeight(), $image->getWidth());		
 		
-		$id = Ajde::app()->getRequest()->getParam('edit');
-		
-		$item = $crud->getItem($id);
-		$fields = $crud->getFields();
-		$labels = $crud->getFieldLabels();
-		
-		if (!empty($id)) {
-			$item->loadParents();
-		}
-		
-		$session = new Ajde_Session('AC.Crud');
-		$session->set($crudId, get_class($crud->getModel()));
-		
-		$this->getView()->assign('id', $crudId);
-		$this->getView()->assign('item', $item);
-		$this->getView()->assign('fields', $fields);
-		$this->getView()->assign('labels', $labels);
+		$this->setAction('image/base64');
+		$this->getView()->assign('image', $this->getImage());
+		$this->getView()->assign('width', $this->getWidth());
+		$this->getView()->assign('height', $this->getHeight());
+		$this->getView()->assign('extraClass', $this->getExtraClass());
 		return $this->render();
 	}
 	
-	public function crudCommitJson()
-	{		
-		$operation = Ajde::app()->getRequest()->getParam('operation');
-		$crudId = Ajde::app()->getRequest()->getParam('crudId');
-		$id = Ajde::app()->getRequest()->getParam('id');
+	public function imageData() {
+		$fingerprint = Ajde::app()->getRequest()->getRaw('id');
+		$image = Ajde_Resource_Image::fromFingerprint($fingerprint);
 		
-		switch ($operation) {
-			case 'edit':
-				return $this->crudEdit($crudId, $id);
-				break;
-			case 'delete':
-				return $this->crudDelete($crudId, $id);
-				break;
-			case 'save':
-				return $this->crudSave($crudId, $id);
-				break;
-			default:
-				return array('operation' => $operation, 'success' => false);
-				break;
-		}
-	}
-	
-	// public function crudEdit($crudId, $id)
-	// {
-		// $session = new Ajde_Session('AC.Crud');
-		// $modelName = $session->get($crudId);
-// 		
-		// AjdeX_Model::register('*');
-// 		
-		// $model = new $modelName();
-		// $model->loadByPK($id);
-		// //$success = $model->delete();
-// 		
-		// return array('operation' => 'edit', 'success' => $success);
-	// }
-	
-	public function crudDelete($crudId, $id)
-	{
-		$session = new Ajde_Session('AC.Crud');
-		$modelName = $session->get($crudId);
+		//$session = new Ajde_Session('AC.Image');
+		//if (!$session->has($imageId)) {
+			//Ajde::app()->getResponse()->redirectNotFound();
+		//}
 		
-		AjdeX_Model::register('*');
+		/* @var $image Ajde_Resource_Image */
+		//$image = $session->get($imageId);
+		//$image = $session->getOnce($imageId);
+				
+		// TODO: add crop/resize option
+		$image->crop($image->getHeight(), $image->getWidth());
 		
-		$model = new $modelName();
-		$model->loadByPK($id);
-		$success = $model->delete();
-		
-		return array('operation' => 'delete', 'success' => $success);
-	}
-	
-	public function crudSave($crudId, $id)
-	{
-		$session = new Ajde_Session('AC.Crud');
-		$modelName = $session->get($crudId);
-		
-		AjdeX_Model::register('*');
-		
-		$model = new $modelName();
-		
-		// Get POST params
-		$post = $_POST;
-		foreach($post as $key => $value) {
-			if (empty($value)) {
-				unset($post[$key]);
-			}
-		}
-		$id = issetor($post["id"]);
-		
-		if (!empty($id)) {
-			$model->loadByPK($id);
-			$model->populate($post);
-			$success = $model->save();
-			return array('operation' => 'update', 'success' => $success);
-		} else {
-			$model->populate($post);
-			$success = $model->insert();
-			return array('operation' => 'insert', 'success' => $success);
-		}
+		Ajde::app()->getDocument()->setContentType($image->getMimeType());
+		$output = $image->getImage();
+		return $output;
 	}
 }

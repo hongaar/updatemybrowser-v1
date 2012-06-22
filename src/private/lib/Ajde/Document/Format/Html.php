@@ -3,11 +3,15 @@
 class Ajde_Document_Format_Html extends Ajde_Document
 {
 	const RESOURCE_POSITION_TOP = 0;
+	
 	const RESOURCE_POSITION_FIRST = 1;
 	const RESOURCE_POSITION_DEFAULT = 2;
 	const RESOURCE_POSITION_LAST = 3;
 	
-	protected $_cacheControl = 'private';
+	// TODO: implement a way to override
+	protected $_cacheControl = self::CACHE_CONTROL_NOCACHE;
+	protected $_contentType = 'text/html';
+	protected $_maxAge = 0; // access
 	
 	protected $_resources = array(
 		self::RESOURCE_POSITION_FIRST => array(),
@@ -29,19 +33,7 @@ class Ajde_Document_Format_Html extends Ajde_Document
 
 	public function render()
 	{
-		Ajde::app()->getResponse()->addHeader('Content-type', 'text/html');
-		$documentProcessors = Config::get('documentProcessors');
-		if (is_array($documentProcessors) && isset($documentProcessors['html'])) {
-			foreach($documentProcessors['html'] as $processor) {
-				$processorClass = 'Ajde_Document_Format_Processor_Html_' . $processor;
-				if (!Ajde_Core_Autoloader::exists($processorClass)) {
-					// TODO:
-					throw new Ajde_Exception('Processor ' . $processorClass . ' not found', 90022);
-				}
-				Ajde_Event::register('Ajde_Layout', 'beforeGetContents', $processorClass . '::preProcess');
-				Ajde_Event::register('Ajde_Layout', 'afterGetContents', $processorClass . '::postProcess');
-			}
-		}
+		$this->registerDocumentProcessor('html');		
 		return parent::render();
 	}
 
@@ -58,6 +50,15 @@ class Ajde_Document_Format_Html extends Ajde_Document
 		return $this->renderHead($resourceTypes);
 	}
 	
+	public function getMeta()
+	{
+		$code = '';
+		foreach($this->_meta as $meta) {
+			$code .= '<meta ' . $meta . ' />';
+		}
+		return $code;
+	}
+	
 	public function getScripts()
 	{
 		return $this->getHead('js');
@@ -66,8 +67,7 @@ class Ajde_Document_Format_Html extends Ajde_Document
 	public function renderHead(array $resourceTypes = array('*'))
 	{		
 		$code = '';
-		$code .= $this->renderResources($resourceTypes);
-		// TODO: meta tags etc
+		$code .= $this->renderResources($resourceTypes);		
 		return $code;
 	}
 
@@ -80,29 +80,33 @@ class Ajde_Document_Format_Html extends Ajde_Document
 
 	public function renderAllResources(array $types = array('*'))
 	{
-		$code = '';
+		$linkCode = '';
 		foreach ($this->getResources() as $resource)
 		{
 			/* @var $resource Ajde_Resource */
 			if (current($types) == '*' || in_array($resource->getType(), $types))
 			{
-				$code .= $resource->getLinkCode() . PHP_EOL;
+				$linkCode .= $resource->getLinkCode() . PHP_EOL;
 			}
 		}
-		return $code;
+		return $linkCode;
 	}
 
 	public function renderCompressedResources(array $types = array('*'))
 	{
 		// Reset compressors
 		$this->_compressors = array();
-		$code = '';
+		$linkCode = array(
+			self::RESOURCE_POSITION_FIRST	=> '',
+			self::RESOURCE_POSITION_DEFAULT => '',
+			self::RESOURCE_POSITION_LAST	=> ''			
+		);
 		foreach ($this->getResources() as $resource)
 		{
 			/* @var $resource Ajde_Resource */
 			if (current($types) == '*' || in_array($resource->getType(), $types))
 			{				
-				if ($resource instanceof Ajde_Resource_Local)
+				if ($resource instanceof Ajde_Resource_Local && !$resource->hasNotEmpty('arguments'))
 				{
 					if (!isset($this->_compressors[$resource->getType()]))
 					{
@@ -115,16 +119,16 @@ class Ajde_Document_Format_Html extends Ajde_Document
 				}
 				else
 				{
-					$code .= $resource->getLinkCode() . PHP_EOL;
+					$linkCode[$resource->getPosition()] .= $resource->getLinkCode() . PHP_EOL;
 				}
 			}
 		}
 		foreach ($this->_compressors as $compressor)
 		{
 			$resource = $compressor->process();
-			$code .= $resource->getLinkCode() . PHP_EOL;
+			$linkCode[self::RESOURCE_POSITION_DEFAULT] .= $resource->getLinkCode() . PHP_EOL;
 		}
-		return $code;
+		return $linkCode[self::RESOURCE_POSITION_FIRST] . $linkCode[self::RESOURCE_POSITION_DEFAULT] . $linkCode[self::RESOURCE_POSITION_LAST];
 	}
 
 	public function getResourceTypes()
@@ -137,12 +141,18 @@ class Ajde_Document_Format_Html extends Ajde_Document
 
 	public function addMeta($contents)
 	{
-		
+		$this->_meta[] = $contents;
 	}
 
 	public function addResource(Ajde_Resource $resource, $position = self::RESOURCE_POSITION_DEFAULT)
 	{
+		if ($position == self::RESOURCE_POSITION_TOP) {
+			$resource->setPosition(self::RESOURCE_POSITION_FIRST);
+		} else {
+			$resource->setPosition($position);
+		}		
 		// Check for duplicates
+		// TODO: another option, replace current resource
 		foreach($this->_resources as $positionArray) {
 			foreach($positionArray as $item) {
 				if ((string) $item == (string) $resource) {
@@ -175,12 +185,25 @@ class Ajde_Document_Format_Html extends Ajde_Document
 			{
 				$this->addResource($defaultResource, $position);
 			}
+			if (substr_count($template->getAction(), '/') > 0 &&
+				$actionDefaultResource = Ajde_Resource_Local::lazyCreate($resourceType, $template->getBase(), $this->_getTemplateActionDefault($template), $template->getFormat()))
+			{
+				$this->addResource($actionDefaultResource, $position);
+			}
 			if ($template->getAction() != 'default' &&
 				$actionResource = Ajde_Resource_Local::lazyCreate($resourceType, $template->getBase(), $template->getAction(), $template->getFormat()))
 			{
 				$this->addResource($actionResource, $position);
 			}
 		}
+	}
+	
+	private function _getTemplateActionDefault(Ajde_Template $template)
+	{
+		$actionArray = explode('/', $template->getAction());
+		end($actionArray);
+		$actionArray[key($actionArray)] = 'default';
+		return implode('/', $actionArray);
 	}
 	
 }

@@ -1,9 +1,20 @@
 <?php
 
-$code = $_SERVER['REDIRECT_STATUS'];
+if (!defined('AJDE')) {
+	die('No direct access');
+}
+
+global $code;
+if (isset($_SERVER['REDIRECT_STATUS'])) {
+	$code = $_SERVER['REDIRECT_STATUS'];
+	if ($code === '200') { $code = 500; }
+} else {
+	$code = 500;	
+}
 
 function desc() {
-	switch ($_SERVER['REDIRECT_STATUS']) {
+	global $code;
+	switch ($code) {
 		case 400: return "Bad Request";
 		case 401: return "Unauthorized";
 		case 403: return "Forbidden";

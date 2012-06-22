@@ -1,5 +1,5 @@
 <?php
 
-class TestCollection extends AjdeX_Collection
+class TestCollection extends Ajde_Collection
 {
 }

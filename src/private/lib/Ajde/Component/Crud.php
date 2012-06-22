@@ -11,25 +11,28 @@ class Ajde_Component_Crud extends Ajde_Component
 	protected function _init()
 	{
 		return array(
-			'view' => 'view'
+			'list' => 'list',
+			'edit' => 'edit'
 		);
 	}
 	
 	public function process()
 	{
 		switch($this->_attributeParse()) {
-		case 'view':
-			switch($this->attributes['view']) {
-			case 'list':				
-				$crud = new AjdeX_Crud($this->attributes['model']);
-				$options = issetor($this->attributes['options'], array());
-				$controller = Ajde_Controller::fromRoute(new Ajde_Core_Route('_core/component:crudList'));
-				$controller->setCrudInstance($crud);
-				$controller->setCrudOptions($options);
-				return $controller->invoke();
-				break;
-			}
-			break;				
+		case 'list':
+			$options = issetor($this->attributes['options'], array());
+			$crud = new Ajde_Crud($this->attributes['model'], $options);
+			$crud->setAction('list');
+			return $crud;				
+			break;
+		case 'edit':
+			$options = issetor($this->attributes['options'], array());
+			$id = issetor($this->attributes['id'], null);
+			$crud = new Ajde_Crud($this->attributes['model'], $options);
+			$crud->setId($id);
+			$crud->setAction('edit');
+			return $crud;
+			break;
 		}		
 		// TODO:
 		throw new Ajde_Component_Exception();	

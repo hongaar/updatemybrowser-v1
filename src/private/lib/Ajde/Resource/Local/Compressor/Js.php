@@ -8,10 +8,13 @@ class Ajde_Resource_Local_Compressor_Js extends Ajde_Resource_Local_Compressor
 		parent::__construct();
 	}
 
-	public function compress($content)
+	public function compress()
 	{
-		$packer = new JavaScriptPacker($content);
-		return $packer->pack();
+		$packer = new JavaScriptPacker($this->_contents);
+		$packed = $packer->pack();
+		$compressed = 'try{' . $packed . '}catch(e){alert(\'JavaScript parse error (\' + e.message + \').\')}';
+		$this->_contents = $compressed;
+		return true;
 	}
 }
 

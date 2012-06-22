@@ -8,9 +8,10 @@ class Ajde_Resource_Local_Compressor_Css extends Ajde_Resource_Local_Compressor
 		parent::__construct();
 	}
 
-	public function compress($content)
+	public function compress()
 	{
-		return cssmin::minify($content);
+		$this->_contents = cssmin::minify($this->_contents);
+		return true;
 	}
 }
 

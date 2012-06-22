@@ -46,6 +46,11 @@ abstract class Ajde_Object_Magic extends Ajde_Object
 	{
 		$this->_data[$key] = $value;
 	}
+	
+	public function remove($key)
+	{
+		unset($this->_data[$key]);
+	}
 
 	public function get($key)
 	{
@@ -64,6 +69,25 @@ abstract class Ajde_Object_Magic extends Ajde_Object
 		return array_key_exists($key, $this->_data);
 	}
 	
+	public function isEmpty($key)
+	{
+		$value = $this->get($key);
+		return empty($value);
+	}
+	
+	public function hasEmpty($key)
+	{
+		return $this->has($key) && $this->isEmpty($key);
+	}
+	
+	public function hasNotEmpty($key)
+	{
+		if ($this->has($key)) {
+			return !$this->isEmpty($key);
+		}
+		return false;
+	}
+	
 	public function reset()
 	{
 		$this->_data = array();
@@ -72,5 +96,32 @@ abstract class Ajde_Object_Magic extends Ajde_Object
 	public final function values()
 	{
 		return $this->_data;
+	}
+	
+	/**
+	 * Translates a camel case string into a string with underscores (e.g. firstName -&gt; first_name)
+	 * @see http://www.paulferrett.com/2009/php-camel-case-functions/
+	 * @param string $str String in camel case format
+	 * @return string $str Translated into underscore format
+	 */
+	public function fromCamelCase($str) {
+		$str[0] = strtolower($str[0]);
+		$func = create_function('$c', 'return "_" . strtolower($c[1]);');
+		return preg_replace_callback('/([A-Z])/', $func, $str);
+	}
+
+	/**
+	 * Translates a string with underscores into camel case (e.g. first_name -&gt; firstName)
+	 * @see http://www.paulferrett.com/2009/php-camel-case-functions/
+	 * @param string $str String in underscore format
+	 * @param bool $capitalise_first_char If true, capitalise the first char in $str
+	 * @return string $str translated into camel caps
+	 */
+	public function toCamelCase($str, $capitalise_first_char = false) {
+		if($capitalise_first_char) {
+			$str[0] = strtoupper($str[0]);
+		}
+		$func = create_function('$c', 'return strtoupper($c[1]);');
+		return preg_replace_callback('/_([a-z])/', $func, $str);
 	}
 }

@@ -21,5 +21,9 @@ abstract class Ajde_Object
 	 * 	return $caller::$__pattern;
 	 * }
 	 */
-	abstract static function __getPattern();
+	public static function __getPattern()
+	{
+		// Implement in subclasses
+		// @see http://stackoverflow.com/questions/999066/why-does-php-5-2-disallow-abstract-static-class-methods
+	}
 }

@@ -31,7 +31,7 @@ class Ajde_Core_Bootstrap
 			}
 			elseif ($mode === Ajde_Object::OBJECT_PATTERN_SINGLETON)
 			{
-				$instance = call_user_func($className, "getInstance");
+				$instance = call_user_func("$className::getInstance");
 				$function = array($instance, $bootstrapFunction);
 			}
 			elseif ($mode === Ajde_Object::OBJECT_PATTERN_STATIC)

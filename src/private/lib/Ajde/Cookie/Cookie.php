@@ -4,7 +4,7 @@ class Ajde_Cookie extends Ajde_Object_Standard
 {
 	protected $_namespace = null;
 	protected $_lifetime = 90;
-		
+	
 	public function __construct($namespace = 'default')
 	{
 		$this->_namespace = $namespace;
@@ -15,7 +15,7 @@ class Ajde_Cookie extends Ajde_Object_Standard
 	
 	public function destroy()
 	{
-		setcookie($this->_namespace, '', time() - 3600, '/');
+		$this->_setcookie('', time() - 3600);
 		$this->reset(); 
 	}
 	
@@ -26,7 +26,13 @@ class Ajde_Cookie extends Ajde_Object_Standard
 	
 	public function getModel($name)
 	{
-		return unserialize($this->get($name));
+		// If during the session class definitions has changed, this will throw an exception.
+		try {
+			return unserialize($this->get($name));
+		} catch(Exception $e) {
+			Ajde_Dump::warn('Model definition changed during cookie period');
+			return false;
+		}
 	}
 	
 	public function setLifetime($days)
@@ -37,11 +43,19 @@ class Ajde_Cookie extends Ajde_Object_Standard
 	public function set($key, $value)
 	{
 		parent::set($key, $value);
-		if ($value instanceof AjdeX_Model) {
+		if ($value instanceof Ajde_Model) {
 			// TODO:
 			throw new Ajde_Exception('It is not allowed to store a Model directly in a cookie, use Ajde_Cookie::setModel() instead.');
 		}
-		// store for 90 days
-		setcookie($this->_namespace, serialize($this->values()), time() + (60 * 60 * 24 * $this->_lifetime), '/');
+		$this->_setcookie(serialize($this->values()), time() + (60 * 60 * 24 * $this->_lifetime));
+	}
+	
+	protected function _setcookie($value, $lifetime)
+	{
+		$path		= Config::get('site_path');
+		$domain		= Config::get('cookieDomain');
+		$secure		= Config::get('cookieSecure');
+		$httponly	= Config::get('cookieHttponly');
+		setcookie($this->_namespace, $value, $lifetime, $path, $domain, $secure, $httponly);
 	}
 }

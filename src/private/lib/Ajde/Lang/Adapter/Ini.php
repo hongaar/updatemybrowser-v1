@@ -2,25 +2,15 @@
 
 class Ajde_Lang_Adapter_Ini extends Ajde_Lang_Adapter_Abstract
 {
+	// TODO: cache .ini files!
+	
 	public function get($ident, $module = null)
 	{
-		if (!$module) {	
-			foreach(debug_backtrace() as $item) {			
-				if (!empty($item['class'])) {
-					if (is_subclass_of($item['class'], "Ajde_Controller")) {
-						$module = strtolower(str_replace("Controller", "", $item['class']));
-						break;
-					}
-				}
-			}
-		}
+		$module = $this->getModule($module);
 		
-		if (!$module) {
-			$module = 'main';
-		}
 		$lang = Ajde_Lang::getInstance()->getLang();
 		$iniFilename = LANG_DIR . $lang . '/' . $module . '.ini';
-		if (file_exists($iniFilename)) {
+		if (is_file($iniFilename)) {
 			$book = parse_ini_file($iniFilename);
 			if (array_key_exists($ident, $book)) {
 				return $book[$ident];

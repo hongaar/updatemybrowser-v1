@@ -22,19 +22,22 @@ class Ajde_Component_Js extends Ajde_Component_Resource
 				$this->attributes['action'],
 				issetor($this->attributes['format'], null),
 				issetor($this->attributes['base'], null),
-				issetor($this->attributes['position'], null)
+				issetor($this->attributes['position'], null),
+				issetor($this->attributes['arguments'], '')
 			);
 		} elseif (array_key_exists('filename', $this->attributes)) {
 			$this->requirePublicResource(
 				Ajde_Resource_Local::TYPE_JAVASCRIPT,
 				$this->attributes['filename'],
-				issetor($this->attributes['position'], null)
+				issetor($this->attributes['position'], null),
+				issetor($this->attributes['arguments'], '')
 			);
 		} elseif (array_key_exists('url', $this->attributes)) {
 			$this->requireRemoteResource(
 				Ajde_Resource_Local::TYPE_JAVASCRIPT,
 				$this->attributes['url'],
-				issetor($this->attributes['position'], null)
+				issetor($this->attributes['position'], null),
+				issetor($this->attributes['arguments'], '')
 			);
 		}
 	}
@@ -43,6 +46,6 @@ class Ajde_Component_Js extends Ajde_Component_Resource
 	{
 		$url = Ajde_Resource_JsLibrary::getUrl($library, $version);
 		$resource = new Ajde_Resource_Remote(Ajde_Resource::TYPE_JAVASCRIPT, $url);
-		Ajde::app()->getDocument()->addResource($resource, Ajde_Document_Format_Html::RESOURCE_POSITION_TOP);
+		$this->getParser()->getDocument()->addResource($resource, Ajde_Document_Format_Html::RESOURCE_POSITION_TOP);
 	}
 }

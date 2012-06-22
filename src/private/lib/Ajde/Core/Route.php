@@ -12,11 +12,10 @@ class Ajde_Core_Route extends Ajde_Object_Standard
 			$shortLang = substr($route, 0, 2);
 			$langInstance = Ajde_Lang::getInstance();
 			if ($lang = $langInstance->getAvailableLang($shortLang)) {
-				Ajde_Lang::getInstance()->setLang($lang);
-				Config::getInstance()->site_root = Config::getInstance()->site_root . $shortLang . '/';
+				$this->set("lang", $lang);
 				$route = substr($route, 3); 
 			}
-		}		
+		}
 		if (!$route) {
 			$route = Config::get('homepageRoute');
 		}
@@ -48,31 +47,54 @@ class Ajde_Core_Route extends Ajde_Object_Standard
 	
 	public function buildRoute()
 	{
-		$route = $this->getModule() . '/';
+		$route = '';
+		if ($this->hasLang()) {
+			$route .= substr($this->getLang(), 0, 2) . '/';
+		}
+		$route .= $this->getModule() . '/';
 		if ($this->getController()) {
 			$route .= $this->getController() . ':';
 		}
 		$route .= $this->getAction() . '/' . $this->getFormat();
-		if ($this->has('id')) {
+		if ($this->hasNotEmpty('id')) {
 			$route .= '/' . $this->getId();
 		}
 		return $route;
 	}
 	
 	public function getModule($default = null) {
+		if (isset($default)) {
+			throw new Ajde_Core_Exception_Deprecated();
+		}
 		return $this->get("module", $default);
 	}
 
 	public function getController($default = null) {
+		if (isset($default)) {
+			throw new Ajde_Core_Exception_Deprecated();
+		}
 		return $this->get("controller", $default);
 	}
 	
 	public function getAction($default = null) {
+		if (isset($default)) {
+			throw new Ajde_Core_Exception_Deprecated();
+		}
 		return $this->get("action", $default);
 	}
 
 	public function getFormat($default = null) {
+		if (isset($default)) {
+			throw new Ajde_Core_Exception_Deprecated();
+		}
 		return $this->get("format", $default);
+	}
+	
+	public function getLang($default = null) {
+		if (isset($default)) {
+			throw new Ajde_Core_Exception_Deprecated();
+		}
+		return $this->get("lang", $default);
 	}
 	
 	protected function _extractRouteParts()

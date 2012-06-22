@@ -24,7 +24,7 @@ class Ajde_Controller extends Ajde_Object_Standard
 		$this->setFormat(isset($format) ? $format : $defaultParts['format']);
 		
 		$route = new Ajde_Core_Route($this->getAction());
-		$route->getFormat($this->getFormat());
+		$route->setFormat($this->getFormat());
 		$this->_route = $route;
 	}
 	
@@ -67,8 +67,7 @@ class Ajde_Controller extends Ajde_Object_Standard
 	 * @return Ajde_Controller
 	 */
 	public static function fromRoute(Ajde_Core_Route $route)
-	{
-		
+	{		
 		if ($controller = $route->getController()) {
 			$moduleController = ucfirst($route->getModule()) . ucfirst($controller) . 'Controller';
 		} else {
@@ -90,8 +89,8 @@ class Ajde_Controller extends Ajde_Object_Standard
 	public function invoke($action = null, $format = null)
 	{
 		$timerKey = Ajde::app()->addTimer((string) $this->_route);
-		$action = isset($action) ? $action : $this->getAction();
-		$format = isset($format) ? $format : $this->getFormat();
+		$action = issetor($action, $this->getAction());
+		$format = issetor($format, $this->getFormat());
 		$emptyFunction = $action;
 		$defaultFunction = $action . "Default";
 		$formatFunction = $action . ucfirst($format);
@@ -118,10 +117,10 @@ class Ajde_Controller extends Ajde_Object_Standard
 		}		
 		if ($return === true) {
 			$return = $this->$actionFunction();
-		}
-		if (method_exists($this, 'afterInvoke')) {
-			$this->afterInvoke();
-		}		
+			if (method_exists($this, 'afterInvoke')) {
+				$this->afterInvoke();
+			}	
+		}			
 		Ajde::app()->endTimer($timerKey);
 		return $return;
 
@@ -153,7 +152,17 @@ class Ajde_Controller extends Ajde_Object_Standard
 	 */
 	public function render()
 	{
-		return $this->getView()->getContents();
+		$return = true;
+		if (method_exists($this, 'beforeRender')) {
+			$return = $this->beforeRender();
+			if ($return !== true && $return !== false) {
+				// TODO:
+				throw new Ajde_Exception(sprintf("beforeRender() must return either TRUE or FALSE"));
+			}
+		}
+		if ($return === true) {
+			return $this->getView()->getContents();
+		}		
 	}
 	
 	public function loadTemplate()
@@ -163,13 +172,28 @@ class Ajde_Controller extends Ajde_Object_Standard
 		return $view->getContents();
 	}
 
-	public function redirect($route)
+	public function redirect($route = Ajde_Http_Response::REDIRECT_SELF)
 	{
 		Ajde::app()->getResponse()->setRedirect($route);
 	}
 	
+	public function rewrite($route)
+	{
+		Ajde::app()->getResponse()->dieOnRoute($route);
+	}
+	
 	public function updateCache()
 	{
-		Ajde_Cache::getInstance()->updateHash(time());
+		// TODO:
+		throw new Ajde_Core_Exception_Deprecated();
+	}
+	
+	/**
+	 *
+	 * @param Ajde_Model|Ajde_Collection $object 
+	 */
+	public function touchCache($object = null)
+	{
+		Ajde_Cache::getInstance()->updateHash(isset($object) ? $object->hash() : time());
 	}
 }

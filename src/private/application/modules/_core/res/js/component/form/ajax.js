@@ -1,14 +1,27 @@
-if (typeof AC ==="undefined") { 		AC = function() {}; }
-if (typeof AC.Form ==="undefined") { 	AC.Form = function() {}; }
+;
+if (typeof AC ==="undefined") {AC = function() {};}
+if (typeof AC.Form ==="undefined") {AC.Form = function() {};}
 
 AC.Form.Ajax = function() {
 	return {
 		
 		init: function() {
-			$('form.ACAjaxForm').submit(AC.Form.Ajax.submitHandler);
+			$('form.ACAjaxForm.getHandler').submit(AC.Form.Ajax.getHandler);
+			$('form.ACAjaxForm:not(.getHandler)').submit(AC.Form.Ajax.postHandler);
 		},
 		
-		submitHandler: function() {
+		postHandler: function() {
+			var self = this;
+			return AC.Form.Ajax.submitHandler.call(self, 'POST');
+		},
+		
+		getHandler: function() {
+			var self = this;
+			return AC.Form.Ajax.submitHandler.call(self, 'GET');
+		},
+		
+		submitHandler: function(postOrGet) {
+			var type = postOrGet.toUpperCase() || 'POST';
 			var url = $(this).attr('action');
 			var data = $(this).serialize();
 			var form = this;
@@ -16,9 +29,23 @@ AC.Form.Ajax = function() {
 				$('body').removeClass('loading');
 				$(form).trigger('result', [data]);
 			};
-			var dataType = 'json';
+			var errorHandler = function(jqXHR, message, exception) {
+				$('body').removeClass('loading');
+				$(form).trigger('error', [jqXHR, message, exception]);
+			};
+			var dataType = 'html';
+			if ($(form).attr('data-format') == 'json') {
+				dataType = 'json';
+			}
 			$('body').addClass('loading');
-			$.post(url, data, success, dataType);
+			$(form).trigger('before');
+			$.ajax({
+				type: type,
+				url: url,
+				data: data,
+				success: success,
+				dataType: dataType
+			}).error(errorHandler);
 			return false;	
 		},
 		
@@ -39,4 +66,4 @@ AC.Form.Ajax = function() {
 
 $(document).ready(function() {
 	AC.Form.Ajax.init();
-})
+});
