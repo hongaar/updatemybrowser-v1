@@ -30,9 +30,6 @@ class BrowserController extends Ajde_Controller
 		$browsers->orderBy("sort");
 		$browsers->load();
 		
-		// Include BrowserDetect.js
-		$this->getView()->getParser()->requireJs('detect');
-		
 		// Set vars and return
 		$this->getView()->assign("browsers", $browsers);
 		return $this->render();

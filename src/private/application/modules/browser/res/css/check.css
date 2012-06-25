@@ -1,6 +1,14 @@
 div.video {
 	position: relative;
 	margin-top: 35px;
+	height: 213px;
+	width: 380px;
+	overflow: hidden;
+}
+
+div.video img {
+	position: relative;
+	top: -36px;
 }
 
 div.video a {
@@ -8,9 +16,10 @@ div.video a {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-image: url('../../../../public/images/video-overlay.png');
+	background-image: url('../../public/images/video-overlay.png');
+	background-position: center center;
 	width: 380px;
-	height: 285px;
+	height: 213px;
 	display: block;
 	
 	opacity: 0.5;

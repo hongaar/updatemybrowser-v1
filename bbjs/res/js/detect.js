@@ -1,4 +1,19 @@
-var BrowserDetect = {
+/*!
+ * BrowserBar JavaScript Library v1
+ * http://browserbar.org/
+ *
+ * Copyright 2012, Joram van den Boezem
+ * Licensed under the GPL Version 3 license.
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ */
+/*!
+ * Based on Browser detect script by Peter-Paul Koch
+ * See http://www.quirksmode.org/js/detect.html
+ */
+;if (typeof BBJS === "undefined") {BBJS = function() {}};
+
+BBJS.Detect = {
 	init: function () {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
 		this.version = this.searchVersion(navigator.userAgent)
@@ -77,6 +92,4 @@ var BrowserDetect = {
 			identity: "Linux"
 		}
 	]
-
 };
-BrowserDetect.init();

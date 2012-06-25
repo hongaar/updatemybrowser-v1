@@ -22,7 +22,8 @@ class WidgetController extends Ajde_Controller
 			'html5' => 'f58220',
 			'wordpress' => '096aa5',
 			'drupal' => '009edc',
-			'typo3' => '3ab54a'
+			'typo3' => '3ab54a',
+			'joomla' => 'e52525'
 		);
 		
 		// Get browsers

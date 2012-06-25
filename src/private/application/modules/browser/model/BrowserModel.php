@@ -12,4 +12,15 @@ class BrowserModel extends Ajde_Model
 		}
 		return false;
 	}
+	
+	public function getMinimumMajor() {
+		return (int) $this->minimum;
+	}
+	
+	public function getMinimumMinor() {
+		if (($pos = strpos($this->minimum, '.')) !== false) {
+			return substr($this->minimum, $pos);
+		}
+		return false;
+	}
 }

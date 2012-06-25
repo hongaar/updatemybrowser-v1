@@ -1,9 +1,13 @@
-<h2><?php echo __('Logon'); ?></h2>
+<div id='content'>
 
-<p class='status'><?php echo $this->clean($this->message); ?></p>
+	<h2><?php echo __('Logon'); ?></h2>
 
-<p>
-	Already logged on.
-	<hr/>
-	<a class='action' href="user/logoff?returnto=<?php echo isset($this->returnto) ? $this->returnto : Ajde::app()->getRoute(); ?>"><?php echo __('Login as a different user'); ?></a>
-</p>
+	<p class='status'><?php echo $this->clean($this->message); ?></p>
+
+	<p>
+		Already logged on.
+		<hr/>
+		<a class='action' href="user/logoff?returnto=<?php echo isset($this->returnto) ? $this->returnto : Ajde::app()->getRoute(); ?>"><?php echo __('Login as a different user'); ?></a>
+	</p>
+
+</div>

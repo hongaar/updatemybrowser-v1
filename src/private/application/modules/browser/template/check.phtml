@@ -1,7 +1,13 @@
+<?php
+/* @var $this Ajde_Template_Parser_Phtml_Helper */
+
+$this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST);
+?>
+
 <div id='content'>
 	
 	<style>
-	<?php foreach($this->browsers as $browser): ?>				
+	<?php foreach($this->browsers as $browser) : ?>
 		.right-column div.<?php echo $browser->shortname; ?> h3.warning {
 			background-color: #<?php echo $browser->color; ?>;
 		}
@@ -24,7 +30,7 @@
 	<h1><?php echo __("Browsercheck"); ?></h1>
 	
 	<div class='intro'>
-		Coolest browsers:
+		Latest browsers:
 	</div>
 	
 	<div class='left-column'>
@@ -46,7 +52,7 @@
 	</div>
 	
 	<div class='right-column'>
-		<div class='status'>
+		<div class='item status'>
 			<h3 class='warning'>
 				You are currently using <span class='browser'></span> <span class='version'></span>,
 				for which an update is <strong title="The internet and websites
@@ -78,31 +84,34 @@
 				internet was not for free. Not anymore. *Enjoy it while it lasts**!'>entirely free</strong>.
 			</p>
 			<p class='latest'>
-				Why don't you brag about it on
+				Why don't you share this great news on
 				<a target='_blank' href='http://www.facebook.com/sharer.php?u=www.browser-update.org&t=I+am+using+the+latest+of+the+greatest+browser!'>Facebook</a>,
 				<a target='_blank' href='http://twitter.com/share?url=www.browser-update.org&via=browserupdate&text=I+am+using+the+latest+of+the+greatest+browser!'>Twitter</a> or
 				<a target='_blank' href='http://www.linkedin.com/shareArticle?mini=true&url=www.browser-update.org&title=browser-update.org&summary=I+am+using+the+latest+of+the+greatest+browser!'>LinkedIn</a>?
 			</p>
+			<p class='latest'>
+				Own a site? Increase your users awareness of a modern web by <a href="widget.html">installing our widget</a>.
+			</p>
 			
-			<a class='update warning bigbutton fancybox gray gray-shadow'
+			<a class='update warning bigbutton gray gray-shadow'
 				title='Download the update for your browser from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the update.' href=''>Update now</a>
 			
 			<p class='update warning'>
-				Or <a class='fancybox readmore' title='Read more about the features of this browser' href=''>read more about <span class='browser'></span></a> first to rejoice what can be yours soon.
+				Or <a class='readmore' title='Read more about the features of this browser' href=''>read more about <span class='browser'></span></a> first to rejoice what can be yours soon.
 			</p>				
 		</div>
 		<?php foreach($this->browsers as $browser): ?>			
-			<div class='browser <?php echo $browser->shortname; ?>'>
+			<div class='item browser <?php echo $browser->shortname; ?>'>
 				<h3><?php echo $browser->name; ?> <?php echo $browser->current; ?></h3>				
 				<p><?php echo $browser->description; ?></p>				
-				<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='<?php echo $browser->update_url; ?>'>Try out now</a>
+				<a class='bigbutton <?php echo $browser->iframe_allowed == 1 ? 'fancybox' : 'blank'; ?> gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='<?php echo $browser->update_url; ?>'>Try out now</a>
 				<?php if ($browser->youtube_id) { ?>
 				<div class='video'>
 					<img src='http://img.youtube.com/vi/<?php echo $browser->youtube_id; ?>/0.jpg' width='380' />
 					<a class='fancybox' href='http://www.youtube.com/embed/<?php echo $browser->youtube_id; ?>?rel=0&amp;hd=1&amp;autoplay=1'></a>
 				</div>		
 				<?php } ?>
-				<p><a class='fancybox' title='Read more about the features of this browser' href='<?php echo $browser->info_url; ?>'>Read more about <?php echo $browser->name; ?></a> before you give it a try.</p>
+				<p><a class='<?php echo $browser->iframe_allowed == 1 ? 'fancybox' : 'blank'; ?>' title='Read more about the features of this browser' href='<?php echo $browser->info_url; ?>'>Read more about <?php echo $browser->name; ?></a> before you give it a try.</p>
 			</div>		
 		<?php endforeach; ?>
 		
@@ -114,14 +123,9 @@
 
 <div class='teaserwrapper'>
 	<div class='teaser'>
-		<p>Have visitors of your website to use the latest of the greatest:</p>
+		<p>Remind visitors of your site of possible browser updates:</p>
 		<div class='bg'>
-			<a class='bigbutton white orange-shadow' href='widget'>Get widget</a>
+			<a class='bigbutton white alt-shadow' href='widget'>Get widget</a>
 		</div>	
 	</div>
 </div>
-
-<script>
-	if (typeof BD ==="undefined") { BD = function() {}; }
-	BD.Browsers = <?php echo $this->browsers->getJSON(); ?>;	
-</script>

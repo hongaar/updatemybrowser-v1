@@ -1,43 +1,22 @@
-if (typeof BD ==="undefined") { 		BD = function() {}; }
+if (typeof BD ==="undefined") {BD = function() {}};
 
 BD.Check = function() {
 	
-	var b;
-	var v;
 	var statusDiv 			= $('.right-column div.status');
 	var statusElements 		= $('.right-column div.status > *');
-	
-	var STATUS_LATEST 		= 'latest';
-	var STATUS_UPDATE 		= 'update';
-	var STATUS_WARNING 		= 'warning';
-	
+		
 	var speed				= 0;
-	
-	var getBrowser = function(browser) {
-		return BD.Browsers[browser];
-	};
-	
-	var getStatus = function() {
-		var browser = getBrowser(b);
-		var latestVersion = parseFloat(browser.current);
-		var minimumVersion = parseFloat(browser.minimum);
-		if (v >= latestVersion) {
-			return STATUS_LATEST;
-		} else if (v >= minimumVersion) {
-			return STATUS_UPDATE;
-		} else {
-			return STATUS_WARNING;
-		}
-	};
 	
 	return {
 		
-		init: function() {
-			b = BrowserDetect.browser;
-			v = BrowserDetect.version;
+		init: function() {			
+			b = BBJS.getCurrentBrowser();
+			v = BBJS.getCurrentVersion();
 			
 			BD.UI.ContentMenu.setMenu(b, speed);
-			BD.Check.setStatus(getStatus());
+			BD.UI.ContentMenu.setContent('status');
+			
+			BD.Check.setStatus(BBJS.getStatus());
 			
 			// Event handlers
 			BD.UI.ContentMenu.click(function(elm) {
@@ -56,12 +35,12 @@ BD.Check = function() {
 			statusDiv.show();
 			
 			// Get current browser info and fill text
-			var browser = getBrowser(b);
+			var browser = BBJS.getBrowserInfo(b);
 			statusDiv.addClass(b);
 			statusDiv.find('.browser').text(browser.name);
 			statusDiv.find('.version').text(v);
-			statusDiv.find('.bigbutton').attr('href', browser.update_url);
-			statusDiv.find('.readmore').attr('href', browser.info_url);
+			statusDiv.find('.bigbutton').removeClass('fancybox, blank').attr('href', browser.update_url).addClass(browser.iframe_allowed == 1 ? 'fancybox' : 'blank');
+			statusDiv.find('.readmore').removeClass('fancybox, blank').attr('href', browser.info_url).addClass(browser.iframe_allowed == 1 ? 'fancybox' : 'blank');			
 			
 			statusElements.filter('.' + status).fadeIn(speed);
 		}

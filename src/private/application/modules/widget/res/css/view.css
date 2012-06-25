@@ -4,8 +4,9 @@
 
 .syntaxhighlighter.gray-box {
 	overflow-y: hidden !important;
-	width: 400px !important;
+	width: 760px !important;
 	font-size: 0.8em !important;
+	background-color: silver;
 }
 
 div.recommended, div.custom {
@@ -46,3 +47,47 @@ div.recommended, div.custom {
 		margin-top: 5px;
 		padding: 5px 0 0 23px;
 	}
+	
+	div.advanced {
+	}
+
+	div.advancedWrapper {
+		display: none;
+	}
+	
+		div.slideWrapper {
+			height: 100px;
+		}
+	
+		div.advancedWrapper dl {
+			margin: 20px 0 20px 0;
+		}
+		
+		div.advancedWrapper dt {
+			margin-bottom: 10px;
+			font-weight: normal;
+			float: left;
+			clear: both;
+			width: 300px;
+		}
+		
+		div.advancedWrapper dd {
+			float: left;
+			width: 100px;
+		}
+		
+		div.advancedWrapper small {
+			font-size: 0.6em;
+		}
+		
+		div.codewrapper div.copy a {
+			font-size: 0.8em;
+		}
+		
+		div.codewrapper div.copy img {
+			vertical-align: middle;
+		}
+		
+		#clipContainer {
+			position: relative;
+		}

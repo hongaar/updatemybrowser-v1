@@ -6,7 +6,7 @@ class Config_Application extends Config_Advanced
 {	
 	// Site parameters
 	public $ident				= 'browserbar';
-	public $sitename 			= 'Browser Bar';
+	public $sitename 			= 'Browser Bar - Update your browser easily';
 	public $description			= 'Browser Bar';	
 	public $author				= 'Nabble';
 	public $version 			= array(

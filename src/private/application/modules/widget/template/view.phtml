@@ -1,9 +1,17 @@
 <?php
+/* @var $this Ajde_Template_Parser_Phtml_Helper */
+
 // SyntaxHighlighter
 $this->requireJsPublic('lib/SyntaxHighlighter/shCore.js');
 $this->requireJsPublic('lib/SyntaxHighlighter/shBrushJScript.js');
 $this->requireCssPublic('lib/SyntaxHighlighter/shCore.css');
 $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
+
+// Zero Clipboard
+$this->requireJsPublic('lib/ZeroClipboard/ZeroClipboard.js');
+
+// BBJS
+$this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST);
 ?>
 
 <div id='content'>
@@ -32,7 +40,7 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 	<h1><?php echo __("Widget"); ?></h1>
 	
 	<div class='intro'>
-		Pick your poison:
+		Take your pick:
 	</div>
 	
 	<div class='left-column'>
@@ -66,6 +74,13 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 				</div>
 				<div class='clearfix'></div>
 			</div>
+			<div class='item joomla' data-key='joomla'>
+				<img class='grayed-out' src='public/images/joomla.png' alt='Joomla' />
+				<div class='box' style='background-color: #<?php echo $this->colors['joomla']; ?>;'>
+					Joomla<span></span>
+				</div>
+				<div class='clearfix'></div>
+			</div>
 		</div>
 		<div class='divider-arrow'>
 			&lt;
@@ -74,41 +89,44 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 	
 	<div class='right-column'>
 					
-		<div class='html5'>
-			<h3>Embed this on your site, so users will get <strong title="The internet and websites
-				evolve constantly and *very rapidly**, wouldn't it be great if
-				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+		<div class='item html5'>
+			<h3>Embed this on your site, so users will get <strong title="By
+			default, users will see a *subtle notification** when their browser
+			needs an update. When their version is *lower than** the minimum
+			required version, they will see a more *urgent request** to update
+			their browser.">notified of updates</strong>.</h3>
 								
 			<p>Minimum requirements:</p>
 			
 			<div id='requireWrapper'>	
 				
 				<div class='recommended requireColumn'>
-					<input type='checkbox' id='recommended' checked='checked' />
-						<label for='recommended'> <strong title='Some *information** on this option'>Recommended</strong></label>
+					<input type='radio' name='options' id='recommended' checked='checked' />
+						<label for='recommended'> <strong>Recommended</strong></label>
 					
 					<div class='browserWrapper'>
-						<?php foreach($this->browsers as $browser): ?>				
+						<?php foreach($this->browsers as $browser): 
+							/* @var $browser BrowserModel */ ?>				
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
 								<img src='public/images/<?php echo $browser->shortname; ?>24.png' alt='<?php echo $browser->name; ?>' />
 								<?php echo $browser->htmlname; ?>
-								<span><?php echo $browser->getCurrentMajor(); ?><span><?php echo $browser->getCurrentMinor(); ?></span></span>
+								<span><?php echo $browser->getMinimumMajor(); ?><span><?php echo $browser->getMinimumMinor(); ?></span></span>
 							</div>			
 						<?php endforeach; ?>
 					</div>
 				</div>
 				
 				<div class='custom requireColumn'>
-					<input type='checkbox' id='custom' />
-						<label for='custom'> <strong title='Some *information** on this option'>Custom</strong></label>
+					<input type='radio' name='options' id='custom' />
+						<label for='custom'> <strong title='You can customize the *minimum version** for which the visitors of your site will be displayed with a *subtle notification** instead of a *more urgent request** to update their browser.'>Custom</strong></label>
 						
 					<div class='browserWrapper'>
 						<?php foreach($this->browsers as $browser): ?>				
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
 								<select name='<?php echo $browser->shortname; ?>'>
-									<option value='9'>9</option>
-									<option value='8'>8</option>
-									<option value='7'>7</option>
+									<?php for($i = ((int) $browser->minimum) - 2; $i <= (int) $browser->current; $i++) { ?>
+										<option <?php if ($i == ((int) $browser->minimum)) { echo 'selected=\'selected\''; } ?> value='<?php echo $i; ?>'><?php echo $i; ?></option>
+									<?php } ?>
 								</select>									
 							</div>			
 						<?php endforeach; ?>
@@ -117,20 +135,34 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 				
 				<div class='clearfix'></div>
 				
-				<pre class="brush: js">
-				&lt;script type="text/javascript"&gt; 
-				var $buoop = {} 
-				$buoop.ol = window.onload; 
-				window.onload=function(){ 
-					try {if ($buoop.ol) $buoop.ol();}catch (e) {} 
-					var e = document.createElement("script"); 
-					e.setAttribute("type", "text/javascript"); 
-					e.setAttribute("src",
-						"http://browser-update.org/update.js"); 
-					document.body.appendChild(e); 
-				} 
-				&lt;/script&gt;
-				</pre>
+				<div class='advanced'>
+					
+					<input type='checkbox' id='advanced' />
+						<label for='advanced'> <strong>Advanced options</strong></label>
+						
+					<div class='advancedWrapper'>
+						<div class='slideWrapper'>
+						
+							<dl>
+								<dt><label for="adv_display">Immediately display browser bar:</label></dt>
+								<dd><input type="checkbox" id="adv_display" checked="checked" /></dd>
+
+								<dt><label for="adv_noncritical">Display bar for <strong title='Every version of the browser *equal to, or higher than** the minimum required version.'>non-critical</strong> updates:</label></dt>
+								<dd><input type="checkbox" id="adv_noncritical" checked="checked" /></dd>						
+							</dl>
+
+							<div class="clearfix"></div>
+
+							<p>
+								<small>For more options, see <a href="about/docs">the documentation</a></small>
+							</p>
+							
+						</div>
+					</div>
+						
+					<div class='clearfix'></div>
+					
+				</div>
 				
 			</div>
 				
@@ -139,7 +171,7 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href=''>Demo</a>-->				
 		</div>	
 		
-		<div class='wordpress'>
+		<div class='item wordpress'>
 			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
 				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
@@ -148,7 +180,7 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
 		</div>
 		
-		<div class='drupal'>
+		<div class='item drupal'>
 			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
 				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
@@ -157,7 +189,16 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
 		</div>
 		
-		<div class='typo3'>
+		<div class='item typo3'>
+			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
+				evolve constantly and *very rapidly**, wouldn't it be great if
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
+			<p>Easy to install</p>				
+			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='http://dvnr.de/wordpress/browser-update/'>Install</a>				
+			<p><a class='fancybox' title='WordPress' href='http://www.wordpress.org'>WordPress</a> is blog software.</p>
+		</div>
+		
+		<div class='item joomla'>
 			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
 				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
@@ -172,16 +213,26 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 
 </div>
 
+<div class='teaserwrapper codewrapper'>
+	<div class='teaser'>
+		<div class='col1'>
+			<h3>
+				Insert the following code immediately before
+				the closing &lt;/head&gt; tag in your page:
+			</h3>
+
+			<div class="copy" id="clipContainer">
+				<img src="public/images/copy.png" width="16" height="16" alt="" /> <a id="clipButton" href="javascript:void(0);">Copy to clipboard</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class='teaserwrapper'>
 	<div class='teaser'>
 		<p>The notification users with an outdated browser will see:</p>
 		<div class='bg'>
-			<a class='bigbutton white orange-shadow' href='widget'>Demo</a>
+			<a class='bigbutton white alt-shadow demo' href='javascript:void(0);'>Demo</a>
 		</div>	
 	</div>
 </div>
-
-<script>
-	if (typeof BD ==="undefined") { BD = function() {}; }
-	BD.Browsers = <?php echo $this->browsers->getJSON(); ?>;	
-</script>

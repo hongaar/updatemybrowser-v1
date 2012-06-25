@@ -1,0 +1,34 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>BrowserBar Test</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				
+		<script type="text/javascript">
+		var _bbjs = {
+		    require: {
+		        chrome: 15,
+		        firefox: 4,
+		        ie: 8,
+		        opera: 10,
+		        safari: 4
+		    },
+		    display: true,
+		    nonCritical: true
+		};
+		(function() {                   
+		    var bb = document.createElement('script'); bb.type = 'text/javascript'; bb.async = true;
+		    bb.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'the.nabble.nl/browser/src/bb.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(bb, s);
+		})();
+		</script>
+		
+	</head>
+	<body>
+		<div>TODO write content</div>
+	</body>
+</html>

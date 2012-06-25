@@ -3,14 +3,25 @@
 	<h1><?php echo __("Administrators"); ?></h1>
 
 		<?php
-		echo $this->crudList('browser', array(
-			'show' => array(
-				'name',
-				'current',
-				'minimum',
+		$crud = $this->ACCrudList('browser',
+			array(
+				'fields' => array(
+					'iframe_allowed' => array(
+						'type' => 'boolean'
+					)
+				),
+				'list' => array(
+					'show' => array('name', 'current', 'minimum')
+				)
 			)
-		));
+		);
+		echo $crud;
 		?>
+	
+	<p>
+		&nbsp;<br/>
+		<a href="admin">Return</a>
+	</p>
 	
 	<div class="clearfix"></div>
 

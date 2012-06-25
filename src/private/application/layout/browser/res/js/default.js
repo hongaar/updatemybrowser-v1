@@ -1,4 +1,4 @@
-if (typeof BD ==="undefined") { 		BD = function() {}; }
+if (typeof BD ==="undefined") {BD = function() {}};
 
 BD.UI = function() {
 	return {
@@ -6,6 +6,7 @@ BD.UI = function() {
 		init: function() {
 			BD.UI.ContentMenu.init();
 			this.fancybox();
+			this.blank();
 			this.tip();
 		},
 		
@@ -18,6 +19,13 @@ BD.UI = function() {
 				'transitionOut'		: 'elastic',
 				'type'				: 'iframe',
 				'titlePosition'		: 'over'
+			});
+		},
+		
+		blank: function() {
+			$('a.blank').live('click', function(e) {
+				e.preventDefault();
+				window.open($(this).attr('href'));
 			});
 		},
 		
@@ -51,6 +59,7 @@ BD.UI.ContentMenu = function() {
 	
 	var current;
 	var grayed_out 		= 0.4;
+	var grayed_item		= 0.5;
 	
 	var clickHandler;
 	
@@ -66,13 +75,16 @@ BD.UI.ContentMenu = function() {
 			});
 			menu.find('.item').mouseout(function() {
 				BD.UI.ContentMenu.slideTo(current);
+				// Item opacity
+				menu.find('.item div.box')
+					.stop().animate({opacity: 1}, 300);
 			});
 			menu.find('.item').click(function() {
 				var key = $(this).attr('data-key');
 				BD.UI.ContentMenu.setMenu(key);
 				var triggerDefault = true; 
 				if (clickHandler) {
-					triggerDefault = clickHandler(this);
+					triggerDefault = clickHandler(this, key);
 				}
 				if (triggerDefault) {
 					BD.UI.ContentMenu.setContent(key);
@@ -98,14 +110,24 @@ BD.UI.ContentMenu = function() {
 			menu.find('.item.' + className + ' img')
 				.stop().animate({opacity: 1}, speed);
 				
+			// Item opacity
+			menu.find('.item:not(.' + className + ') div.box')
+				.stop().animate({opacity: grayed_item}, speed);
+			menu.find('.item.' + className + ' div.box')
+				.stop().animate({opacity: 1}, speed);
+				
 			// Arrow positioning
 			var pos = menu.find('.item.' + className).position();
 			var newArrowTop = pos.top + 20;
-			arrow.stop().animate({ top: newArrowTop + 'px' }, speed);
+			arrow.stop().animate({top: newArrowTop + 'px'}, speed);
 		},
 		
 		setContent: function(className, speed) {
 			var speed = speed || 300;
+			
+			// Item opacity
+			menu.find('.item div.box')
+				.stop().animate({opacity: 1}, speed);
 			
 			// Show content
 			content

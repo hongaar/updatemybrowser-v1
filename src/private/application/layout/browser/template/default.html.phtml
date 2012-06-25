@@ -55,14 +55,14 @@ $module = Ajde::app()->getRoute()->getModule();
 		<base href='http://<?php echo Config::get('lang_root'); ?>' />
 		
 		<!-- require JavaScript and cookies -->		
-		<noscript>
+		<!--<noscript>
 			<meta http-equiv="refresh" content="0;url=main/nojavascript.html?returnto=<?php echo urlencode((string) Ajde::app()->getRoute()); ?>" />
 		</noscript>				
 		<script defer="defer">
 			if (navigator.cookieEnabled === false) {
 				document.location.href='main/nocookies.html?returnto=<?php echo urlencode((string) Ajde::app()->getRoute()); ?>';
 			}
-		</script>
+		</script>-->
 		
 		<!-- Favicon and CSS -->
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
@@ -79,7 +79,6 @@ $module = Ajde::app()->getRoute()->getModule();
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
 		</script>
-		<link href='http://fonts.googleapis.com/css?family=Yellowtail|Cabin+Sketch:700|PT+Sans:400,700|PT+Sans+Narrow|Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 	</head>
 	
 	<!-- Target older versions of IE with CSS classes -->
@@ -93,21 +92,22 @@ $module = Ajde::app()->getRoute()->getModule();
 		<div id='wrapper'>
 			<div id='headerwrapper'>
 				<div id='header'>
-					<img src="public/images/logo.png" alt="Logo" />
-					<h1>browser-update.org</h1>
-					<h2><?php echo __('always the coolest browser'); ?></h2>
+					<!-- Logo by Alex Roman: http://www.icanbecreative.com/logo-vector-pack.html -->
+					<a href="browser"><img src="public/images/logo.png" alt="Browser Bar" width="73" height="100" /></a>
+					<h1>browser.ly<span>beta</span></h1>
+					<h2><?php echo __('always fresh'); ?></h2>
 					<ul>
 						<li><a class='<?php if ($module == 'browser') { echo 'active '; } ?>
-							gray-shadow' href='browser'>
+							bb-shadow' href='browser'>
 							<?php echo __('Browsercheck'); ?></a></li>
 						<li><a class='<?php if ($module == 'widget') { echo 'active '; } ?>
-							gray-shadow' href='widget'>
+							bb-shadow' href='widget'>
 							<?php echo __('Widget'); ?></a></li>
 						<li><a class='<?php if ($module == 'blog') { echo 'active '; } ?>
-							gray-shadow' href='blog'>
+							bb-shadow' href='blog'>
 							<?php echo __('Blog'); ?></a></li>
 						<li><a class='<?php if ($module == 'about') { echo 'active '; } ?>
-							gray-shadow' href='about'>
+							bb-shadow' href='about'>
 							<?php echo __('About'); ?></a></li>
 					</ul>
 				</div>
@@ -116,9 +116,8 @@ $module = Ajde::app()->getRoute()->getModule();
 			<div id='footerwrapper'>
 				<div id='footer'>
 					<p>
-						<?php echo __('<strong>browser-update.org</strong> is an initiative to spread modern browsers <strong>like an epidemic</strong>. Websites these days have evolved to <strong>state of the art</strong> applications and todays browsers are built to serve them to you <strong>just right</strong>. Unfortunately, not everybody uses them, yet...'); ?>
+						<?php echo __('<strong>browser-update.org</strong> is an initiative to spread modern browsers <strong>among all internet users</strong>. Websites these days have evolved to <strong>state of the art</strong> applications and todays browsers are built to serve them to you <strong>just right</strong>. But unfortunately, not everybody uses them, yet...'); ?>
 					</p>
-					<h2>http://<u>browser-update</u>.org</h2>
 					<span>&copy; <?php echo date('Y'); ?> <?php echo __('All right reserved'); ?></span>
 				</div>			
 			</div>
