@@ -8,10 +8,14 @@
 				'fields' => array(
 					'iframe_allowed' => array(
 						'type' => 'boolean'
+					),
+					'sort' => array(
+						'type' => 'sort'
 					)
 				),
 				'list' => array(
-					'show' => array('name', 'current', 'minimum')
+					'show' => array('name', 'current', 'minimum', 'sort'),
+					'main' => 'name'
 				)
 			)
 		);

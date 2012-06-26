@@ -16,6 +16,5 @@ class Config_Dev extends Config_Application {
 		// some PHP builds
 		// @see https://code.google.com/p/ajde/wiki/Exception90023
 		//$this->documentProcessors['html'][] = 'Beautifier';
-	}
-	
+	}	
 }

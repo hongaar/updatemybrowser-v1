@@ -52,9 +52,9 @@ class AdminController extends Ajde_Acl_Controller
 		$json = $browsers->getJSON();
 		
 		// Compile browsers.js
-		$browsersJsSrc = file_get_contents('../bbjs/res/js/browsers.src.js');
+		$browsersJsSrc = file_get_contents('../umb/res/js/browsers.src.js');
 		$browsersJs = str_replace('###JSONSTRINGHERE###', $json, $browsersJsSrc);
-		file_put_contents('../bbjs/res/js/browsers.js', $browsersJs);
+		file_put_contents('../umb/res/js/browsers.js', $browsersJs);
 		
 		// Init compressed resource
 		/* @var $compressor Ajde_Resource_Local_Compressor_Js */
@@ -62,11 +62,11 @@ class AdminController extends Ajde_Acl_Controller
 		
 		// Sources for script
 		$sources = array(
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../bbjs/', 'bbjs'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../bbjs/', 'browsers'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../bbjs/', 'detect'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../bbjs/', 'status'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../bbjs/', 'widget')
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'umb'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'browsers'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'detect'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'status'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'widget')
 		);
 		
 		// Add to compressor
@@ -80,7 +80,7 @@ class AdminController extends Ajde_Acl_Controller
 		$js = $resource->getContents();
 		
 		// Write
-		file_put_contents('bb.js', $js);
+		file_put_contents('umb.js', $js);
 		
 		return $this->render();
 	}

@@ -5,27 +5,38 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>BrowserBar Test Source</title>
+		<title>UMB Test Source</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 				
 		<script type="text/javascript">
 		var _bbjs = {
-		
+			required: { chrome: 20 }
 		};		
 		</script>
-		<script src="bbjs/res/js/bbjs.js"></script>
-		<script src="bbjs/res/js/browsers.js"></script>
-		<script src="bbjs/res/js/detect.js"></script>
-		<script src="bbjs/res/js/status.js"></script>
-		<script src="bbjs/res/js/widget.js"></script>
+		<script src="umb/res/js/umb.js"></script>
+		<script src="umb/res/js/browsers.js"></script>
+		<script src="umb/res/js/detect.js"></script>
+		<script src="umb/res/js/status.js"></script>
+		<script src="umb/res/js/widget.js"></script>
 		
 	</head>
-	<body>
-		<div style="background-color: red; padding: 100px; color: white; font-size: 20px;">div</div>
+	<body>		
+		<div style="background-color: red; color: white; font-size: 20px; height: 20px;">INLINE</div>
+		<div style="background-color: yellow; padding: 50px; position: relative; top: 10px; left: 25%; width: 200px;">RELATIVE</div>
+		<div style="background-color: green; padding: 50px; position: absolute; top: 10px; left: 50%; width: 200px;">ABSOLUTE</div>
+		<div style="background-color: orange; padding: 50px; position: fixed; top: 10px; left: 75%; width: 200px;">FIXED</div>
+		
 		<div>
-			<a href="javascript:BBJS.displayWidget();">Display</a>
-			<a href="javascript:BBJS.hideWidget();">Hide</a>
+			<a href="javascript:UMB.displayWidget();">Display</a>
+			<a href="javascript:UMB.hideWidget();">Hide</a>
 		</div>
 		<div style="height:4000px;"></div>
+		
+		<script>
+			
+			
+			
+		</script>
+		
 	</body>
 </html>

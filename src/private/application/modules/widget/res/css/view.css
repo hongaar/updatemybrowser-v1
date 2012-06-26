@@ -2,13 +2,6 @@
 	width: 400px;
 }
 
-.syntaxhighlighter.gray-box {
-	overflow-y: hidden !important;
-	width: 760px !important;
-	font-size: 0.8em !important;
-	background-color: silver;
-}
-
 div.recommended, div.custom {
 	width: 200px;
 	float: left;

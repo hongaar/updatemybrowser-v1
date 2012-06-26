@@ -5,9 +5,9 @@ require_once 'Config_Advanced.php';
 class Config_Application extends Config_Advanced
 {	
 	// Site parameters
-	public $ident				= 'browserbar';
-	public $sitename 			= 'Browser Bar - Update your browser easily';
-	public $description			= 'Browser Bar';	
+	public $ident				= 'umb';
+	public $sitename 			= 'Update my browser';
+	public $description			= 'Updates your browser step by step. Detect your current browser and checks if it is up to date. Provides site owners with an easy widget to warn visitors of ourdated browsers.';	
 	public $author				= 'Nabble';
 	public $version 			= array(
 									'number' => '0.1',

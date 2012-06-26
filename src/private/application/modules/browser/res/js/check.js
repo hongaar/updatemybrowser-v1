@@ -10,13 +10,13 @@ BD.Check = function() {
 	return {
 		
 		init: function() {			
-			b = BBJS.getCurrentBrowser();
-			v = BBJS.getCurrentVersion();
+			b = UMB.getCurrentBrowser();
+			v = UMB.getCurrentVersion();
 			
 			BD.UI.ContentMenu.setMenu(b, speed);
 			BD.UI.ContentMenu.setContent('status');
 			
-			BD.Check.setStatus(BBJS.getStatus());
+			BD.Check.setStatus(UMB.getStatus());
 			
 			// Event handlers
 			BD.UI.ContentMenu.click(function(elm) {
@@ -35,10 +35,10 @@ BD.Check = function() {
 			statusDiv.show();
 			
 			// Get current browser info and fill text
-			var browser = BBJS.getBrowserInfo(b);
+			var browser = UMB.getBrowserInfo(b);
 			statusDiv.addClass(b);
 			statusDiv.find('.browser').text(browser.name);
-			statusDiv.find('.version').text(v);
+			statusDiv.find('.version').text(' ' + v);
 			statusDiv.find('.bigbutton').removeClass('fancybox, blank').attr('href', browser.update_url).addClass(browser.iframe_allowed == 1 ? 'fancybox' : 'blank');
 			statusDiv.find('.readmore').removeClass('fancybox, blank').attr('href', browser.info_url).addClass(browser.iframe_allowed == 1 ? 'fancybox' : 'blank');			
 			

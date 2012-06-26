@@ -11,7 +11,7 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 $this->requireJsPublic('lib/ZeroClipboard/ZeroClipboard.js');
 
 // BBJS
-$this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST);
+$this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST);
 ?>
 
 <div id='content'>
@@ -45,7 +45,7 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 	
 	<div class='left-column'>
 		<div class='options'>				
-			<div class='item html5' data-key='html5'>
+			<div class='item html' data-key='html'>
 				<img class='grayed-out' src='public/images/html548.png' alt='HTML5' />
 				<div class='box' style='background-color: #<?php echo $this->colors['html5']; ?>;'>
 					HTML
@@ -87,9 +87,8 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 		</div>
 	</div>
 	
-	<div class='right-column'>
-					
-		<div class='item html5'>
+	<div class='right-column'>					
+		<div class='item html'>
 			<h3>Embed this on your site, so users will get <strong title="By
 			default, users will see a *subtle notification** when their browser
 			needs an update. When their version is *lower than** the minimum
@@ -98,12 +97,10 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 								
 			<p>Minimum requirements:</p>
 			
-			<div id='requireWrapper'>	
-				
+			<div id='requireWrapper'>					
 				<div class='recommended requireColumn'>
 					<input type='radio' name='options' id='recommended' checked='checked' />
-						<label for='recommended'> <strong>Recommended</strong></label>
-					
+						<label for='recommended'> <strong>Recommended</strong></label>					
 					<div class='browserWrapper'>
 						<?php foreach($this->browsers as $browser): 
 							/* @var $browser BrowserModel */ ?>				
@@ -114,12 +111,10 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 							</div>			
 						<?php endforeach; ?>
 					</div>
-				</div>
-				
+				</div>				
 				<div class='custom requireColumn'>
 					<input type='radio' name='options' id='custom' />
-						<label for='custom'> <strong title='You can customize the *minimum version** for which the visitors of your site will be displayed with a *subtle notification** instead of a *more urgent request** to update their browser.'>Custom</strong></label>
-						
+						<label for='custom'> <strong title='You can customize the *minimum version** for which the visitors of your site will be displayed with a *subtle notification** instead of a *more urgent request** to update their browser.'>Custom</strong></label>						
 					<div class='browserWrapper'>
 						<?php foreach($this->browsers as $browser): ?>				
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
@@ -135,14 +130,12 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 				
 				<div class='clearfix'></div>
 				
-				<div class='advanced'>
-					
+				<div class='advanced'>					
 					<input type='checkbox' id='advanced' />
 						<label for='advanced'> <strong>Advanced options</strong></label>
 						
 					<div class='advancedWrapper'>
-						<div class='slideWrapper'>
-						
+						<div class='slideWrapper'>						
 							<dl>
 								<dt><label for="adv_display">Immediately display browser bar:</label></dt>
 								<dd><input type="checkbox" id="adv_display" checked="checked" /></dd>
@@ -150,25 +143,15 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 								<dt><label for="adv_noncritical">Display bar for <strong title='Every version of the browser *equal to, or higher than** the minimum required version.'>non-critical</strong> updates:</label></dt>
 								<dd><input type="checkbox" id="adv_noncritical" checked="checked" /></dd>						
 							</dl>
-
 							<div class="clearfix"></div>
-
 							<p>
 								<small>For more options, see <a href="about/docs">the documentation</a></small>
-							</p>
-							
+							</p>							
 						</div>
 					</div>
-						
 					<div class='clearfix'></div>
-					
-				</div>
-				
-			</div>
-				
-			<!--<p><strong>See the widget in action</strong>:</p>
-			
-			<a class='bigbutton fancybox gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href=''>Demo</a>-->				
+				</div>			
+			</div>				
 		</div>	
 		
 		<div class='item wordpress'>
@@ -210,7 +193,6 @@ $this->requireJsRemote('bb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIR
 	</div>
 	
 	<div class="clearfix"></div>
-
 </div>
 
 <div class='teaserwrapper codewrapper'>

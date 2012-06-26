@@ -1,6 +1,6 @@
 /*!
- * BrowserBar JavaScript Library v1
- * http://browserbar.org/
+ * updatemybrowser.org JavaScript Library v1
+ * http://updatemybrowser.org/
  *
  * Copyright 2012, Joram van den Boezem
  * Licensed under the GPL Version 3 license.
@@ -9,7 +9,7 @@
  */
 ;
 
-BBJS = function() {
+UMB = function() {
 	
 	var hasInit = false;
 	var hasLoaded = false;
@@ -39,30 +39,21 @@ BBJS = function() {
 		if (hasInit) {return;}
 		hasInit = true;
 				
-		BBJS.Status.init();
+		UMB.Status.init();
 		
-		var _bbjs = window._bbjs || {};
+		var _umb = window._umb || {};
 		config = {
 			require: {
-				chrome:		BBJS.Browsers['chrome'].minimum,
-				firefox:	BBJS.Browsers['firefox'].minimum,
-				ie:			BBJS.Browsers['ie'].minimum,
-				opera:		BBJS.Browsers['opera'].minimum,
-				safari:		BBJS.Browsers['safari'].minimum
+				chrome:		UMB.Browsers['chrome'].minimum,
+				firefox:	UMB.Browsers['firefox'].minimum,
+				ie:			UMB.Browsers['ie'].minimum,
+				opera:		UMB.Browsers['opera'].minimum,
+				safari:		UMB.Browsers['safari'].minimum
 			},
 			display: true,
 			nonCritical: true
 		};
-		config = mergeRecursive(config, _bbjs);
-	};
-	
-	// http://stackoverflow.com/questions/9434/how-do-i-add-an-additional-window-onload-event-in-javascript
-	var addOnload = function(callback) {
-		if (window.addEventListener) { // W3C standard
-			window.addEventListener('load', callback, false);
-		} else if (window.attachEvent) { // Microsoft
-			window.attachEvent('onload', callback);
-		}
+		config = mergeRecursive(config, _umb);
 	};
 	
 	return {
@@ -71,14 +62,22 @@ BBJS = function() {
 			if (hasLoaded) {return;}
 			hasLoaded = true;
 			
-			addOnload(function() {
-				init();
-				
+			UMB.attach(window, 'load', function() {
+				init();				
 				// Display at all?
 				if (config.display) {
-					BBJS.autoDisplayWidget();
+					UMB.autoDisplayWidget();
 				}
 			});
+		},
+		
+		// http://stackoverflow.com/questions/9434/how-do-i-add-an-additional-window-onload-event-in-javascript
+		attach: function(elm, event, callback) {
+			if (elm.addEventListener) { // W3C standard
+				window.addEventListener(event, callback, false);
+			} else if (elm.attachEvent) { // Microsoft
+				elm.attachEvent('on' + event, callback);
+			}
 		},
 		
 		getConfig: function() {
@@ -88,45 +87,49 @@ BBJS = function() {
 		
 		getCurrentBrowser: function() {
 			init();
-			return BBJS.Detect.browser;
+			return UMB.Detect.browser;
 		},
 		
 		getCurrentVersion: function() {
 			init();
-			return BBJS.Detect.version;
+			return UMB.Detect.version;
 		},
 		
 		getBrowserInfo: function(browser) {
 			init();
-			return BBJS.Status.getBrowserInfo(browser);
+			return UMB.Status.getBrowserInfo(browser);
 		},
 
 		getStatus: function() {
 			init();
-			return BBJS.Status.getStatus();
+			return UMB.Status.getStatus();
 		},
 		
 		displayWidget: function() {
 			init();
-			BBJS.Widget.display();
+			UMB.Widget.display();
 		},
 		
 		hideWidget: function() {
 			init();
-			BBJS.Widget.hide();
+			UMB.Widget.hide();
 		},
 		
 		autoDisplayWidget: function() {
 			init();
-			var status = BBJS.getStatus();
 			
-			// Display on recommended update?
-			if (status == 'update' && config.nonCritical) { 
-				BBJS.displayWidget();
-			// Display on critical update
-			} else if (status == 'warning') {
-				BBJS.displayWidget();
-			}
+			// Cookie set to hide bar?
+			if (document.cookie.indexOf('_umb=hide') == -1) {
+				var status = UMB.getStatus();
+			
+				if (status == 'update' && config.nonCritical) { 
+					// Display on recommended update
+					UMB.displayWidget();				
+				} else if (status == 'warning') {
+					// Display on critical update
+					UMB.displayWidget();
+				}
+			}			
 		},
 		
 		scrollToTop: function() {
@@ -138,4 +141,4 @@ BBJS = function() {
 		}
 	};
 }();
-BBJS.load();
+UMB.load();

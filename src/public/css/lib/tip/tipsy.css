@@ -6,6 +6,10 @@
 	background-image: url('arrow.png'); 
 }
 
+body.ie6 .tipsy {
+	background-image: url('arrow.gif'); 
+}
+
 .tipsy-inner {
 	padding: 10px;
 	background-color: white;
@@ -17,6 +21,15 @@
 	 -moz-box-shadow: 3px 3px 0px rgba(90, 90, 90, 0.5); 
   -webkit-box-shadow: 3px 3px 0px rgba(90, 90, 90, 0.5); 
           box-shadow: 3px 3px 0px rgba(90, 90, 90, 0.5);
+}
+
+body.ie6 .tipsy-inner {
+	width: 250px;
+}
+
+body.umb_active .tipsy-inner {
+	position: relative;
+	top: -50px;	
 }
   
 .tipsy-north { background-position: top center; }

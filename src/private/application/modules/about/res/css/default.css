@@ -1,0 +1,17 @@
+/*#!less*/
+
+h2 {
+	margin-bottom: 10px;
+}
+
+h3 {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.syntaxhighlighter {
+	padding-top: 10px;
+	border-top: 5px solid @light;
+	border-bottom: 5px solid @light;
+	margin: 20px 0;
+}

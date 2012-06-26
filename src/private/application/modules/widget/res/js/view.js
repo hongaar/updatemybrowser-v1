@@ -9,16 +9,9 @@ BD.Widget = function() {
 		// The code
 		var code = '<script type="text/javascript">\n';
 		if ($('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') || $('#adv_noncritical').is(':not(:checked)')) {
-			code = code + 'var _bbjs = {\n';
+			code = code + 'var _umb = {\n';
 			if ($('#custom').is(':checked')) {
-				code = code +
-'	require: {\n\
-		chrome: '+$('select[name=chrome]').val()+',\n\
-		firefox: '+$('select[name=firefox]').val()+',\n\
-		ie: '+$('select[name=ie]').val()+',\n\
-		opera: '+$('select[name=opera]').val()+',\n\
-		safari: '+$('select[name=safari]').val()+'\n\
-	}';
+				code = code + '	require: {\n\		chrome: '+$('select[name=chrome]').val()+',\n\		firefox: '+$('select[name=firefox]').val()+',\n\		ie: '+$('select[name=ie]').val()+',\n\		opera: '+$('select[name=opera]').val()+',\n\		safari: '+$('select[name=safari]').val()+'\n\	}';
 			}
 			if ( $('#adv_display').is(':not(:checked)') ) {
 				if ( $('#custom').is(':checked') ) {
@@ -34,13 +27,7 @@ BD.Widget = function() {
 			}
 			var code = code + '\n};\n';			
 		}
-		code = code +
-'(function() {\n\
-	var bb = document.createElement(\'script\'); bb.type = \'text/javascript\'; bb.async = true;\n\
-	bb.src = (\'https:\' == document.location.protocol ? \'https://\' : \'http://\') + \'browserbar.org/bb.js\';\n\
-	var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(bb, s);\n\
-})();\n\
-</script>';
+		code = code + '(function() {\n\	var s = document.createElement(\'script\'); s.type = \'text/javascript\'; s.async = true;\n\	s.src = (\'https:\'==document.location.protocol?\'https://\':\'http://\') + \'updatemybrowser.org/umb.js\';\n\	var b = document.getElementsByTagName(\'script\')[0]; b.parentNode.insertBefore(s, b);\n\})();\n\</script>';
 		
 		// Clean up old code
 		$('div.syntaxhighlighter').parent().remove();
@@ -59,23 +46,19 @@ BD.Widget = function() {
 		clip.setText(code);
 	};
 	
-	var copyCode = function() {
-		
-	};
-	
 	return {
 		
 		init: function() {
-			BD.UI.ContentMenu.setMenu('html5', speed);
+			BD.UI.ContentMenu.setMenu('html', speed);
 			BD.UI.ContentMenu.click(function(elm, key) {
-				if (key == 'html5') {
+				if (key == 'html') {
 					$('.codewrapper').slideDown();
 				} else {
 					$('.codewrapper').slideUp();
 				}
 				BD.UI.ContentMenu.setContent(key);
 			});
-			BD.UI.ContentMenu.setContent('html5');
+			BD.UI.ContentMenu.setContent('html');
 			
 			// SyntaxHighlighter init
 			SyntaxHighlighter.defaults['toolbar'] = false;
@@ -103,9 +86,9 @@ BD.Widget = function() {
 			$('a.demo').click(function(e) {
 				$('#BrowserBar').hide();
 				$('body').css({top: 0});
-				BBJS.scrollToTop();
+				UMB.scrollToTop();
 				setTimeout(function() {
-					BBJS.displayWidget();
+					UMB.displayWidget();
 				}, 500);
 			});
 			

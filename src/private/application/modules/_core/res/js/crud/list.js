@@ -297,7 +297,7 @@ AC.Crud.List = function() {
 			var url = document.location.href;
 			
 			$.get(url, data, function(response) {
-				form.html($(response).filter('form').html());
+				form.html($(response).find('form').html());
 				form.find('tbody').css({opacity: 1});
 				AC.Crud.List.initMove();
 				if (typeof c == 'function') {

@@ -1,0 +1,66 @@
+<?php
+/* @var $this Ajde_Template_Parser_Phtml_Helper */
+
+// SyntaxHighlighter
+$this->requireJsPublic('lib/SyntaxHighlighter/shCore.js');
+$this->requireJsPublic('lib/SyntaxHighlighter/shBrushJScript.js');
+$this->requireCssPublic('lib/SyntaxHighlighter/shCore.css');
+$this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
+
+?>
+
+<div id="content">
+
+	<h2><a href="about">About</a> &gt; Widget documentation</h2>
+	
+	<h3>Basics</h3>
+	<p>
+		This is the most basic code to include the updatemybrowser.org <a href="widget">widget</a> on your page.
+		Insert the code immediately before the closing &lt;/head&gt; tag in your page:
+	</p>	
+	
+	<pre class="brush: js">
+&lt;script type="text/javascript"&gt;
+(function() {
+	var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
+	s.src = ('https:'==document.location.protocol?'https://':'http://') + 'updatemybrowser.org/umb.js';
+	var b = document.getElementsByTagName('script')[0]; b.parentNode.insertBefore(s, b);
+})();
+&lt;/script&gt;
+	</pre>
+	
+	<p>
+		This will automatically display the notification bar when updates for the browser are available.
+	</p>
+	
+	<h3>Customize required minimum browser</h3>
+	
+	<p>
+		Blah...
+	</p>
+	
+	<pre class="brush: js">
+var _umb = {
+	require: {
+		chrome: 15,
+		firefox: 4,
+		ie: 8,
+		opera: 10,
+		safari: 4
+	}
+};
+	</pre>
+	
+	<pre class="brush: js">
+var _umb = {
+	require: {
+		chrome: 15,
+		firefox: 4,
+		ie: 8,
+		opera: 10,
+		safari: 4
+	}
+};
+	</pre>
+
+</div>

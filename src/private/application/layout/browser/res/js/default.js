@@ -1,3 +1,9 @@
+;
+
+var _umb = {
+	display: false
+};
+
 if (typeof BD ==="undefined") {BD = function() {}};
 
 BD.UI = function() {
@@ -103,8 +109,8 @@ BD.UI.ContentMenu = function() {
 		
 		slideTo: function(className, speed) {
 			var speed = speed || 300;
-			
-			// Image opacity
+				
+			// Image opacity			
 			menu.find('.item:not(.' + className + ') img')
 				.stop().animate({opacity: grayed_out}, speed);
 			menu.find('.item.' + className + ' img')

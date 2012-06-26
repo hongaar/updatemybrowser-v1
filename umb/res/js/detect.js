@@ -1,6 +1,6 @@
 /*!
- * BrowserBar JavaScript Library v1
- * http://browserbar.org/
+ * updatemybrowser.org JavaScript Library v1
+ * http://updatemybrowser.org/
  *
  * Copyright 2012, Joram van den Boezem
  * Licensed under the GPL Version 3 license.
@@ -11,9 +11,9 @@
  * Based on Browser detect script by Peter-Paul Koch
  * See http://www.quirksmode.org/js/detect.html
  */
-;if (typeof BBJS === "undefined") {BBJS = function() {}};
+;if (typeof UMB === "undefined") {UMB = function() {}};
 
-BBJS.Detect = {
+UMB.Detect = {
 	init: function () {
 		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
 		this.version = this.searchVersion(navigator.userAgent)
@@ -53,7 +53,8 @@ BBJS.Detect = {
 			versionSearch: "Version"
 		},
 		{
-			prop: window.opera,
+			string: navigator.userAgent,
+			subString: "Opera",
 			identity: "opera",
 			versionSearch: "Version"
 		},

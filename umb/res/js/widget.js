@@ -1,6 +1,6 @@
 /*!
- * BrowserBar JavaScript Library v1
- * http://browserbar.org/
+ * updatemybrowser.org JavaScript Library v1
+ * http://updatemybrowser.org/
  *
  * Copyright 2012, Joram van den Boezem
  * Licensed under the GPL Version 3 license.
@@ -8,19 +8,28 @@
  * 
  */
 /*!
- * Require BBJS.Status
+ * Require UMB.Status
  */
-;if (typeof BBJS === "undefined") {BBJS = function() {}};
+;if (typeof UMB === "undefined") {UMB = function() {}};
 
-BBJS.Widget = function() {
+UMB.Widget = function() {
 	
 	var hasInit				= false;
 	var isFixed				= false;
+	
+	var oldBodyMarginTop;
 	
 	var applyStyle = function(style, elm) {
 		for(var x in style) {
 			elm.style[x] = style[x];
 		};
+	};
+	
+	var setCookie = function(key, value, days) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + days);
+		var content = escape(value) + ((days == null) ? '': '; expires=' + exdate.toUTCString()) + '; path=/';
+		document.cookie = key + '=' + content;
 	};
 	
 	var insertHtml = function() {
@@ -43,14 +52,16 @@ BBJS.Widget = function() {
 			color: 'black',
 			padding: '10px 0',
 			top: '-40px',
+			left: '0px',
 			backgroundColor: '#FDF2AB',
-			backgroundImage: 'url(http://the.nabble.nl/browser/src/warning.png)',
+			backgroundImage: 'url(http://the.nabble.nl/browser/src/warning.gif)',
 			backgroundPosition: '10px center',
 			backgroundRepeat: 'no-repeat',
 			borderBottom: '1px solid #A29330',
 			width: '100%',
 			textAlign: 'left',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			zoom: '1'
 		};
 		applyStyle(wrapperStyle, wrapper);
 		wrapper.setAttribute('id', 'BrowserBar');
@@ -64,19 +75,48 @@ BBJS.Widget = function() {
 		};
 		applyStyle(pStyle, p);
 		
+		// CLOSE BUTTON
+		var a = document.createElement('a');
+		a.href = 'javascript:void(0);';
+		a.title = 'Don\'t show me this notification bar for the next 24 hours';
+		a.onclick = function(e) {
+			if (!e) {var e = window.event;}
+			e.cancelBubble = true;
+			if (e.stopPropagation) {e.stopPropagation();}
+			
+			UMB.Widget.hidePersistent(1);			
+			return false;
+		};
+		var aStyle = {
+			display: 'block',
+			width: '20px',
+			height: '20px',
+			margin: '0px 0px 0px 40px',
+			padding: '0px',
+			lineHeight: '1.5em',
+			position: 'absolute',
+			top: '10px',
+			right: '10px',
+			backgroundImage: 'url(http://the.nabble.nl/browser/src/close.gif)',
+			backgroundPosition: '0 0',
+			backgroundRepeat: 'no-repeat'
+		};
+		applyStyle(aStyle, a);
+		
 		wrapper.appendChild(p);
+		wrapper.appendChild(a);
 		document.getElementsByTagName('body')[0].appendChild(wrapper);
 	};
 		
 	var prepareHtml = function() {
 		// Get current browser info and status
-		var status = BBJS.getStatus();
-		var browser = BBJS.getBrowserInfo(BBJS.getCurrentBrowser());
-		var version = BBJS.getCurrentVersion();
+		var status = UMB.getStatus();
+		var browser = UMB.getBrowserInfo(UMB.getCurrentBrowser());
+		var version = UMB.getCurrentVersion();
 		
 		var wrapper = document.getElementById('BrowserBar');
 		var link = document.createElement('a');
-		link.href = 'http://www.browserbar.org';
+		link.href = 'http://www.updatemybrowser.org';
 		link.onclick = function(){return false;};
 		link.style.color = '#2183d0';
 		link.style.fontWeight = 'bold';
@@ -107,79 +147,155 @@ BBJS.Widget = function() {
 		document.getElementById('BrowserBar').onclick = function(){window.open(link.href);};
 	};
 	
-	var animate = function(elm, property, begin, end, length, pre, post, callback) {
-		var curstep = begin;
-		var ease = function(p) { return 0.5 - Math.cos( p * Math.PI ) / 2; };
-		var perc = function(c) { return 1 - ((end - c) / (end - begin)); };
-		var prop = function(c) { return ease(rvrs ? (1 - perc(c)) : perc(c)) * Math.abs(end - begin); };
-		var rvrs  = (begin > end) ? true : false;
-		var i = 0;
+	var getComputedVal = function(elm, property) {
+		var r;
+		if (window.getComputedStyle) {
+			r = window.getComputedStyle(elm)[property];
+		} else if (elm.currentStyle) {
+			r = elm.currentStyle[property];
+		}
+		if (!r) {
+			r = elm.style[property];
+		}
+		return r;
+	};
+	
+	var animate = function(elm, property, end, length, callback, pre, post) {
+		// Animate opacity for IE
+		if (property == 'opacity') {
+			animate(elm, 'filter', end * 100, length, callback, 'alpha(opacity=', ')');
+		}
+		
+		// Set property syntax
+		var pxProps = '|top|marginTop|';
+		pre = pre || '';
+		post = post || '';
+		if (pxProps.indexOf(property) > -1) {
+			post = post || 'px';
+		}
+		
+		// Begin value
+		var begin = parseFloat(getComputedVal(elm, property).replace(pre, '').replace(post, '')) || 0;
+		
+		// Relative value?
+		if (end.toString().indexOf('+') == 0 || end.toString().indexOf('-') == 0) {
+			end = begin + parseFloat(end);
+		}		
+		
+		// Setup variables
+		var interval = 10;
+		var percstep = 1 / (length / interval);
+		var perc = 0;
+		
+		// Setup helpers
+		var prop = function(p) {
+			var easedP = 0.5 - Math.cos( p * Math.PI ) / 2;
+			var propStep = (end - begin) * easedP;
+			var newProp = begin + propStep;
+			return Math.round(newProp * 100) / 100;
+		};
+		var apply = function(v) {
+			elm.style[property] = pre + v + post;			
+		};
+		
+		// Make an interval				
 		var timer = setInterval(function() {
-			curstep = curstep + ((end - begin) / length);
-			elm.style[property] = pre + prop(curstep) + post;
-			i++;
-			if (i >= length) {
+			perc = perc + percstep;			
+			apply(prop(perc));
+						
+			if (perc >= 1) {				
 				clearInterval(timer);
+				apply(prop(1));
 				if (callback) {
 					callback();
 				}
 			}
-		}, 10);
+		}, interval);
 	};
 	
 	var showBar = function() {
-		// BODY FIX
-		//document.getElementsByTagName('body')[0].style.top = '40px';
-		animate(
-			document.getElementsByTagName('body')[0],
-			'top', 0, 40, 25, '', 'px'
-		);
-		document.getElementsByTagName('body')[0].style.position = 'relative';		
-		// BROWSERBAR
-		document.getElementById('BrowserBar').style.opacity = '0';
-		document.getElementById('BrowserBar').style.filter = 'alpha(opacity=0)';
-		document.getElementById('BrowserBar').style.display = 'block';
+		var body = document.getElementsByTagName('body')[0];
+		var BrowserBar = document.getElementById('BrowserBar');
+				
+		// Hide bar body only when BrowserBar is invisible
+		if (getComputedVal(BrowserBar, 'display') !== 'none') {return;}
 		
-		//document.getElementById('BrowserBar').style.opacity = '1';
-		animate(
-			document.getElementById('BrowserBar'),
-			'opacity', 0, 0.95, 75, '', ''
-		);
-		//document.getElementById('BrowserBar').style.filter = 'alpha(opacity=100)';
-		animate(
-			document.getElementById('BrowserBar'),
-			'filter', 0, 95, 75, 'alpha(opacity=', ')'
-		);
-
-		if (isFixed) {
-			document.getElementById('BrowserBar').style.top = '0px';
-			document.getElementById('BrowserBar').style.position = 'fixed';			
+		// Add body class
+		body.className += ' umb_active';
+		
+		// BrowserBar
+		BrowserBar.style.opacity = '0';
+		BrowserBar.style.filter = 'alpha(opacity=0)';
+		BrowserBar.style.display = 'block';
+		animate(BrowserBar, 'opacity', 0.95, 600);
+		
+		if ((UMB.getCurrentBrowser() == 'ie' && document.compatMode == 'BackCompat')) {
+			// Reposition BrowserBar for IE quirks workaround
+			BrowserBar.style.top = '0px';
+			BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
 		} else {
+			// Reposition body element
+			body.style.position = 'relative';		
+			animate(body, 'top', "+40", 300);
 			
+			if (!isFixed) {
+				// Body margin fix
+				UMB.attach(window, 'resize', function() {
+					BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+				});
+				BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+				BrowserBar.style.top = '-' + (parseFloat(getComputedVal(body, 'marginTop')) + 40) + 'px';
+				BrowserBar.style.left = '-' + parseFloat(getComputedVal(body, 'marginLeft')) + 'px';
+			}
+		}
+		if (isFixed) {
+			if ((UMB.getCurrentBrowser() == 'ie' && document.compatMode == 'BackCompat')) {
+				// Fixed position for Quirks mode		
+				UMB.attach(window, 'scroll', function() {
+					BrowserBar.style.top = ((document.documentElement.scrollTop || document.body.scrollTop) + (!BrowserBar.offsetHeight && 0)) + 'px';
+				});
+				BrowserBar.style.top = ((document.documentElement.scrollTop || document.body.scrollTop) + (!BrowserBar.offsetHeight && 0)) + 'px';
+			} else if (UMB.getCurrentBrowser() == 'ie' && UMB.getCurrentVersion() <= 6) {
+				// Fixed position IE6
+				UMB.attach(window, 'resize', function() {
+					BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+				});
+				BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+				var bbTop = parseFloat(getComputedVal(body, 'marginTop')) + 40;
+				BrowserBar.style.top = '-' + bbTop + 'px';
+				BrowserBar.style.left = '-' + parseFloat(getComputedVal(body, 'marginLeft')) + 'px';
+				UMB.attach(window, 'scroll', function() {
+					BrowserBar.style.top = ((document.documentElement.scrollTop || document.body.scrollTop) - bbTop) + 'px';
+				});	
+				BrowserBar.style.top = ((document.documentElement.scrollTop || document.body.scrollTop) - bbTop) + 'px';
+			} else {
+				// Fixed position
+				BrowserBar.style.top = '0px';
+				BrowserBar.style.position = 'fixed';
+			}
 		}
 	};
 	
 	var hideBar = function() {
-		// RESET BODY
-		//document.getElementsByTagName('body')[0].style.top = '0px';
-		animate(
-			document.getElementsByTagName('body')[0],
-			'top', parseInt(document.getElementsByTagName('body')[0].style.top), 0, 25, '', 'px'
-		);
-		// BROWSERBAR
-		//document.getElementById('BrowserBar').style.opacity = '1';
-		animate(
-			document.getElementById('BrowserBar'),
-			'opacity', parseFloat(document.getElementById('BrowserBar').style.opacity), 0, 75, '', ''
-		);
-		//document.getElementById('BrowserBar').style.filter = 'alpha(opacity=100)';
-		animate(
-			document.getElementById('BrowserBar'),
-			'filter', parseFloat(document.getElementById('BrowserBar').style.opacity)*100, 0, 75, 'alpha(opacity=', ')',
-			function() {
-				document.getElementById('BrowserBar').style.display = 'none';
-			}
-		);
+		var body = document.getElementsByTagName('body')[0];
+		var BrowserBar = document.getElementById('BrowserBar');
+		
+		// Hide bar body only when BrowserBar is visible
+		if (getComputedVal(BrowserBar, 'display') !== 'block') {return;}
+		
+		// Remove body class
+		body.className = body.className.replace(' umb_active', '');
+		
+		// BrowserBar
+		animate(BrowserBar, 'opacity', 0, 600, function() {
+			BrowserBar.style.display = 'none';
+		});
+		
+		// IE Quirks workaround
+		if (UMB.getCurrentBrowser() == 'ie' && document.compatMode == 'BackCompat') {	
+		} else {
+			animate(body, 'top', "-40", 300);			
+		}
 	};
 	
 	return {
@@ -193,13 +309,19 @@ BBJS.Widget = function() {
 		},
 		
 		display: function() {
-			BBJS.Widget.init();
+			UMB.Widget.init();
 			showBar();
 		},
 		
 		hide: function() {
-			BBJS.Widget.init();
+			UMB.Widget.init();
 			hideBar();
+		},
+		
+		hidePersistent: function(days) {
+			days = days || 1;
+			setCookie('_umb', 'hide', days);
+			UMB.hideWidget();
 		}
 		
 	};

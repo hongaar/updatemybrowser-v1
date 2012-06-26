@@ -1,6 +1,6 @@
 /*!
- * BrowserBar JavaScript Library v1
- * http://browserbar.org/
+ * updatemybrowser.org JavaScript Library v1
+ * http://updatemybrowser.org/
  *
  * Copyright 2012, Joram van den Boezem
  * Licensed under the GPL Version 3 license.
@@ -8,12 +8,12 @@
  * 
  */
 /*!
- * Require BBJS.Detect
- * Require BBJS.Browsers
+ * Require UMB.Detect
+ * Require UMB.Browsers
  */
-;if (typeof BBJS === "undefined") {BBJS = function() {}};
+;if (typeof UMB === "undefined") {UMB = function() {}};
 
-BBJS.Status = function() {
+UMB.Status = function() {
 	
 	var b;
 	var v;
@@ -25,20 +25,20 @@ BBJS.Status = function() {
 	return {
 		
 		init: function() {
-			BBJS.Detect.init();
+			UMB.Detect.init();
 			
-			b = BBJS.Detect.browser;
-			v = BBJS.Detect.version;
+			b = UMB.Detect.browser;
+			v = UMB.Detect.version;
 		},
 		
 		getBrowserInfo: function(browser) {
-			return BBJS.Browsers[browser];
+			return UMB.Browsers[browser];
 		},
 
 		getStatus: function() {
-			var browser = BBJS.Status.getBrowserInfo(b);
+			var browser = UMB.Status.getBrowserInfo(b);
 			var latestVersion = parseFloat(browser.current);
-			var minimumVersion = parseFloat(BBJS.getConfig().require[b]);
+			var minimumVersion = parseFloat(UMB.getConfig().require[b]);
 			if (v >= latestVersion) {
 				return STATUS_LATEST;
 			} else if (v >= minimumVersion) {
