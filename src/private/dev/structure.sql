@@ -3,15 +3,15 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 26, 2012 at 11:37 AM
--- Server version: 5.5.22
--- PHP Version: 5.3.10-1ubuntu3.1
+-- Generation Time: Jun 26, 2012 at 11:21 PM
+-- Server version: 5.5.24
+-- PHP Version: 5.3.10-1ubuntu3.2
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 --
--- Database: `ajde`
+-- Database: `umbbrowser`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,32 @@ CREATE TABLE IF NOT EXISTS `acl` (
   PRIMARY KEY (`id`),
   KEY `user` (`user`),
   KEY `usergroup` (`usergroup`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `browser`
+--
+
+CREATE TABLE IF NOT EXISTS `browser` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `sort` tinyint(4) DEFAULT NULL COMMENT 'Ordering',
+  `name` varchar(255) NOT NULL COMMENT 'Name',
+  `htmlname` varchar(255) DEFAULT NULL COMMENT 'Html formatted name',
+  `shortname` varchar(255) DEFAULT NULL COMMENT 'Short name',
+  `current` varchar(255) DEFAULT NULL COMMENT 'Current version',
+  `minimum` varchar(255) DEFAULT NULL COMMENT 'Minimum version',
+  `custom` varchar(255) DEFAULT NULL COMMENT 'Version options for widget',
+  `update_url` varchar(255) DEFAULT NULL COMMENT 'Update URL',
+  `info_url` varchar(255) DEFAULT NULL COMMENT 'Features URL',
+  `iframe_allowed` tinyint(4) DEFAULT '1' COMMENT 'URL''s allowed in Iframe?',
+  `youtube_id` varchar(255) DEFAULT NULL COMMENT 'Youtube video',
+  `color` varchar(255) DEFAULT NULL COMMENT 'Color',
+  `description` text COMMENT 'Description',
+  `published` enum('yes','no') NOT NULL DEFAULT 'yes' COMMENT 'Visible?',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -150,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   KEY `usergroup` (`usergroup`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 -- --------------------------------------------------------
 
@@ -218,21 +243,3 @@ ALTER TABLE `transaction`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`usergroup`) REFERENCES `usergroup` (`id`);
-
---
--- Dumping data for table `usergroup`
---
-
-INSERT INTO `usergroup` (`id`, `name`) VALUES
-(1, 'users'),
-(2, 'admins');
-
---
--- Dumping data for table `acl`
---
-
-INSERT INTO `acl` (`id`, `type`, `user`, `usergroup`, `module`, `action`, `extra`, `permission`) VALUES
-(17, 'usergroup', NULL, 2, '_core', '*', '*', 'allow'),
-(22, 'usergroup', NULL, NULL, 'shop', 'checkout', '*', 'allow'),
-(23, 'usergroup', NULL, NULL, 'shop', '*', 'transaction', 'allow'),
-(24, 'usergroup', NULL, NULL, 'samples', 'edit', '*', 'allow');
