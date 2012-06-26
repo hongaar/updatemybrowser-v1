@@ -54,7 +54,7 @@ class Config_Advanced
 	public $postWhitelistRoutes	= array(
 									'shop/transaction:callback'
 									);
-	public $secret				= ''; // See Config_Secret
+	public $secret				= 'randomstring';
 	public $cookieDomain		= false;
 	public $cookieSecure		= false;
 	public $cookieHttponly		= true;
@@ -73,7 +73,7 @@ class Config_Advanced
 	
 	// Database
 	public $dbAdapter			= 'mysql';
-	public $dbDsn				= array( // See Config_Secret
+	public $dbDsn				= array(
 									'host' 		=> 'localhost',
 									'dbname'	=> 'ajde'
 									);

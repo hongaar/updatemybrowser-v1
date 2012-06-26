@@ -1,8 +1,7 @@
 <?php
-require_once 'Config_Simple.php';
-require_once 'Config_Advanced.php';
+require_once 'Config_Secret.php';
 
-class Config_Application extends Config_Advanced
+class Config_Application extends Config_Secret
 {	
 	// Site parameters
 	public $ident				= 'umb';
@@ -32,7 +31,7 @@ class Config_Application extends Config_Advanced
 	//public $autoCleanHtml;
 	//public $requirePostToken;
 	//public $postWhitelistRoutes;
-	public $secret				= 'randomstring';
+	//public $secret;
 	//public $cookieDomain;
 	//public $cookieSecure;
 	//public $cookieHttponly;
@@ -47,12 +46,9 @@ class Config_Application extends Config_Advanced
 	
 	// Database
 	//public $dbAdapter;
-	public $dbDsn				= array(
-									'host' 		=> 'localhost',
-									'dbname'	=> 'browser'
-									);
-	public $dbUser 				= 'browser';
-	public $dbPassword 			= 'bar';	
+	//public $dbDsn;
+	//public $dbUser;
+	//public $dbPassword;
 	//public $textEditor;
 	
 	//public $registerNamespaces;
