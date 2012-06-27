@@ -42,6 +42,12 @@ class AboutController extends Ajde_Controller
 		return $this->render();
 	}
 	
+	public function plugins()
+	{
+		Ajde::app()->getDocument()->setTitle("Plugins");
+		return $this->render();
+	}
+		
 	public function stats()
 	{
 		Ajde::app()->getDocument()->setTitle("Statistics");

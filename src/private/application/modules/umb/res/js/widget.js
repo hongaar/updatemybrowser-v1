@@ -54,7 +54,7 @@ UMB.Widget = function() {
 			top: '-40px',
 			left: '0px',
 			backgroundColor: '#FDF2AB',
-			backgroundImage: 'url(http://the.nabble.nl/browser/src/warning.gif)',
+			backgroundImage: 'url(http://updatemybrowser.org/warning.gif)',
 			backgroundPosition: '10px center',
 			backgroundRepeat: 'no-repeat',
 			borderBottom: '1px solid #A29330',
@@ -97,7 +97,7 @@ UMB.Widget = function() {
 			position: 'absolute',
 			top: '10px',
 			right: '10px',
-			backgroundImage: 'url(http://the.nabble.nl/browser/src/close.gif)',
+			backgroundImage: 'url(http://updatemybrowser.org/close.gif)',
 			backgroundPosition: '0 0',
 			backgroundRepeat: 'no-repeat'
 		};

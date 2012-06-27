@@ -26,6 +26,7 @@ $this->requireGWebFont('Dosis', array(400, 700));
 $this->requireCss('default.mobile', 'html', null, Ajde_Document_Format_Html::RESOURCE_POSITION_LAST, 'media="only screen and (max-width: 767px)"');
 
 $module = Ajde::app()->getRoute()->getModule();
+$action = Ajde::app()->getRoute()->getAction();
 ?>
 <!-- Inspired by HTML5 Boilerplate -->
 <!doctype html>
@@ -71,7 +72,7 @@ $module = Ajde::app()->getRoute()->getModule();
 		<!-- Google Analytics -->
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-XXXXX-X']);
+			_gaq.push(['_setAccount', 'UA-32990436-1']);
 			_gaq.push(['_trackPageview']);
 			(function() {
 				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -103,10 +104,10 @@ $module = Ajde::app()->getRoute()->getModule();
 						<li><a class='<?php if ($module == 'widget') { echo 'active '; } ?>
 							bb-shadow' href='widget'>
 							<?php echo __('Widget'); ?></a></li>
-						<li><a class='<?php if ($module == 'blog') { echo 'active '; } ?>
-							bb-shadow' href='blog'>
-							<?php echo __('Blog'); ?></a></li>
-						<li><a class='<?php if ($module == 'about') { echo 'active '; } ?>
+						<li><a class='<?php if ($module == 'about' && $action == 'docs') { echo 'active '; } ?>
+							bb-shadow' href='about/docs'>
+							<?php echo __('Documentation'); ?></a></li>
+						<li><a class='<?php if ($module == 'about' && $action != 'docs') { echo 'active '; } ?>
 							bb-shadow' href='about'>
 							<?php echo __('About'); ?></a></li>
 					</ul>
@@ -115,10 +116,17 @@ $module = Ajde::app()->getRoute()->getModule();
 			<?php echo Ajde::app()->getDocument()->getBody(); ?>				
 			<div id='footerwrapper'>
 				<div id='footer'>
-					<p>
+					<p class='outro'>
 						<?php echo __('<strong>updatemybrowser.org</strong> is an initiative to spread modern browsers <strong>among all internet users</strong>. Websites these days have evolved to <strong>state of the art</strong> applications and todays browsers are built to serve them to you <strong>just right</strong>. But unfortunately, not everybody uses them, yet...'); ?>
-					</p>
-					<span>&copy; <?php echo date('Y'); ?> <?php echo __('All right reserved'); ?></span>
+					</p>					
+					<span class='copy'>&copy; <?php echo date('Y'); ?> <?php echo __('All right reserved'); ?></span>
+					<div class='twitter'>
+						<div id='twitter_update_list'>Loading last tweet...</div>
+						<script type='text/javascript' src='http://twitter.com/javascripts/blogger.js'></script>
+						<script type='text/javascript' src='https://twitter.com/statuses/user_timeline/updatemybrowser.json?include_rts=1&callback=twitterCallback2&count=1'></script>
+						<a href="https://twitter.com/updatemybrowser" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @updatemybrowser</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+					</div>
 				</div>			
 			</div>
 		</div>

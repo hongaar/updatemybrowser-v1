@@ -11,9 +11,9 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 
 <div id="content">
 
-	<h2><a href="about">About</a> &gt; Widget documentation</h2>
+	<h2>Widget documentation</h2>
 	
-	<h3>Basics</h3>
+	<h2>Basics</h2>
 	<p>
 		This is the most basic code to include the updatemybrowser.org <a href="widget">widget</a> on your page.
 		Insert the code immediately before the closing &lt;/head&gt; tag in your page:
@@ -33,10 +33,36 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 		This will automatically display the notification bar when updates for the browser are available.
 	</p>
 	
-	<h3>Customize required minimum browser</h3>
+	<p>&nbsp;</p>
+	
+	<h2>Advanced</h2>
+	
+	<h3>Warning threshold</h3>
 	
 	<p>
-		Blah...
+		Two different notifications can be shown in the widget. If a user has a
+		browser version lower than the minimum required version, they will see a
+		more urgent upgrade message shown below:
+	</p>
+	
+	<p>
+		<img src="public/images/warning.png" width="759" height="224" alt="Warning" />
+	</p>
+	
+	<p>
+		Users for which an update is available, but having a browser version
+		equal to or higher than the minimum required version, will see the
+		following notification bar:
+	</p>
+		
+	<p>
+		<img src="public/images/update.png" width="759" height="224" alt="Update" />
+	</p>
+	
+	<p>
+		The widget is automatically updated with the recommended threshold for
+		every browser, but you can override these settings by including the
+		following configuration parameters somewhere in a &lt;script&gt; tag on your page:
 	</p>
 	
 	<pre class="brush: js">
@@ -51,6 +77,18 @@ var _umb = {
 };
 	</pre>
 	
+	<!--<h3>Display widget on page load</h3>
+	
+	<p>
+		
+	</p>
+	
+	<p>
+		<img src="public/images/latest.png" width="759" height="224" alt="Latest" />
+	</p>
+	
+	
+	
 	<pre class="brush: js">
 var _umb = {
 	require: {
@@ -61,6 +99,10 @@ var _umb = {
 		safari: 4
 	}
 };
-	</pre>
+	</pre>-->
+	
+	<p>
+		More docs coming soon...
+	</p>
 
 </div>

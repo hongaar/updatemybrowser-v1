@@ -20,10 +20,12 @@ class AdminController extends Ajde_Acl_Controller
 	
 	public function autoUpdate()
 	{
-		$fresh = unserialize(file_get_contents('http://fresh-browsers.com/export/browsers.serialized'));
-		Ajde_Model::register("browser");
-		
+		$url = 'http://fresh-browsers.com/export/browsers.serialized';
+		$fresh = unserialize(Ajde_Http_Curl::get($url));
+
+		Ajde_Model::register("browser");		
 		$browsers = new BrowserCollection();
+		
 		foreach($browsers as $browser) {
 			if (array_key_exists($browser->shortname, $fresh)) {
 				$current = $fresh[$browser->shortname]['Stable']['releaseVersion'];
@@ -62,11 +64,11 @@ class AdminController extends Ajde_Acl_Controller
 		
 		// Sources for script
 		$sources = array(
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'umb'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'browsers'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'detect'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'status'),
-			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, '../umb/', 'widget')
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, MODULE_DIR . 'umb/', 'umb'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, MODULE_DIR . 'umb/', 'browsers'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, MODULE_DIR . 'umb/', 'detect'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, MODULE_DIR . 'umb/', 'status'),
+			new Ajde_Resource_Local(Ajde_Resource::TYPE_JAVASCRIPT, MODULE_DIR . 'umb/', 'widget')
 		);
 		
 		// Add to compressor

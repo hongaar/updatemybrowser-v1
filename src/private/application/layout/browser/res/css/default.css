@@ -265,7 +265,7 @@ a, a:visited, a:active {
 		padding: 0;
 	}
 	
-	#footer p {
+	#footer p.outro {
 		position: absolute;
 		top: 30px;
 		left: 0px;
@@ -277,17 +277,49 @@ a, a:visited, a:active {
 		word-spacing: 0.3em;
 	}
 	
-	#footer p strong {
+	#footer p.outro strong {
 		text-decoration: none;
 	}
 	
-	#footer span {
+	#footer span.copy {
 		position: absolute;
 		top: 180px;
-		left: 600px;
+		left: 10px;
 		
 		font-size: 0.7em;
 		font-weight: 700;
+	}
+	
+	#footer div.twitter {
+		position: relative;
+		height: 200px;
+	}
+	
+	#footer div.twitter #twitter_update_list {
+		position: absolute;
+		bottom: 50px;
+		left: 400px;	
+	}
+	
+	#footer div.twitter #twitter_update_list,
+	#footer div.twitter #twitter_update_list a {
+		font-size: 0.9em;
+		color: gray;
+		width: 250px;
+	}
+	
+	#footer div.twitter #twitter_update_list a {
+		color: @dark;
+	}
+	
+	#footer div.twitter #twitter_update_list li {
+		list-style: none;
+	}
+	
+	#footer div.twitter .twitter-follow-button {
+		position: absolute;
+		top: 170px;
+		left: 400px;
 	}
 
 /********************
