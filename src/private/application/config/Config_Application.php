@@ -6,7 +6,7 @@ class Config_Application extends Config_Secret
 	// Site parameters
 	public $ident				= 'umb';
 	public $sitename 			= 'Update my browser';
-	public $description			= 'Updates your browser step by step. Detect your current browser and checks if it is up to date. Provides site owners with an easy widget to warn visitors of ourdated browsers.';	
+	public $description			= 'Updates your browser step by step. Detect your current browser and checks if it is up to date. Provides site owners with an easy widget to warn visitors of outdated browsers.';	
 	public $author				= 'Nabble';
 	public $version 			= array(
 									'number' => '0.1',
