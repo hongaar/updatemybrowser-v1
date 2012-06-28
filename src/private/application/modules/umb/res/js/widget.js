@@ -45,7 +45,7 @@ UMB.Widget = function() {
 		var wrapperStyle = {
 			display: 'none',
 			position: 'absolute',
-			height: '20px',
+			height: '19px',
 			fontSize: '14px',
 			lineHeight: '1em',
 			fontFamily: 'Arial, sans-serif',
@@ -235,7 +235,8 @@ UMB.Widget = function() {
 			BrowserBar.style.width = (document.documentElement.clientWidth || document.body.clientWidth) + 'px';
 		} else {
 			// Reposition body element
-			body.style.position = 'relative';		
+			body.style.position = 'relative';	
+			body.style.overflow = 'visible';
 			animate(body, 'top', "+40", 300);
 			
 			if (!isFixed) {
