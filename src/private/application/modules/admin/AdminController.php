@@ -20,6 +20,12 @@ class AdminController extends Ajde_Acl_Controller
 	
 	public function autoUpdate()
 	{
+		$this->_autoUpdate();
+		return $this->render();
+	}
+	
+	private function _autoUpdate()
+	{		
 		$url = 'http://fresh-browsers.com/export/browsers.serialized';
 		$fresh = unserialize(Ajde_Http_Curl::get($url));
 
@@ -39,10 +45,15 @@ class AdminController extends Ajde_Acl_Controller
 				$browser->save();
 			}
 		}
-		return $this->render();
 	}
 	
 	public function compileScript()
+	{
+		$this->_compileScript();		
+		return $this->render();
+	}
+	
+	private function _compileScript()
 	{
 		// Register models
 		Ajde_Model::register('browser');
@@ -54,9 +65,9 @@ class AdminController extends Ajde_Acl_Controller
 		$json = $browsers->getJSON();
 		
 		// Compile browsers.js
-		$browsersJsSrc = file_get_contents('../umb/res/js/browsers.src.js');
+		$browsersJsSrc = file_get_contents(MODULE_DIR . 'umb/res/js/browsers.src.js');
 		$browsersJs = str_replace('###JSONSTRINGHERE###', $json, $browsersJsSrc);
-		file_put_contents('../umb/res/js/browsers.js', $browsersJs);
+		file_put_contents(MODULE_DIR . 'umb/res/js/browsers.js', $browsersJs);
 		
 		// Init compressed resource
 		/* @var $compressor Ajde_Resource_Local_Compressor_Js */
@@ -83,14 +94,25 @@ class AdminController extends Ajde_Acl_Controller
 		
 		// Write
 		file_put_contents('umb.js', $js);
-		
-		return $this->render();
 	}
 	
 	public function browser()
 	{
 		Ajde_Model::register("browser");
 		return $this->render();
+	}
+	
+	public function cron()
+	{
+		Ajde::app()->getDocument()->setLayout(new Ajde_Layout('empty'));
+		
+		try {
+			$this->_autoUpdate();
+			$this->_compileScript();
+			return 'Admin cronjob OK';
+		} catch (Exception $e) {
+			return 'Admin cronjob failed with ' . $e->getMessage();
+		}
 	}
 	
 }
