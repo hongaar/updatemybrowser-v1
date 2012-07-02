@@ -34,3 +34,38 @@ div.video a {
 div.video a:hover {
 	opacity: 1;
 }
+
+#arrow {
+	cursor: pointer;
+	display: none;
+	position: absolute;
+	top: 470px;
+	left: 0;
+	width: 100%;
+	/*height: 467px;
+	background-image: url('../../public/images/arrow-bg.png');
+	background-repeat: repeat-x;*/
+	text-align: center;
+	z-index: 99;
+}
+
+.fill {
+	position: relative;
+	width: 100%;
+	height: 120px;
+	margin: 0;
+	border-top: 2px solid #ccc;
+	background-color: @bb;
+}
+
+	.fill .teaser {
+		
+		position: relative;
+		width: 760px;
+		margin: 0 auto;
+		padding: 0;
+	}
+	
+	.fill .teaser * {
+		display: none;
+	}

@@ -141,7 +141,7 @@ a, a:visited, a:active {
 	#header img {
 		position: absolute;
 		top: 27px;
-		left: 10px;
+		left: 17px;
 	}
 	
 	#header h1 {
@@ -178,7 +178,7 @@ a, a:visited, a:active {
 	#header ul {
 		position: absolute;
 		top: 95px;
-		left: 150px;
+		left: 70px;
 		margin: 0;
 		padding: 0;
 		

@@ -1,5 +1,10 @@
 /*#!less*/
 
+#content {
+	padding-left: 70px;
+	width: 690px;
+}
+
 h2 {
 	margin-bottom: 10px;
 }
