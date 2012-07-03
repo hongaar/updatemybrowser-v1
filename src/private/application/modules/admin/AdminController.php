@@ -37,13 +37,31 @@ class AdminController extends Ajde_Acl_Controller
 				$current = $fresh[$browser->shortname]['Stable']['releaseVersion'];
 				$c = preg_match_all('/[0-9]+/', $current, $matches);
 				if ($c > 0) {
-					$browser->current = $matches[0][0];
+					$newCurrent = $matches[0][0];
 					if ($c > 1 && (int) $matches[0][1] > 0) {
-						$browser->current = $browser->current . "." . $matches[0][1];
+						$newCurrent = $newCurrent . "." . $matches[0][1];
+					}					
+					if ((string) $browser->current <> (string) $newCurrent) {
+						// Update browser version in DB
+						$browser->current = $newCurrent;
+						$browser->save();
+						
+						// Send tweet
+						$twitter = new Umb_Twitter();
+						$status = '';
+						if ($browser->twitter_user) {
+							$status = '@' . $browser->twitter_user . ' ';
+						}
+						if ($browser->vendor) {
+							$status = $status . $browser->vendor . ' ';
+						}
+						$status = $status . $browser->name . ' ';
+						$status = $status . __('updated to version') . ' ';
+						$status = $status . $newCurrent;
+						$twitter->statusUpdate('http://updatemybrowser.org', $status);
 					}
-				}
-				$browser->save();
-			}
+				}				
+			}			
 		}
 	}
 	

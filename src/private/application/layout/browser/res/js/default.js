@@ -7,19 +7,46 @@ var _umb = {
 if (typeof BD ==="undefined") {BD = function() {}};
 
 BD.UI = function() {
+	
+	// http://www.abeautifulsite.net/blog/2011/11/detecting-mobile-devices-with-javascript/
+	var isMobile = {
+		Android: function() {
+			return navigator.userAgent.match(/Android/i) ? true : false;
+		},
+		BlackBerry: function() {
+			return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+		},
+		iOS: function() {
+			return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+		},
+		Windows: function() {
+			return navigator.userAgent.match(/IEMobile/i) ? true : false;
+		},
+		any: function() {
+			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+		}
+	};
+	
+	var addMobileClass = function() {
+		if (isMobile.any()) {
+			$('body').addClass('mobile');
+		}
+	};
+	
 	return {
 		
 		init: function() {
 			BD.UI.ContentMenu.init();
+			addMobileClass();
 			this.fancybox();
 			this.blank();
 			this.tip();
 			
 			// Last tweet
 			(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				var ga = document.createElement('script');ga.type = 'text/javascript';ga.async = true;
 				ga.src = 'https://twitter.com/statuses/user_timeline/updatemybrowser.json?include_rts=1&callback=twitterCallback2&count=1';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga, s);
 			})();
 		},
 		

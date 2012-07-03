@@ -51,7 +51,9 @@ class Config_Application extends Config_Secret
 	//public $dbPassword;
 	//public $textEditor;
 	
-	//public $registerNamespaces;
+	public $registerNamespaces	= array(
+									'Umb'
+									);
 	//public $overrideClass;
 	
 	//public $transactionProviders;

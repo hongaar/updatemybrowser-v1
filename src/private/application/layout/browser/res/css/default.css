@@ -1,6 +1,6 @@
 /*#!less*/
 /**
- * Example styles for advanced layout
+ * Styles for updatemybrowser
  */
  
 @bb: #5eafef;
@@ -15,31 +15,24 @@
 /* clear syntax hightlighting errors in netbeans */
 body {}
 
-
 h1, h2, h3, h4 {
+	font-size: 2em;
 	font-weight: normal;
-}
-
-h1 {
-	font-size: 4em;
+	
 }
 
 h2 {
-	font-size: 3em;
+	font-size: 1.5em;
 	margin-bottom: 0.3em;
 }
 
-h3 {
-	font-size: 2em;
-}
-
-h4 {
-	font-size: 1.3em;
+h3, h4 {
 	font-weight: 700;
+	font-size: 1em;
 }
 
 p,ul,ol {
-	margin-bottom: 0.8em;
+	margin-bottom: 0.5em;
 }
 
 ::-moz-selection{ background: @dark; color:#fff; text-shadow: none; }
@@ -243,6 +236,10 @@ a, a:visited, a:active {
 	overflow-y: hidden !important;
 	width: 760px !important;
 	font-size: 0.8em !important;
+}
+
+#mobilecontent {
+	display: none;
 }
 
 /********************

@@ -1,65 +1,68 @@
 /**
- * Example styles for mobile layout
+ * Styles for mobile layout
  */
  
-h1, h2, h3, h4 {
-	font-size: 2em;
-	font-weight: normal;
+#wrapper {
+	overflow: hidden;
+}
+ 
+body.mobile #header h2,
+body.mobile #header ul,
+body.mobile #content,
+body.mobile div.teaserwrapper,
+body.mobile #arrow,
+body.mobile #footerwrapper #twitter_update_list
+{
+	display: none !important;
 }
 
-h2 {
-	font-size: 1.5em;
-}
-
-h3, h4 {
-	font-weight: 700;
-	font-size: 1em;
-}
-
-p,ul,ol {
-	margin-bottom: 0.5em;
-}
-
-header {
-	padding: 10px 0;
-	margin-bottom: 10px;
-}
-
-header h4 {
-	font-size: 1em;
-	padding: 2px;
-	color: white;
-	
-	background-image: none;
-}
-
-nav li {
-	height: 2em;
-	display: inline-block;
-	padding: 0 2px;
-}
-
-nav a, nav a:active, nav a:visited {
-	font-size: 1.2em;
-	font-weight: 700;
-	text-decoration: none;
-	color: #9b0092;
-	border-bottom: 2px solid #f590ef;	
-}
-
-nav a:hover {
-	border-color: #9b0092;
-}
-
-dl.form.wide {
-	min-width: inherit;
-}
-
-dl.form.wide dt {
+body.mobile #headerwrapper {
 	position: relative;
-	text-align: left;
+	top: -10px;
+	height: 95px;
 }
 
-dl.form.wide dd {
-	margin-left: 0;
+	body.mobile #headerwrapper h1 {
+		font-size: 1.5em;
+	}
+	
+	body.mobile #headerwrapper h1 span {
+		font-size: 12px;
+	}
+
+body.mobile #footerwrapper {
+	width: auto;
 }
+
+	body.mobile #footer {
+		position: relative;
+		left: 10px;
+		width: auto;
+	}
+	
+	body.mobile #footer p.outro {
+		width: 280px;
+		top: 15px;
+	}
+	
+	body.mobile #footer div.twitter .twitter-follow-button {
+		top: -50px;
+		left: 10px;
+	}
+
+body.mobile #mobilecontent {
+	display: block;
+	position: relative;
+	width: auto;
+	top: 0px;
+	margin: 10px 20px 80px 20px;
+	padding: 0;
+}
+
+	body.mobile #mobilecontent h1 {
+		display: none;
+		
+		margin: 0 0 20px 70px;		
+		font-weight: 400;
+		font-size: 3em;
+	}

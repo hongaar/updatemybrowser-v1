@@ -22,7 +22,6 @@ $this->requireJsFirst('i18n.' . Ajde_Lang::getInstance()->getShortLang());
 $this->requireJsFirst('core.alert'); $this->requireCssFirst('core.alert');
 
 // Example styles
-$this->requireGWebFont('Dosis', array(400, 700));
 $this->requireCss('default.mobile', 'html', null, Ajde_Document_Format_Html::RESOURCE_POSITION_LAST, 'media="only screen and (max-width: 767px)"');
 
 $module = Ajde::app()->getRoute()->getModule();
@@ -113,7 +112,8 @@ $action = Ajde::app()->getRoute()->getAction();
 					</ul>
 				</div>
 			</div>
-			<?php echo Ajde::app()->getDocument()->getBody(); ?>				
+			<?php echo Ajde::app()->getDocument()->getBody(); ?>
+			<?php echo $this->includeModule('about/mobile.html'); ?>
 			<div id='footerwrapper'>
 				<div id='footer'>
 					<p class='outro'>

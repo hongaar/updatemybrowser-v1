@@ -12,4 +12,8 @@ class Config_Secret extends Config_Advanced
 	public $dbUser 				= '';
 	public $dbPassword 			= '';	
 	
+	public $twitterUser			= "updatemybrowser";
+	public $twitterToken		= "";
+	public $twitterTokenSecret	= "";
+	
 }

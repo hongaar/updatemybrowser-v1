@@ -53,4 +53,9 @@ class AboutController extends Ajde_Controller
 		Ajde::app()->getDocument()->setTitle("Statistics");
 		return $this->render();
 	}
+	
+	public function mobile()
+	{
+		return $this->render();
+	}
 }
