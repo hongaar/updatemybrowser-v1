@@ -61,7 +61,8 @@ UMB.Widget = function() {
 			width: '100%',
 			textAlign: 'left',
 			cursor: 'pointer',
-			zoom: '1'
+			zoom: '1',
+			zIndex: 9999
 		};
 		applyStyle(wrapperStyle, wrapper);
 		wrapper.setAttribute('id', 'BrowserBar');
@@ -221,7 +222,7 @@ UMB.Widget = function() {
 		if (getComputedVal(BrowserBar, 'display') !== 'none') {return;}
 		
 		// Add body class
-		body.className += ' umb_active';
+		body.className += ' umb-active';
 		
 		// BrowserBar
 		BrowserBar.style.opacity = '0';
@@ -285,7 +286,7 @@ UMB.Widget = function() {
 		if (getComputedVal(BrowserBar, 'display') !== 'block') {return;}
 		
 		// Remove body class
-		body.className = body.className.replace(' umb_active', '');
+		body.className = body.className.replace(' umb-active', '');
 		
 		// BrowserBar
 		animate(BrowserBar, 'opacity', 0, 600, function() {
