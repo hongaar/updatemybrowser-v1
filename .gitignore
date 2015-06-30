@@ -1,9 +1,9 @@
 Thumbs.db
 desktop.ini
 nbproject/
-src/private/var/cache/*
-src/private/var/log/*
-src/public/images/uploads/*
+private/var/cache/*
+private/var/log/*
+public/images/uploads/*
 Config_Secret.php
-src/private/lib/Zend/*
+private/lib/Zend/*
 .idea/

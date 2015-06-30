@@ -17,7 +17,7 @@ BD.Check = function() {
 	};
 	
 	var hideOverlay = function() {
-		arrowDiv.hide();
+		arrowDiv.fadeOut();
 		$('.teaserwrapper').removeClass('fill');
 	};
 	
@@ -33,7 +33,7 @@ BD.Check = function() {
 			BD.Check.setStatus(UMB.getStatus());
 			
 			arrowDiv.click(function() {
-				$(this).fadeOut();
+				hideOverlay();
 			});
 			
 			// Event handlers

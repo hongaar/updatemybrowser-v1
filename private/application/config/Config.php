@@ -4,7 +4,7 @@ class Config {
 
 	// Redirect this class to the following config stage
 	// Default is 'auto' (chooses between 'dev' and 'live' based on remote_addrr
-	public static $stage			= 'auto';
+	public static $stage			= 'live';
 	
 	// localhost and private networks, add your own dev machine if not in
 	// private network range!
@@ -13,7 +13,8 @@ class Config {
 		'/127\.0\.0\.1/',
 		'/10\.[1-9]{1,3}\.[1-9]{1,3}\.[1-9]{1,3}/',
 		'/172\.[1-3][0-9]\.[1-9]{1,3}\.[1-9]{1,3}/',
-		'/192\.168\.[1-9]{1,3}\.[1-9]{1,3}/'
+		'/192\.168\.[1-9]{1,3}\.[1-9]{1,3}/',
+        '/109\.237\.220\.206/'
 	);
 
 	/**
@@ -63,7 +64,7 @@ class Config {
 	private static function _getAutoStage()
 	{
 		foreach(self::$local as $pattern)
-		if (preg_match($pattern, $_SERVER['REMOTE_ADDR'])) {
+		if (preg_match($pattern, $_SERVER['SERVER_ADDR'])) {
 			return 'dev';
 		}
 		return 'live';

@@ -166,6 +166,8 @@ a, a:visited, a:active {
 		font-weight: 400;
 		font-size: 2em;
 		letter-spacing: -0.07em;
+
+		white-space: nowrap;
 	}
 	
 	#header ul {
@@ -293,9 +295,10 @@ a, a:visited, a:active {
 	}
 	
 	#footer div.twitter #twitter_update_list {
-		position: absolute;
-		bottom: 50px;
+		position: absolute !important;
+		top: 22px;
 		left: 400px;	
+		text-decoration: none;
 	}
 	
 	#footer div.twitter #twitter_update_list,
@@ -312,9 +315,16 @@ a, a:visited, a:active {
 	#footer div.twitter #twitter_update_list li {
 		list-style: none;
 	}
+
+	#footer div.twitter .twitter-timeline {
+		position: absolute;
+		bottom: 50px;
+		left: 400px;	
+		height: 87px;
+	}
 	
 	#footer div.twitter .twitter-follow-button {
-		position: absolute;
+		position: absolute !important;
 		top: 170px;
 		left: 400px;
 	}

@@ -26,40 +26,36 @@ class AdminController extends Ajde_Acl_Controller
 	
 	private function _autoUpdate()
 	{		
-		$url = 'http://fresh-browsers.com/export/browsers.serialized';
-		$fresh = unserialize(Ajde_Http_Curl::get($url));
+		$updater = new Umb_Updater_Caniuse();
+        $updater->update();
 
 		Ajde_Model::register("browser");		
 		$browsers = new BrowserCollection();
 		
 		foreach($browsers as $browser) {
-			if (array_key_exists($browser->shortname, $fresh)) {
-				$current = $fresh[$browser->shortname]['Stable']['releaseVersion'];
-				$c = preg_match_all('/[0-9]+/', $current, $matches);
-				if ($c > 0) {
-					$newCurrent = $matches[0][0];
-					if ($c > 1 && (int) $matches[0][1] > 0) {
-						$newCurrent = $newCurrent . "." . $matches[0][1];
-					}					
-					if ((string) $browser->current <> (string) $newCurrent) {
-						// Update browser version in DB
-						$browser->current = $newCurrent;
-						$browser->save();
-						
-						// Send tweet
-						$twitter = new Umb_Twitter();
-						$status = '';
-						if ($browser->twitter_user) {
-							$status = '@' . $browser->twitter_user . ' ';
-						}
-						if ($browser->vendor) {
-							$status = $status . $browser->vendor . ' ';
-						}
-						$status = $status . $browser->name . ' ';
-						$status = $status . __('updated to version') . ' ';
-						$status = $status . $newCurrent;
-						$twitter->statusUpdate('http://updatemybrowser.org', $status);
-					}
+			if ($version = $updater->getVersion($browser->shortname, $browser->version_channel, $browser->version_platform)) {
+                if ((string) $browser->current <> (string) $version) {
+
+                    // Update browser version in DB
+                    $browser->current = $version;
+                    $browser->minimum = $version - 1;
+                    $browser->save();
+
+                    // Send tweet
+                    $twitter = new Umb_Twitter();
+                    $status = '';
+                    if ($browser->vendor) {
+                        $status = $status . $browser->vendor . ' ';
+                    }
+                    $status = $status . $browser->name . ' ';
+                    $status = $status . __('updated to version') . ' ';
+                    $status = $status . $version . ' ';
+                    if ($browser->twitter_user) {
+                        $status = $status . '#' . $browser->twitter_user . ' ';
+                    }
+                    $status = $status . '#uptodate ';
+                    $twitter->statusUpdate('http://updatemybrowser.org', $status);
+
 				}				
 			}			
 		}

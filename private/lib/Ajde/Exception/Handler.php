@@ -152,7 +152,7 @@ class Ajde_Exception_Handler extends Ajde_Object_Static
 				);
 				foreach(array_reverse($exception->getTrace()) as $i => $line) {
 					$message .= PHP_EOL;
-					$message .= $i . '. ' . $line['file'] . ' on line ' . $line['line'];
+					$message .= $i . '. ' . issetor($line['file']) . ' on line ' . issetor($line['line']);
 				}				
 				break;
 		}

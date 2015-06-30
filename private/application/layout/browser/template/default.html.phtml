@@ -121,7 +121,13 @@ $action = Ajde::app()->getRoute()->getAction();
 					</p>					
 					<span class='copy'>&copy; <?php echo date('Y'); ?> <?php echo __('All right reserved'); ?></span>
 					<div class='twitter'>
-						<div id='twitter_update_list'>Loading last tweet...</div>
+
+						<a id="twitter_update_list" class="twitter-timeline" href="https://twitter.com/updatemybrowser"
+							data-widget-id="363313829662314496"
+							data-chrome="noheader nofooter noborders noscrollbar transparent"
+							>Loading last tweet...</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 						<a href="https://twitter.com/updatemybrowser" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @updatemybrowser</a>
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 					</div>
