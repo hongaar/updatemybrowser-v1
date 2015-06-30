@@ -6,3 +6,4 @@ src/private/var/log/*
 src/public/images/uploads/*
 Config_Secret.php
 src/private/lib/Zend/*
+.idea/
