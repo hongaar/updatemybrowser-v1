@@ -28,13 +28,14 @@ UMB.Widget = function() {
 	var setCookie = function(key, value, days) {
 		var exdate = new Date();
 		exdate.setDate(exdate.getDate() + days);
-		var content = escape(value) + ((days == null) ? '': '; expires=' + exdate.toUTCString()) + '; path=/';
+		var content = encodeURIComponent(value) + ((days == null) ? '': '; expires=' + exdate.toUTCString()) + '; path=/';
 		document.cookie = key + '=' + content;
 	};
 	
 	var insertHtml = function() {
 		
 		// CLEAN UP OLD WRAPPER
+        isFixed = false;
 		var oldWrapper = document.getElementById('BrowserBar');
 		if (oldWrapper) {
 			document.getElementsByTagName('body')[0].removeChild(oldWrapper);
@@ -54,7 +55,7 @@ UMB.Widget = function() {
 			top: '-40px',
 			left: '0px',
 			backgroundColor: '#FDF2AB',
-			backgroundImage: 'url(http://updatemybrowser.org/warning.gif)',
+			backgroundImage: 'url(//updatemybrowser.org/warning.gif)',
 			backgroundPosition: '10px center',
 			backgroundRepeat: 'no-repeat',
 			borderBottom: '1px solid #A29330',
@@ -62,8 +63,12 @@ UMB.Widget = function() {
 			textAlign: 'left',
 			cursor: 'pointer',
 			zoom: '1',
-			zIndex: 9999
-		};
+			zIndex: 9999,
+            '-webkit-box-sizing': 'content-box',
+            '-moz-box-sizing': 'content-box',
+            'box-sizing': 'content-box',
+            overflow: 'hidden'
+        };
 		applyStyle(wrapperStyle, wrapper);
 		wrapper.setAttribute('id', 'BrowserBar');
 		
@@ -98,7 +103,7 @@ UMB.Widget = function() {
 			position: 'absolute',
 			top: '10px',
 			right: '10px',
-			backgroundImage: 'url(http://updatemybrowser.org/close.gif)',
+			backgroundImage: 'url(//updatemybrowser.org/close.gif)',
 			backgroundPosition: '0 0',
 			backgroundRepeat: 'no-repeat'
 		};
@@ -117,7 +122,7 @@ UMB.Widget = function() {
 		
 		var wrapper = document.getElementById('BrowserBar');
 		var link = document.createElement('a');
-		link.href = 'http://www.updatemybrowser.org';
+		link.href = 'https://www.updatemybrowser.org';
 		link.onclick = function(){return false;};
 		link.style.color = '#2183d0';
 		link.style.fontWeight = 'bold';
@@ -305,10 +310,14 @@ UMB.Widget = function() {
 		init: function() {
 			if (hasInit) {return;}
 			hasInit = true;
-			
-			insertHtml();
-			prepareHtml();
+
+            UMB.Widget.redraw();
 		},
+
+        redraw: function() {
+            insertHtml();
+            prepareHtml();
+        },
 		
 		display: function() {
 			UMB.Widget.init();

@@ -18,18 +18,21 @@ UMB = function() {
 	/*
 	* Recursively merge properties of two objects 
 	*/
-	function mergeRecursive(obj1, obj2) {
-		for (var p in obj2) {
+	function mergeRecursive(obj1, obj2, lvl) {
+        var lvl = lvl || 0;
+        //console.log('     '.repeat(lvl), 'Merging', obj1, 'with', obj2);
+		for (var p in obj1) {
 			try {
-				// Property in destination object set; update its value.
+                //console.log('     '.repeat(lvl), ' - Setting', p, 'in', obj1);
 				if ( obj2[p].constructor==Object ) {
-					obj1[p] = MergeRecursive(obj1[p], obj2[p]);
+                    //console.log('     '.repeat(lvl), '   > Merging with', obj2[p]);
+					obj1[p] = mergeRecursive(obj1[p], obj2[p], lvl+1);
 				} else {
+                    //console.log('     '.repeat(lvl), '   > Setting to', obj2[p]);
 					obj1[p] = obj2[p];
 				}
 			} catch(e) {
-				// Property in destination object not set; create it and set its value.
-				obj1[p] = obj2[p];
+				//console.log('     '.repeat(lvl), '   > Leaving at', obj1[p]);
 			}
 		}
 		return obj1;
@@ -38,8 +41,8 @@ UMB = function() {
 	var init = function() {
 		if (hasInit) {return;}
 		hasInit = true;
-				
-		UMB.Status.init();
+
+        UMB.Detect.init();
 		
 		var _umb = window._umb || {};
 		config = {
@@ -97,7 +100,7 @@ UMB = function() {
 		
 		getBrowserInfo: function(browser) {
 			init();
-			return UMB.Status.getBrowserInfo(browser);
+			return UMB.Browsers[browser];
 		},
 
 		getStatus: function() {

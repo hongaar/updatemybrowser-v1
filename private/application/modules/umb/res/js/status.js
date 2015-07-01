@@ -15,33 +15,18 @@
 
 UMB.Status = function() {
 	
-	var b;
-	var v;
-	
 	var STATUS_LATEST 		= 'latest';
 	var STATUS_UPDATE 		= 'update';
 	var STATUS_WARNING 		= 'warning';
 	
 	return {
-		
-		init: function() {
-			UMB.Detect.init();
-			
-			b = UMB.Detect.browser;
-			v = UMB.Detect.version;
-		},
-		
-		getBrowserInfo: function(browser) {
-			return UMB.Browsers[browser];
-		},
-
 		getStatus: function() {
-			var browser = UMB.Status.getBrowserInfo(b);
+			var browser = UMB.getBrowserInfo(UMB.Detect.browser);
 			var latestVersion = parseFloat(browser.current);
-			var minimumVersion = parseFloat(UMB.getConfig().require[b]);
-			if (v >= latestVersion) {
+			var minimumVersion = parseFloat(UMB.getConfig().require[UMB.Detect.browser]);
+			if (UMB.Detect.version >= latestVersion) {
 				return STATUS_LATEST;
-			} else if (v >= minimumVersion) {
+			} else if (UMB.Detect.version >= minimumVersion) {
 				return STATUS_UPDATE;
 			} else {
 				return STATUS_WARNING;

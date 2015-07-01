@@ -9,4 +9,4 @@
  */
 ;if (typeof UMB === "undefined") {UMB = function() {}};
 
-UMB.Browsers = ###JSONSTRINGHERE###;
+UMB.Browsers = '###JSONSTRINGHERE###';

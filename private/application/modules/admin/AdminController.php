@@ -80,7 +80,7 @@ class AdminController extends Ajde_Acl_Controller
 		
 		// Compile browsers.js
 		$browsersJsSrc = file_get_contents(MODULE_DIR . 'umb/res/js/browsers.src.js');
-		$browsersJs = str_replace('###JSONSTRINGHERE###', $json, $browsersJsSrc);
+		$browsersJs = str_replace("'###JSONSTRINGHERE###'", $json, $browsersJsSrc);
 		file_put_contents(MODULE_DIR . 'umb/res/js/browsers.js', $browsersJs);
 		
 		// Init compressed resource
