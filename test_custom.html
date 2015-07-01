@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Update my browser</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <script type="text/javascript">
+            var _umb = {
+                require: {
+                    chrome: 2
+                }
+            };
+        </script>
+        <script src="private/application/modules/umb/res/js/umb.js"></script>
+        <script src="private/application/modules/umb/res/js/browsers.js"></script>
+        <script src="private/application/modules/umb/res/js/detect.js"></script>
+        <script src="private/application/modules/umb/res/js/status.js"></script>
+        <script src="private/application/modules/umb/res/js/widget.js"></script>
+
+        <style>
+            body {
+                background-color: #80B5F2;
+            }
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            header {
+                background-color: white;
+            }
+        </style>
+		
+	</head>
+	<body>
+
+        <header>
+            <h1>Custom test</h1>
+        </header>
+
+        <h3>Assume CHROME</h3>
+
+        <button type="button" onclick="UMB.Detect.version = 1;UMB.Browsers.chrome.current=100;">
+            set status to WARNING</button>
+        <button type="button" onclick="UMB.Detect.version = 2;UMB.Browsers.chrome.current=100;">
+            set status to UPDATE</button>
+        <button type="button" onclick="UMB.Detect.version = 1;UMB.Browsers.chrome.current=1;">
+            set status to LATEST</button>
+
+        <br/><br/>
+
+        <button type="button" onclick="UMB.Widget.redraw();UMB.displayWidget();">displayWidget()</button>
+        <button type="button" onclick="UMB.hideWidget();">hideWidget()</button>
+
+        <br/><br/>
+
+        <button type="button" onclick="document.getElementById('output').value = UMB.getCurrentBrowser();">getCurrentBrowser()</button>
+        <button type="button" onclick="document.getElementById('output').value = UMB.getCurrentVersion();">getCurrentVersion()</button>
+        <button type="button" onclick="document.getElementById('output').value = UMB.getStatus();">getStatus()</button>
+        <button type="button" onclick="document.getElementById('output').value = JSON.stringify(UMB.getBrowserInfo(UMB.getCurrentBrowser()));">getBrowserInfo()</button>
+        <button type="button" onclick="document.getElementById('output').value = JSON.stringify(UMB.getConfig());">getConfig()</button>
+
+        <textarea placeholder="output" id="output" style="width: 100%; height: 4em; margin-top: 10px;"></textarea>
+
+        <div style="height:4000px;"></div>
+		
+	</body>
+</html>
