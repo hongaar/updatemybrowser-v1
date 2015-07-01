@@ -52,7 +52,7 @@ $action = Ajde::app()->getRoute()->getAction();
 		<meta http-equiv="cleartype" content="on">
 		
 		<!-- Define the root of the site -->
-		<base href='http://<?php echo Config::get('lang_root'); ?>' />
+		<base href='//<?php echo Config::get('lang_root'); ?>' />
 		
 		<!-- require JavaScript and cookies -->		
 		<!--<noscript>
@@ -99,7 +99,7 @@ $action = Ajde::app()->getRoute()->getAction();
 					<ul>
 						<li><a class='<?php if ($module == 'browser') { echo 'active '; } ?>
 							bb-shadow' href='browser'>
-							<?php echo __('Browsercheck'); ?></a></li>
+							<?php echo __('Browser Check'); ?></a></li>
 						<li><a class='<?php if ($module == 'widget') { echo 'active '; } ?>
 							bb-shadow' href='widget'>
 							<?php echo __('Widget'); ?></a></li>

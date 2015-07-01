@@ -4,7 +4,7 @@ class BrowserController extends Ajde_Controller
 {
 	function afterInvoke()
 	{
-		$title = __('Browsercheck');
+		$title = __('Browser Check');
 		if (Ajde::app()->getDocument()->hasTitle()) {
 			$title = $title . '/' . Ajde::app()->getDocument()->getTitle();
 		}

@@ -27,7 +27,7 @@ BD.Widget = function() {
 			}
 			var code = code + '\n};\n';			
 		}
-		code = code + '(function() {\n\	var s = document.createElement(\'script\'); s.type = \'text/javascript\'; s.async = true;\n\	s.src = (\'https:\'==document.location.protocol?\'https://\':\'http://\') + \'updatemybrowser.org/umb.js\';\n\	var b = document.getElementsByTagName(\'script\')[0]; b.parentNode.insertBefore(s, b);\n\})();\n\</script>';
+		code = code + '(function() {\n\	var s = document.createElement(\'script\'); s.type = \'text/javascript\';\n\	s.async = true; s.src = \'//updatemybrowser.org/umb.js\';\n\	var b = document.getElementsByTagName(\'script\')[0]; b.parentNode.insertBefore(s, b);\n\})();\n\</script>';
 		
 		// Clean up old code
 		$('div.syntaxhighlighter').parent().remove();
