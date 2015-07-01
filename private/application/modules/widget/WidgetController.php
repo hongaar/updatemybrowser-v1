@@ -25,6 +25,11 @@ class WidgetController extends Ajde_Controller
 			'typo3' => '3ab54a',
 			'joomla' => 'e52525'
 		);
+
+        // Fast cycling browsers
+        $fastCycle = array(
+            'chrome', 'firefox', 'opera'
+        );
 		
 		// Get browsers
 		$browsers = new BrowserCollection();
@@ -34,6 +39,7 @@ class WidgetController extends Ajde_Controller
 		// Set vars and return
 		$this->getView()->assign("browsers", $browsers);
 		$this->getView()->assign("colors", $colors);
+        $this->getView()->assign("fastCycle", $fastCycle);
 		return $this->render();
 	}
 }

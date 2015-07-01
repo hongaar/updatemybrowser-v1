@@ -6,6 +6,7 @@ class BrowserCollection extends Ajde_Collection
 	{
 		$includeKeys = array(
 			'name',
+            'vendor',
 			'current',
 			'minimum',
 			'update_url',

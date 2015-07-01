@@ -7,27 +7,35 @@ BD.Widget = function() {
 	
 	var makeCode = function() {
 		// The code
-		var code = '<script type="text/javascript">\n';
+		var code = '<script>\n';
 		if ($('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') || $('#adv_noncritical').is(':not(:checked)')) {
-			code = code + 'var _umb = {\n';
+			code += 'var _umb = {\n';
 			if ($('#custom').is(':checked')) {
-				code = code + '	require: {\n\		chrome: '+$('select[name=chrome]').val()+',\n\		firefox: '+$('select[name=firefox]').val()+',\n\		ie: '+$('select[name=ie]').val()+',\n\		opera: '+$('select[name=opera]').val()+',\n\		safari: '+$('select[name=safari]').val()+'\n\	}';
+				code += '\trequire: {\n\t\t';
+                var require = [];
+                if ($('select[name=chrome]').val() != 'auto') require.push('chrome: ' + $('select[name=chrome]').val());
+                if ($('select[name=ie]').val() != 'auto') require.push('ie: ' + $('select[name=ie]').val());
+                if ($('select[name=firefox]').val() != 'auto') require.push('firefox: ' + $('select[name=firefox]').val());
+                if ($('select[name=safari]').val() != 'auto') require.push('safari: ' + $('select[name=safari]').val());
+                if ($('select[name=opera]').val() != 'auto') require.push('opera: ' + $('select[name=opera]').val());
+                code += require.join(',\n\t\t');
+                code += '\n\t}';
 			}
 			if ( $('#adv_display').is(':not(:checked)') ) {
 				if ( $('#custom').is(':checked') ) {
-					code = code + ',\n';
+					code += ',\n';
 				}
-				code = code + '	display: false';
+				code += '\tdisplay: false';
 			}
 			if ( $('#adv_noncritical').is(':not(:checked)') ) {
 				if ( $('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') ) {
-					code = code + ',\n';
+					code += ',\n';
 				}
-				code = code + '	nonCritical: false';
+				code += '\tnonCritical: false';
 			}
-			var code = code + '\n};\n';			
-		}
-		code = code + '(function() {\n\	var s = document.createElement(\'script\'); s.type = \'text/javascript\';\n\	s.async = true; s.src = \'//updatemybrowser.org/umb.js\';\n\	var b = document.getElementsByTagName(\'script\')[0]; b.parentNode.insertBefore(s, b);\n\})();\n\</script>';
+			code += '\n};\n';
+        }
+		code += '(function(u) {\n\tvar s = document.createElement(\'script\'); s.async = true; s.src = u;\n\tvar b = document.getElementsByTagName(\'script\')[0]; b.parentNode.insertBefore(s, b);\n})(\'//updatemybrowser.org/umb.js\');\n<'+'/script>';
 		
 		// Clean up old code
 		$('div.syntaxhighlighter').parent().remove();

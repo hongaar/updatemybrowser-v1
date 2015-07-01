@@ -24,6 +24,11 @@
 	php_value display_startup_errors 1
 </IfModule>
 
+# Force https
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} updatemybrowser\.org
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 # Turn the RewriteEngine on, optionally specify the base path too
 RewriteEngine on
 

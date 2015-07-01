@@ -107,8 +107,8 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 				<a class='bigbutton <?php echo $browser->iframe_allowed == 1 ? 'fancybox' : 'blank'; ?> gray gray-shadow' title='Try a different browser by downloading it from from this webpage. After opening the downloaded file, follow the instructions on your screen to complete the installation.' href='<?php echo $browser->update_url; ?>'>Try out now</a>
 				<?php if ($browser->youtube_id) { ?>
 				<div class='video'>
-					<img src='http://img.youtube.com/vi/<?php echo $browser->youtube_id; ?>/0.jpg' width='380' />
-					<a class='fancybox' href='http://www.youtube.com/embed/<?php echo $browser->youtube_id; ?>?rel=0&amp;hd=1&amp;autoplay=1'></a>
+					<img src='//img.youtube.com/vi/<?php echo $browser->youtube_id; ?>/0.jpg' width='380' />
+					<a class='fancybox' href='//www.youtube.com/embed/<?php echo $browser->youtube_id; ?>?rel=0&amp;hd=1&amp;autoplay=1'></a>
 				</div>		
 				<?php } ?>
 				<p><a class='<?php echo $browser->iframe_allowed == 1 ? 'fancybox' : 'blank'; ?>' title='Read more about the features of this browser' href='<?php echo $browser->info_url; ?>'>Read more about <?php echo $browser->name; ?></a> before you give it a try.</p>

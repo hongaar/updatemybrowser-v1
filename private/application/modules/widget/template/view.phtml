@@ -119,8 +119,9 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 						<?php foreach($this->browsers as $browser): ?>				
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
 								<select name='<?php echo $browser->shortname; ?>'>
+                                    <option value="auto" <?php if (in_array($browser->shortname, $this->fastCycle)) { echo " selected='selected'"; } ?>>auto (<?php echo $browser->minimum; ?>)</option>
 									<?php for($i = ((int) $browser->minimum) - 2; $i <= (int) $browser->current; $i++) { ?>
-										<option <?php if ($i == ((int) $browser->minimum)) { echo 'selected=\'selected\''; } ?> value='<?php echo $i; ?>'><?php echo $i; ?></option>
+										<option <?php if ($i == ((int) $browser->minimum) && !in_array($browser->shortname, $this->fastCycle)) { echo "selected='selected'"; } ?> value='<?php echo $i; ?>'><?php echo $i; ?></option>
 									<?php } ?>
 								</select>									
 							</div>			

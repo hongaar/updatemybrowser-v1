@@ -7,25 +7,30 @@ $this->requireJsPublic('lib/SyntaxHighlighter/shBrushJScript.js');
 $this->requireCssPublic('lib/SyntaxHighlighter/shCore.css');
 $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 
+$this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FIRST);
+
 ?>
 
-<div id="content">
+<script>
+    var _umb = {
+        display: false
+    };
+</script>
 
-	<h2>Widget documentation</h2>
+<div id="content">
 	
-	<h2>Basics</h2>
+	<h2>Basic widget</h2>
 	<p>
 		This is the most basic code to include the updatemybrowser.org <a href="widget">widget</a> on your page.
-		Insert the code immediately before the closing &lt;/head&gt; tag in your page:
+		Insert the code before the closing &lt;/body&gt; tag in your page:
 	</p>	
 	
 	<pre class="brush: js">
-&lt;script type="text/javascript"&gt;
-(function() {
-	var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
-	s.src = ('https:'==document.location.protocol?'https://':'http://') + 'updatemybrowser.org/umb.js';
-	var b = document.getElementsByTagName('script')[0]; b.parentNode.insertBefore(s, b);
-})();
+&lt;script&gt;
+(function(u) {
+    var s = document.createElement('script'); s.async = true; s.src = u;
+    var b = document.getElementsByTagName('script')[0]; b.parentNode.insertBefore(s, b);
+})('//updatemybrowser.org/umb.js');
 &lt;/script&gt;
 	</pre>
 	
@@ -35,9 +40,9 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 	
 	<p>&nbsp;</p>
 	
-	<h2>Advanced</h2>
+	<h2>Advanced widget</h2>
 	
-	<h3>Warning threshold</h3>
+	<h3>Notification threshold versions</h3>
 	
 	<p>
 		Two different notifications can be shown in the widget. If a user has a
@@ -62,47 +67,106 @@ $this->requireCssPublic('lib/SyntaxHighlighter/shThemeDefault.css');
 	<p>
 		The widget is automatically updated with the recommended threshold for
 		every browser, but you can override these settings by including the
-		following configuration parameters somewhere in a &lt;script&gt; tag on your page:
+		following configuration parameters somewhere in a &lt;script&gt; tag on your page
+        (but before the widget script):
 	</p>
 	
 	<pre class="brush: js">
 var _umb = {
 	require: {
-		chrome: 15,
-		firefox: 4,
-		ie: 8,
-		opera: 10,
-		safari: 4
+		chrome: 42,
+		// firefox: 37,
+		ie: 10,
+		opera: 7,
+		safari: 29
 	}
 };
 	</pre>
+
+    <p>
+        When omitting a certain browser (in the above example Firefox) the widget will use the latest recommended
+        miminum version.
+    </p>
 	
-	<!--<h3>Display widget on page load</h3>
-	
-	<p>
-		
-	</p>
-	
-	<p>
-		<img src="public/images/latest.png" width="759" height="224" alt="Latest" />
-	</p>
-	
-	
-	
-	<pre class="brush: js">
+	<h3>Don't display widget on page load</h3>
+
+    <p>
+        By default, the widget will show immediately on page load when an update is available for the users browser.
+        To prevent this, use the following configuration:
+    </p>
+
+    <pre class="brush: js">
 var _umb = {
-	require: {
-		chrome: 15,
-		firefox: 4,
-		ie: 8,
-		opera: 10,
-		safari: 4
-	}
+	display: false
 };
-	</pre>-->
-	
+	</pre>
+
+    <h3>Display widget for critical updates only</h3>
+
 	<p>
-		More docs coming soon...
+        By default, the widget will always display a notification when an update is available for the users browser. If
+        you want to only display the notification for critical update (when a users browser version is below the
+        recommended version), use the following configuration:
 	</p>
+
+    <pre class="brush: js">
+var _umb = {
+	nonCritical: false
+};
+	</pre>
+
+    <p>
+        <i>When combining above configuration options, make sure to produce a valid JSON string. When in doubt, use
+        the <a href="widget">widget code generator</a> on this site.</i>
+    </p>
+
+    <h2>API</h2>
+
+    <h3>Methods</h3>
+
+    <pre class="brush: js">
+UMB.displayWidget();
+// --> displays the widget
+
+UMB.hideWidget();
+// --> hides the widget
+    </pre>
+
+    <button type="button" onclick="UMB.displayWidget();">displayWidget()</button>
+    <button type="button" onclick="UMB.hideWidget();">hideWidget()</button>
+
+    <h3>Getters</h3>
+
+    <pre class="brush: js">
+UMB.getCurrentBrowser();
+// "chrome"|"ie"|"firefox"|"safari"|"opera"
+
+UMB.getCurrentVersion();
+// i.e. 43
+
+UMB.getStatus();
+// "latest"|"update"|"warning"
+
+UMB.getBrowserInfo('chrome');
+/* {
+    name: "Chrome",
+    vendor: "Google",
+    current: "43",
+    minimum: "42",
+    update_url: "http://www.google.com/chrome",
+    info_url: "http://www.google.com/chrome/intl/en/more/index.html"
+} */
+    </pre>
+
+    <button type="button" onclick="document.getElementById('output').value = UMB.getCurrentBrowser();">getCurrentBrowser()</button>
+    <button type="button" onclick="document.getElementById('output').value = UMB.getCurrentVersion();">getCurrentVersion()</button>
+    <button type="button" onclick="document.getElementById('output').value = UMB.getStatus();">getStatus()</button>
+    <button type="button" onclick="document.getElementById('output').value = JSON.stringify(UMB.getBrowserInfo(UMB.getCurrentBrowser()));">getBrowserInfo()</button>
+
+    <textarea placeholder="output" id="output" style="width: 100%; height: 4em; margin-top: 10px;"></textarea>
+
+<!--	<p>-->
+<!--		<img src="public/images/latest.png" width="759" height="224" alt="Latest" />-->
+<!--	</p>-->
 
 </div>

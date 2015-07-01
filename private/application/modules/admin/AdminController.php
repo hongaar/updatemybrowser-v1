@@ -105,7 +105,7 @@ class AdminController extends Ajde_Acl_Controller
 		// Process and get compressed script
 		$resource = $compressor->process();
 		$js = $resource->getContents();
-		
+
 		// Write
 		file_put_contents('umb.js', $js);
 	}
