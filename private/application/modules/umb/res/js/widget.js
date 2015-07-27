@@ -119,6 +119,8 @@ UMB.Widget = function() {
 		var status = UMB.getStatus();
 		var browser = UMB.getBrowserInfo(UMB.getCurrentBrowser());
 		var version = UMB.getCurrentVersion();
+
+		if (!status || !browser || !version) return;
 		
 		var wrapper = document.getElementById('BrowserBar');
 		var link = document.createElement('a');
