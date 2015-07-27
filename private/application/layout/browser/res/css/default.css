@@ -290,14 +290,15 @@ a, a:visited, a:active {
 	}
 	
 	#footer div.twitter {
-		position: relative;
+		position: absolute;
+        left: 390px;
+        top: 22px;
+
 		height: 200px;
+        width: 340px;
 	}
 	
 	#footer div.twitter #twitter_update_list {
-		position: absolute !important;
-		top: 22px;
-		left: 400px;	
 		text-decoration: none;
 	}
 	
@@ -317,16 +318,11 @@ a, a:visited, a:active {
 	}
 
 	#footer div.twitter .twitter-timeline {
-		position: absolute;
-		bottom: 50px;
-		left: 400px;	
 		height: 87px;
 	}
 	
 	#footer div.twitter .twitter-follow-button {
-		position: absolute !important;
-		top: 170px;
-		left: 400px;
+
 	}
 
 /********************

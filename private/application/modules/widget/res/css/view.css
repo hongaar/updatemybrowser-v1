@@ -83,4 +83,10 @@ div.recommended, div.custom {
 		
 		#clipContainer {
 			position: relative;
+
+			embed {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
 		}
