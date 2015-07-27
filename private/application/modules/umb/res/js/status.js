@@ -18,10 +18,14 @@ UMB.Status = function() {
 	var STATUS_LATEST 		= 'latest';
 	var STATUS_UPDATE 		= 'update';
 	var STATUS_WARNING 		= 'warning';
+	var STATUS_UNSUPPORTED	= 'unsupported';
 	
 	return {
 		getStatus: function() {
 			var browser = UMB.getBrowserInfo(UMB.Detect.browser);
+			var os = UMB.Detect.OS;
+			if (!browser) return STATUS_LATEST;
+			if (os == 'iOS' || os == 'Android') return STATUS_UNSUPPORTED;
 			var latestVersion = parseFloat(browser.current);
 			var minimumVersion = parseFloat(UMB.getConfig().require[UMB.Detect.browser]);
 			if (UMB.Detect.version >= latestVersion) {
@@ -31,6 +35,6 @@ UMB.Status = function() {
 			} else {
 				return STATUS_WARNING;
 			}
-		}		
+		}
 	};
 }();
