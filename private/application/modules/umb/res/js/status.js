@@ -24,8 +24,7 @@ UMB.Status = function() {
 		getStatus: function() {
 			var browser = UMB.getBrowserInfo(UMB.Detect.browser);
 			var os = UMB.Detect.OS;
-			if (!browser) return STATUS_LATEST;
-			if (os == 'iOS' || os == 'Android') return STATUS_UNSUPPORTED;
+			if (!browser || os == 'iOS' || os == 'Android') return STATUS_UNSUPPORTED;
 			var latestVersion = parseFloat(browser.current);
 			var minimumVersion = parseFloat(UMB.getConfig().require[UMB.Detect.browser]);
 			if (UMB.Detect.version >= latestVersion) {
