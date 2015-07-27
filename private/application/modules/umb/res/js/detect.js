@@ -15,7 +15,7 @@
 
 UMB.Detect = {
 	init: function () {
-		this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+		this.browser = this.searchString(this.dataBrowser) || "an unknown browser";
 		this.version = this.searchVersion(navigator.userAgent)
 			|| this.searchVersion(navigator.appVersion)
 			|| "an unknown version";
@@ -69,9 +69,30 @@ UMB.Detect = {
 			subString: "MSIE",
 			identity: "ie",
 			versionSearch: "MSIE"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Trident",
+			identity: "ie",
+			versionSearch: "rv"
 		}
 	],
 	dataOS : [
+		{
+		   string: navigator.userAgent,
+		   subString: "iPhone",
+		   identity: "iOS"
+	    },
+		{
+			string: navigator.userAgent,
+			subString: "iPad",
+			identity: "iOS"
+		},
+		{
+			string: navigator.userAgent,
+			subString: "Android",
+			identity: "Android"
+		},
 		{
 			string: navigator.platform,
 			subString: "Win",
@@ -82,11 +103,6 @@ UMB.Detect = {
 			subString: "Mac",
 			identity: "Mac"
 		},
-		{
-			   string: navigator.userAgent,
-			   subString: "iPhone",
-			   identity: "iPhone/iPod"
-	    },
 		{
 			string: navigator.platform,
 			subString: "Linux",
