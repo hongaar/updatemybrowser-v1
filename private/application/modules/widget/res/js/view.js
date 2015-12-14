@@ -14,9 +14,10 @@ BD.Widget = function() {
 				code += '\trequire: {\n\t\t';
                 var require = [];
                 if ($('select[name=chrome]').val() != 'auto') require.push('chrome: ' + $('select[name=chrome]').val());
+				if ($('select[name=safari]').val() != 'auto') require.push('safari: ' + $('select[name=safari]').val());
+				if ($('select[name=edge]').val() != 'auto') require.push('edge: ' + $('select[name=edge]').val());
+				if ($('select[name=firefox]').val() != 'auto') require.push('firefox: ' + $('select[name=firefox]').val());
                 if ($('select[name=ie]').val() != 'auto') require.push('ie: ' + $('select[name=ie]').val());
-                if ($('select[name=firefox]').val() != 'auto') require.push('firefox: ' + $('select[name=firefox]').val());
-                if ($('select[name=safari]').val() != 'auto') require.push('safari: ' + $('select[name=safari]').val());
                 if ($('select[name=opera]').val() != 'auto') require.push('opera: ' + $('select[name=opera]').val());
                 code += require.join(',\n\t\t');
                 code += '\n\t}';
