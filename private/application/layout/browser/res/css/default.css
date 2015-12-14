@@ -245,6 +245,24 @@ a, a:visited, a:active {
 }
 
 /********************
+ * ADS
+ ********************/
+
+#adwrapper {
+	border-top: 2px solid #CCC;
+	text-align: center;
+
+	ins {
+		background-color: rgba(229, 250, 255, 0.62);
+	}
+	
+	.adsbygoogle {
+		display: block !important;
+		margin: 20px auto;
+	}
+}
+
+/********************
  * FOOTER
  ********************/
 

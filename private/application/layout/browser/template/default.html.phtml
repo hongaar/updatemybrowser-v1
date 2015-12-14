@@ -94,7 +94,7 @@ $action = Ajde::app()->getRoute()->getAction();
 				<div id='header'>
 					<!-- Logo by Alex Roman: http://www.icanbecreative.com/logo-vector-pack.html -->
 					<a href="browser"><img src="public/images/logo.gif" alt="Logo" width="35" height="48" /></a>
-					<h1>updatemybrowser.org<span>beta</span></h1>
+					<h1>updatemybrowser.org</h1>
 					<h2><?php echo __('always fresh'); ?></h2>
 					<ul>
 						<li><a class='<?php if ($module == 'browser') { echo 'active '; } ?>
@@ -114,6 +114,19 @@ $action = Ajde::app()->getRoute()->getAction();
 			</div>
 			<?php echo Ajde::app()->getDocument()->getBody(); ?>
 			<?php echo $this->includeModule('about/mobile.html'); ?>
+
+			<div id="adwrapper">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- Main page horizontal -->
+				<ins class="adsbygoogle"
+					 style="display:inline-block;width:728px;height:90px"
+					 data-ad-client="ca-pub-1500479306171674"
+					 data-ad-slot="1575056745"></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+			</div>
+
 			<div id='footerwrapper'>
 				<div id='footer'>
 					<p class='outro'>
