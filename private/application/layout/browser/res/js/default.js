@@ -151,8 +151,10 @@ BD.UI.ContentMenu = function() {
 				
 			// Arrow positioning
 			var pos = menu.find('.item.' + className).position();
-			var newArrowTop = pos.top + 20;
-			arrow.stop().animate({top: newArrowTop + 'px'}, speed);
+			if (pos) {
+				var newArrowTop = pos.top + 20;
+				arrow.stop().animate({top: newArrowTop + 'px'}, speed);
+			}
 		},
 		
 		setContent: function(className, speed) {

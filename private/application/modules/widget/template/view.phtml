@@ -15,9 +15,9 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 ?>
 
 <div id='content'>
-	
+
 	<style>
-	<?php foreach($this->colors as $key => $color): ?>				
+	<?php foreach($this->colors as $key => $color): ?>
 		.right-column div.<?php echo $key; ?> h3.warning {
 			background-color: #<?php echo $color; ?>;
 		}
@@ -26,11 +26,11 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 		}
 		.right-column div.<?php echo $key; ?> h3.warning a {
 			color: white;
-		}		
+		}
 		.right-column div.<?php echo $key; ?> p a:hover, .right-column div.<?php echo $key; ?> h3 a:hover {
 			background-color: #<?php echo $color; ?>;
 			color: white;
-		}			
+		}
 		.right-column div.<?php echo $key; ?> h3.warning a:hover {
 			background-color: transparent;
 		}
@@ -38,13 +38,13 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 	</style>
 
 	<h1><?php echo __("Widget"); ?></h1>
-	
+
 	<div class='intro'>
 		Take your pick:
 	</div>
-	
+
 	<div class='left-column'>
-		<div class='options'>				
+		<div class='options'>
 			<div class='item html' data-key='html'>
 				<img class='grayed-out' src='public/images/html548.png' alt='HTML5' />
 				<div class='box' style='background-color: #<?php echo $this->colors['html5']; ?>;'>
@@ -53,13 +53,13 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 				</div>
 				<div class='clearfix'></div>
 			</div>
-			<div class='item wordpress' data-key='wordpress'>
+			<!--<div class='item wordpress' data-key='wordpress'>
 				<img class='grayed-out' src='public/images/wordpress48.png' alt='WordPress' />
 				<div class='box' style='background-color: #<?php echo $this->colors['wordpress']; ?>;'>
 					WordPress<span></span>
 				</div>
 				<div class='clearfix'></div>
-			</div>
+			</div>-->
 			<div class='item drupal' data-key='drupal'>
 				<img class='grayed-out' src='public/images/drupal48.png' alt='Drupal' />
 				<div class='box' style='background-color: #<?php echo $this->colors['drupal']; ?>;'>
@@ -67,7 +67,7 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 				</div>
 				<div class='clearfix'></div>
 			</div>
-			<div class='item typo3' data-key='typo3'>
+			<!--<div class='item typo3' data-key='typo3'>
 				<img class='grayed-out' src='public/images/typo348.png' alt='Typo3' />
 				<div class='box' style='background-color: #<?php echo $this->colors['typo3']; ?>;'>
 					Typo3<span></span>
@@ -80,119 +80,119 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 					Joomla<span></span>
 				</div>
 				<div class='clearfix'></div>
-			</div>
+			</div>-->
 		</div>
 		<div class='divider-arrow'>
 			&lt;
 		</div>
 	</div>
-	
-	<div class='right-column'>					
+
+	<div class='right-column'>
 		<div class='item html'>
 			<h3>Embed this on your site, so users will get <strong title="By
 			default, users will see a *subtle notification** when their browser
 			needs an update. When their version is *lower than** the minimum
 			required version, they will see a more *urgent request** to update
 			their browser.">notified of updates</strong>.</h3>
-								
+
 			<p>Minimum requirements:</p>
-			
-			<div id='requireWrapper'>					
+
+			<div id='requireWrapper'>
 				<div class='recommended requireColumn'>
 					<input type='radio' name='options' id='recommended' checked='checked' />
-						<label for='recommended'> <strong>Recommended</strong></label>					
+						<label for='recommended'> <strong>Recommended</strong></label>
 					<div class='browserWrapper'>
-						<?php foreach($this->browsers as $browser): 
-							/* @var $browser BrowserModel */ ?>				
+						<?php foreach($this->browsers as $browser):
+							/* @var $browser BrowserModel */ ?>
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
 								<img src='public/images/<?php echo $browser->shortname; ?>24.png' alt='<?php echo $browser->name; ?>' />
 								<?php echo $browser->htmlname; ?>
 								<span><?php echo $browser->getMinimumMajor(); ?><span><?php echo $browser->getMinimumMinor(); ?></span></span>
-							</div>			
+							</div>
 						<?php endforeach; ?>
 					</div>
-				</div>				
+				</div>
 				<div class='custom requireColumn'>
 					<input type='radio' name='options' id='custom' />
-						<label for='custom'> <strong title='You can customize the *minimum version** for which the visitors of your site will be displayed with a *subtle notification** instead of a *more urgent request** to update their browser.'>Custom</strong></label>						
+						<label for='custom'> <strong title='You can customize the *minimum version** for which the visitors of your site will be displayed with a *subtle notification** instead of a *more urgent request** to update their browser.'>Custom</strong></label>
 					<div class='browserWrapper'>
-						<?php foreach($this->browsers as $browser): ?>				
+						<?php foreach($this->browsers as $browser): ?>
 							<div class='browser <?php echo $browser->shortname; ?>' data-key='<?php echo $browser->shortname; ?>'>
 								<select name='<?php echo $browser->shortname; ?>'>
                                     <option value="auto" <?php if (in_array($browser->shortname, $this->fastCycle)) { echo " selected='selected'"; } ?>>auto (<?php echo $browser->minimum; ?>)</option>
 									<?php for($i = ((int) $browser->minimum) - 2; $i <= (int) $browser->current; $i++) { ?>
 										<option <?php if ($i == ((int) $browser->minimum) && !in_array($browser->shortname, $this->fastCycle)) { echo "selected='selected'"; } ?> value='<?php echo $i; ?>'><?php echo $i; ?></option>
 									<?php } ?>
-								</select>									
-							</div>			
+								</select>
+							</div>
 						<?php endforeach; ?>
 					</div>
 				</div>
-				
+
 				<div class='clearfix'></div>
-				
-				<div class='advanced'>					
+
+				<div class='advanced'>
 					<input type='checkbox' id='advanced' />
 						<label for='advanced'> <strong>Advanced options</strong></label>
-						
+
 					<div class='advancedWrapper'>
-						<div class='slideWrapper'>						
+						<div class='slideWrapper'>
 							<dl>
 								<dt><label for="adv_display">Immediately display browser bar:</label></dt>
 								<dd><input type="checkbox" id="adv_display" checked="checked" /></dd>
 
 								<dt><label for="adv_noncritical">Display bar for <strong title='Every version of the browser *equal to, or higher than** the minimum required version.'>non-critical</strong> updates:</label></dt>
-								<dd><input type="checkbox" id="adv_noncritical" checked="checked" /></dd>						
+								<dd><input type="checkbox" id="adv_noncritical" checked="checked" /></dd>
 							</dl>
 							<div class="clearfix"></div>
 							<p>
 								<small>For more options, see the <a href="about/docs">documentation</a></small>
-							</p>							
+							</p>
 						</div>
 					</div>
 					<div class='clearfix'></div>
-				</div>			
-			</div>				
-		</div>	
-		
+				</div>
+			</div>
+		</div>
+
 		<div class='item wordpress'>
 			<h3>Embed this on your <strong title="*Blog** software">WordPress</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
-				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
-			<p>Easy to install</p>				
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+			<p>Easy to install</p>
 			<a class='bigbutton fancybox gray gray-shadow' title='' href='http://updatemybrowser.org/about/plugins'>Install</a>
 			<p><a class='fancybox' title='WordPress' href='http://wordpress.org'>WordPress</a> is blog software.</p>
 		</div>
-		
+
 		<div class='item drupal'>
 			<h3>Embed this on your <strong title="*CMS** software">Drupal</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
-				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
-			<p>Easy to install</p>				
-			<a class='bigbutton fancybox gray gray-shadow' title='' href='http://updatemybrowser.org/about/plugins'>Install</a>
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+			<p>Easy to install</p>
+			<a class='bigbutton gray gray-shadow' target='_blank' title='' href='https://www.drupal.org/sandbox/i_g_wright/2366113'>Install</a>
 			<p><a class='fancybox' title='Drupal' href='http://drupal.org'>Drupal</a> is CMS software.</p>
 		</div>
-		
+
 		<div class='item typo3'>
 			<h3>Embed this on your <strong title="*CMS** software">Typo3</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
-				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
-			<p>Easy to install</p>				
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+			<p>Easy to install</p>
 			<a class='bigbutton fancybox gray gray-shadow' title='' href='http://updatemybrowser.org/about/plugins'>Install</a>
 			<p><a class='fancybox' title='Typo3' href='http://typo3.org'>Typo3</a> is CMS software.</p>
 		</div>
-		
+
 		<div class='item joomla'>
 			<h3>Embed this on your <strong title="*CMS** software">Joomla</strong> powered site, so users will get <strong title="The internet and websites
 				evolve constantly and *very rapidly**, wouldn't it be great if
-				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>				
-			<p>Easy to install</p>				
+				the software you *view the internet with**, did too?">notified of updates</strong>.</h3>
+			<p>Easy to install</p>
 			<a class='bigbutton fancybox gray gray-shadow' title='' href='http://updatemybrowser.org/about/plugins'>Install</a>
 			<p><a class='fancybox' title='Joomla' href='http://joomla.org'>Joomla</a> is CMS software.</p>
 		</div>
-		
+
 	</div>
-	
+
 	<div class="clearfix"></div>
 </div>
 
@@ -216,6 +216,6 @@ $this->requireJsRemote('umb.js', Ajde_Document_Format_Html::RESOURCE_POSITION_FI
 		<p>The notification users with an updatable browser will see:</p>
 		<div class='bg'>
 			<a class='bigbutton white alt-shadow demo' href='javascript:void(0);'>Demo</a>
-		</div>	
+		</div>
 	</div>
 </div>

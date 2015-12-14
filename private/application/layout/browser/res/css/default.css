@@ -2,7 +2,7 @@
 /**
  * Styles for updatemybrowser
  */
- 
+
 @bb: #5eafef;
 @darker: #2183d0;
 @dark: #013469;
@@ -18,7 +18,7 @@ body {}
 h1, h2, h3, h4 {
 	font-size: 2em;
 	font-weight: normal;
-	
+
 }
 
 h2 {
@@ -36,10 +36,10 @@ p,ul,ol {
 }
 
 ::-moz-selection{ background: @dark; color:#fff; text-shadow: none; }
-::selection { background: @dark; color:#fff; text-shadow: none; } 
+::selection { background: @dark; color:#fff; text-shadow: none; }
 
 dt {
-	font-weight: bold;	
+	font-weight: bold;
 	width: 200px;
 	float: left;
 	clear: both;
@@ -62,7 +62,7 @@ dl.form.wide {
 	position: relative;
 }
 
-dl.form dt {	
+dl.form dt {
 	margin-bottom: 5px;
 	float: none;
 	clear: none;
@@ -93,7 +93,7 @@ body {
 	font-family: Arial, Helvetica, 'MS Sans Serif', Geneva, sans-serif;
 	font-weight: 400;
 	font-size: 16px;
-	
+
 	letter-spacing: 0.02em;
 }
 
@@ -107,7 +107,7 @@ a, a:visited, a:active {
 
 #wrapper {
 	width: 100%;
-	height: 100%;	
+	height: 100%;
 }
 
 /********************
@@ -130,23 +130,23 @@ a, a:visited, a:active {
 		margin: 0 auto;
 		padding: 0;
 	}
-	
+
 	#header img {
 		position: absolute;
 		top: 27px;
 		left: 17px;
 	}
-	
+
 	#header h1 {
 		position: absolute;
 		top: 30px;
 		left: 70px;
-		
+
 		font-weight: 700;
 		font-size: 2em;
 		letter-spacing: -0.05em;
 	}
-	
+
 	#header h1 span {
 		position: absolute;
 		top: -4px;
@@ -155,62 +155,62 @@ a, a:visited, a:active {
 		font-weight: normal;
 		color: lighten(@gray, 40%);
 	}
-	
+
 	#header h2 {
 		position: absolute;
 		top: 30px;
 		left: 400px;
-		
+
 		color: @bb;
-		
+
 		font-weight: 400;
 		font-size: 2em;
 		letter-spacing: -0.07em;
 
 		white-space: nowrap;
 	}
-	
+
 	#header ul {
 		position: absolute;
 		top: 95px;
 		left: 70px;
 		margin: 0;
 		padding: 0;
-		
+
 		list-style: none;
 	}
-	
+
 		#header li {
 			display: block;
 			float: left;
 			margin: 0 20px 0 0;
 		}
-		
+
 		#header li a {
 			display: block;
 			width: 120px;
 			height: 25px;
 			padding: 6px 0 0 10px;
-			
+
 			color: black;
 			background-color: white;
-			
+
 			font-weight: 700;
 			font-size: 11pt;
 			text-decoration: underline;
 			letter-spacing: 0;
 		}
-		
+
 		#header li a:hover {
 			background-color: @bb;
-			 -moz-box-shadow: 3px 3px 0px @ligher; 
-		  -webkit-box-shadow: 3px 3px 0px #808285; 
-		          box-shadow: 3px 3px 0px @darker;			
+			 -moz-box-shadow: 3px 3px 0px @ligher;
+		  -webkit-box-shadow: 3px 3px 0px #808285;
+		          box-shadow: 3px 3px 0px @darker;
 		}
-		
+
 		#header li a.active {
 			color: white;
-			background-color: @green;			
+			background-color: @green;
 		}
 
 /********************
@@ -227,13 +227,13 @@ a, a:visited, a:active {
 
 	#content h1 {
 		display: none;
-		
-		margin: 0 0 20px 70px;		
+
+		margin: 0 0 20px 70px;
 		color: @neutral;
 		font-weight: 400;
 		font-size: 3em;
 	}
-	
+
 .syntaxhighlighter.gray-box {
 	overflow-y: hidden !important;
 	width: 760px !important;
@@ -263,7 +263,7 @@ a, a:visited, a:active {
 		margin: 0 auto;
 		padding: 0;
 	}
-	
+
 	#footer p.outro {
 		position: absolute;
 		top: 30px;
@@ -275,20 +275,20 @@ a, a:visited, a:active {
 		line-height: 2em;
 		word-spacing: 0.3em;
 	}
-	
+
 	#footer p.outro strong {
 		text-decoration: none;
 	}
-	
+
 	#footer span.copy {
 		position: absolute;
 		top: 180px;
 		left: 10px;
-		
+
 		font-size: 0.7em;
 		font-weight: 700;
 	}
-	
+
 	#footer div.twitter {
 		position: absolute;
         left: 390px;
@@ -297,22 +297,27 @@ a, a:visited, a:active {
 		height: 200px;
         width: 340px;
 	}
-	
+
+  #footer div.twitter iframe.twitter-timeline {
+    height: 100px !important;
+    min-height: 100px !important;
+  }
+
 	#footer div.twitter #twitter_update_list {
 		text-decoration: none;
 	}
-	
+
 	#footer div.twitter #twitter_update_list,
 	#footer div.twitter #twitter_update_list a {
 		font-size: 0.9em;
 		color: gray;
 		width: 250px;
 	}
-	
+
 	#footer div.twitter #twitter_update_list a {
 		color: @dark;
 	}
-	
+
 	#footer div.twitter #twitter_update_list li {
 		list-style: none;
 	}
@@ -320,7 +325,7 @@ a, a:visited, a:active {
 	#footer div.twitter .twitter-timeline {
 		height: 87px;
 	}
-	
+
 	#footer div.twitter .twitter-follow-button {
 
 	}
@@ -342,38 +347,38 @@ a, a:visited, a:active {
 	position: relative;
 	width: 310px;
 	float: left;
-	
+
 	border-right: 1px solid black;
 }
 
 	.left-column .item {
 		position: relative;
 		clear: both;
-		
+
 		cursor: pointer;
 	}
-	
+
 	.left-column .item:hover .box {
-	     -moz-box-shadow: 3px 3px 0px #BCBEC0; 
-	  -webkit-box-shadow: 3px 3px 0px #BCBEC0; 
+	     -moz-box-shadow: 3px 3px 0px #BCBEC0;
+	  -webkit-box-shadow: 3px 3px 0px #BCBEC0;
 	          box-shadow: 3px 3px 0px #BCBEC0;
 	}
-	
+
 	.left-column .item img {
 		display: block;
 		position: absolute;
 		left: 10px;
 		float: left;
-		
+
 		background-color: #fff; /* ie7-8 opacity with png bug */
 	}
-		
+
 	.left-column .item img.grayed-out {
 		opacity: 0.4;
 		filter: alpha(opacity=40);
 	}
-	
-	.left-column .item .box { 
+
+	.left-column .item .box {
 		display: block;
 		position: relative;
 		height: 48px;
@@ -382,33 +387,33 @@ a, a:visited, a:active {
 		margin: 0 0 10px 0;
 		padding: 4px 0 0 8px;
 		float: left;
-		
+
 		color: white;
 		background-color: #D1D3D4;
-		
+
 		font-weight: 400;
 		font-size: 21pt;
-		letter-spacing: 0;	
+		letter-spacing: 0;
 	}
-	
+
 	.left-column .item .box small {
-		font-size: 14pt;	
+		font-size: 14pt;
 	}
-	
+
 	.left-column .item .box > span {
 		font-weight: 400;
 		font-size: 29pt;
-		letter-spacing: 0;	
+		letter-spacing: 0;
 	}
-	
+
 	.left-column .item .box > span span {
 		font-weight: 400;
 		font-size: 16pt;
-		letter-spacing: 0;	
+		letter-spacing: 0;
 	}
-	
+
 /* ARROW IN DIVIDER LINE */
-	
+
 .divider-arrow {
 	position: absolute;
 	background-color: white;
@@ -439,44 +444,44 @@ a, a:visited, a:active {
 		font-weight: 700;
 		margin: 0 0 20px 0;
 	}
-	
+
 	.right-column h3.warning {
 		padding: 5px;
 		font-weight: 600;
 		background-color: #00A651;
 		color: white;
 	}
-	
+
 	.right-column p {
 		margin: 20px 0 20px 0;
 	}
-	
+
 	.right-column p a, .right-column h3 a {
 		color: #F68B1F;
 		font-weight: 600;
 	}
-	
+
 	.right-column h3.warning a {
 		color: white;
 	}
-	
+
 	.right-column h3 a, .right-column h3 strong {
 		font-weight: 700;
 	}
-	
+
 	.right-column p a:hover, .right-column h3 a:hover {
 		background-color: #F68B1F;
 		color: white;
 	}
-	
+
 	.right-column h3.warning a:hover {
 		background-color: transparent;
 	}
-	
+
 /********************
  * CONTENT (TEASER) STYLES
  ********************/
-	
+
 .teaserwrapper {
 	position: relative;
 	width: 100%;
@@ -491,7 +496,7 @@ a, a:visited, a:active {
 		margin: 0 auto;
 		padding: 0;
 	}
-	
+
 	.teaser p {
 		display: block;
 		position: absolute;
@@ -499,11 +504,11 @@ a, a:visited, a:active {
 		top: 0;
 		width: 200px;
 		padding: 26px 0 0 0;
-		
+
 		font-weight: 700;
 		text-align: right;
 	}
-	
+
 	.teaser .bg {
 		position: absolute;
 		left: 320px;
@@ -511,34 +516,34 @@ a, a:visited, a:active {
 		width: 430px;
 		height: 120px;
 		padding: 0;
-		
+
 		background-color: @green;
 	}
-	
+
 	.teaser .bigbutton {
 		position: absolute;
 		left: 100px;
 		top: 33px;
 	}
-	
+
 	.codewrapper {
 		height: auto;
 	}
-	
+
 	.codewrapper .col1 {
 		display: block;
 		width: 760px;
 		padding: 26px 0 26px 0;
-		
+
 		font-weight: 700;
 		text-align: right;
 	}
-	
+
 	.codewrapper h3 {
 		text-align: left;
 		margin-bottom: 20px;
 	}
-	
+
 /********************
  * MISC STYLES
  ********************/
@@ -550,7 +555,7 @@ a.bigbutton {
 	width: 200px;
 	height: 45px;
 	padding: 7px 0 0 20px;
-	
+
 	font-family: 'PT Sans', sans-serif;
 	font-weight: 400;
 	font-size: 21pt;
@@ -560,49 +565,49 @@ a.bigbutton {
 
 a.bigbutton.gray {
 	color: black;
-	background-color: #D1D3D4;			
+	background-color: #D1D3D4;
 }
 
 a.bigbutton.gray:hover {
 	background-color: #BCBEC0;
-	 -moz-box-shadow: 3px 3px 0px #808285; 
-  -webkit-box-shadow: 3px 3px 0px #808285; 
-          box-shadow: 3px 3px 0px #808285;			
+	 -moz-box-shadow: 3px 3px 0px #808285;
+  -webkit-box-shadow: 3px 3px 0px #808285;
+          box-shadow: 3px 3px 0px #808285;
 }
 
 a.bigbutton.white {
 	color: black;
-	background-color: white;			
+	background-color: white;
 }
 
 a.bigbutton.white:hover {
 	color: @gray;
-	 -moz-box-shadow: 3px 3px 0px darken(@green, 20%); 
-  -webkit-box-shadow: 3px 3px 0px darken(@green, 20%); 
-          box-shadow: 3px 3px 0px darken(@green, 20%);			
+	 -moz-box-shadow: 3px 3px 0px darken(@green, 20%);
+  -webkit-box-shadow: 3px 3px 0px darken(@green, 20%);
+          box-shadow: 3px 3px 0px darken(@green, 20%);
 }
 
 .bb-shadow {
-	     -moz-box-shadow: 3px 3px 0px @light; 
-  -webkit-box-shadow: 3px 3px 0px @light; 
+	     -moz-box-shadow: 3px 3px 0px @light;
+  -webkit-box-shadow: 3px 3px 0px @light;
           box-shadow: 3px 3px 0px @light;
 }
 
 .gray-shadow {
-	     -moz-box-shadow: 3px 3px 0px #BCBEC0; 
-  -webkit-box-shadow: 3px 3px 0px #BCBEC0; 
+	     -moz-box-shadow: 3px 3px 0px #BCBEC0;
+  -webkit-box-shadow: 3px 3px 0px #BCBEC0;
           box-shadow: 3px 3px 0px #BCBEC0;
 }
 
 .alt-shadow {
-	     -moz-box-shadow: 3px 3px 0px darken(@green, 10%); 
-  -webkit-box-shadow: 3px 3px 0px darken(@green, 10%); 
+	     -moz-box-shadow: 3px 3px 0px darken(@green, 10%);
+  -webkit-box-shadow: 3px 3px 0px darken(@green, 10%);
           box-shadow: 3px 3px 0px darken(@green, 10%);
 }
 
 /* TYPE TAGS RESTYLING */
 
-strong {	
+strong {
 	font-weight: 600;
 }
 
