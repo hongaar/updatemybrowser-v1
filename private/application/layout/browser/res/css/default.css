@@ -258,6 +258,8 @@ a, a:visited, a:active {
 	
 	.adsbygoogle {
 		display: block !important;
+		position: relative;
+		max-width: 760px;
 		margin: 20px auto;
 	}
 }

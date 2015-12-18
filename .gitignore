@@ -7,3 +7,4 @@ public/images/uploads/*
 Config_Secret.php
 private/lib/Zend/*
 .idea/
+private/application/modules/umb/res/js/browsers.js
