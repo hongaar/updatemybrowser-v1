@@ -42,6 +42,12 @@ UMB.Detect = {
     dataBrowser: [
         {
             string: navigator.userAgent,
+            subString: "OPR/",
+            identity: "opera",
+            versionSearch: "OPR"
+        },
+        {
+            string: navigator.userAgent,
             subString: "Edge",
             identity: "edge",
             versionSearch: "Edge"
@@ -56,12 +62,6 @@ UMB.Detect = {
             string: navigator.vendor,
             subString: "Apple",
             identity: "safari",
-            versionSearch: "Version"
-        },
-        {
-            string: navigator.userAgent,
-            subString: "Opera",
-            identity: "opera",
             versionSearch: "Version"
         },
         {

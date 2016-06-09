@@ -52,7 +52,7 @@ UMB = function () {
                 edge: UMB.Browsers['edge'].minimum
             },
             display: true,
-            nonCritical: true
+            nonCritical: false
         };
         config = mergeRecursive(config, _umb);
     };

@@ -104,14 +104,14 @@ var _umb = {
     <h3>Display widget for critical updates only</h3>
 
 	<p>
-        By default, the widget will always display a notification when an update is available for the users browser. If
-        you want to only display the notification for critical update (when a users browser version is below the
-        recommended version), use the following configuration:
+        By default, the widget will not display a notification when a non-critical update is available for the users browser.
+        If you want to display the notification for non-critical updates (when a users browser version is equal to or higher than
+        the recommended version), use the following configuration:
 	</p>
 
     <pre class="brush: js">
 var _umb = {
-	nonCritical: false
+	nonCritical: true
 };
 	</pre>
 

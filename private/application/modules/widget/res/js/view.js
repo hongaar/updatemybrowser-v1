@@ -8,7 +8,7 @@ BD.Widget = function() {
 	var makeCode = function() {
 		// The code
 		var code = '<script>\n';
-		if ($('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') || $('#adv_noncritical').is(':not(:checked)')) {
+		if ($('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') || $('#adv_noncritical').is(':checked')) {
 			code += 'var _umb = {\n';
 			if ($('#custom').is(':checked')) {
 				code += '\trequire: {\n\t\t';
@@ -28,11 +28,11 @@ BD.Widget = function() {
 				}
 				code += '\tdisplay: false';
 			}
-			if ( $('#adv_noncritical').is(':not(:checked)') ) {
+			if ( $('#adv_noncritical').is(':checked') ) {
 				if ( $('#custom').is(':checked') || $('#adv_display').is(':not(:checked)') ) {
 					code += ',\n';
 				}
-				code += '\tnonCritical: false';
+				code += '\tnonCritical: true';
 			}
 			code += '\n};\n';
         }
