@@ -79,6 +79,25 @@ $action = Ajde::app()->getRoute()->getAction();
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
 		</script>
+
+        <!-- Cookie consent -->
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+        <script>
+          window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+              "palette": {
+                "popup": {
+                  "background": "#ffffff",
+                  "text": "#666666"
+                },
+                "button": {
+                  "background": "#5eafef",
+                  "text": "#ffffff"
+                }
+              }
+            })});
+        </script>
 	</head>
 	
 	<!-- Target older versions of IE with CSS classes -->

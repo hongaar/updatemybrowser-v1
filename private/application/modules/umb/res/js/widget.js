@@ -5,7 +5,7 @@
  * Copyright 2012, Joram van den Boezem
  * Licensed under the GPL Version 3 license.
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  */
 /*!
  * Require UMB.Status
@@ -56,7 +56,7 @@ UMB.Widget = function () {
             top: '-40px',
             left: '0px',
             backgroundColor: '#FDF2AB',
-            backgroundImage: 'url(//updatemybrowser.org/warning.gif)',
+            backgroundImage: 'url(//updatemybrowser.org/warning.png)',
             backgroundPosition: '10px center',
             backgroundRepeat: 'no-repeat',
             borderBottom: '1px solid #A29330',
@@ -108,7 +108,7 @@ UMB.Widget = function () {
             position: 'absolute',
             top: '10px',
             right: '10px',
-            backgroundImage: 'url(//updatemybrowser.org/close.gif)',
+            backgroundImage: 'url(//updatemybrowser.org/close.png)',
             backgroundPosition: '0 0',
             backgroundRepeat: 'no-repeat'
         };
